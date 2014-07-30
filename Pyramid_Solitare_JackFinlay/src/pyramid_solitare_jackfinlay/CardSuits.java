@@ -6,8 +6,8 @@
 package pyramid_solitare_jackfinlay;
 
 /**
+ * @author Jack Finlay ID: 1399273
  *
- * @author Jack
  */
 public enum CardSuits {
 
