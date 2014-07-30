@@ -11,9 +11,8 @@ package pyramid_solitare_jackfinlay;
  */
 public enum CardSuits {
 
-    CLUBS("Clubs"), SPADES("Spades"), DIAMONDS("Diamonds"), HEARTS("Hearts");
-    // TODO: replace with character codes for character images
-    
+    CLUBS("♣"), SPADES("♠"), DIAMONDS("♦"), HEARTS("♥");
+
     private final String suit;
 
     private CardSuits(String suit) {
