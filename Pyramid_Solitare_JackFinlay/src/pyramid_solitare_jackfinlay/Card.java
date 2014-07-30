@@ -13,7 +13,7 @@ package pyramid_solitare_jackfinlay;
  */
 public class Card {
 
-    private String suit;
+//    private String suit;
     private String characterValue;
     private int numericValue;
 
@@ -24,25 +24,25 @@ public class Card {
     }
 
     public Card(String suit, int numericValue) {
-        this.suit = suit;
         this.numericValue = numericValue;
-
+        this.characterValue = suit;
+        
         if (numericValue > 10) {
             if (numericValue == 11) {
-                this.characterValue = "J";
+                this.characterValue += "J";
             } else if (numericValue == 12) {
-                this.characterValue = "Q";
+                this.characterValue += "Q";
             } else if (numericValue == 13) {
-                this.characterValue = "K";
+                this.characterValue += "K";
             }
         } else {
-            this.characterValue = String.valueOf(numericValue);
+            this.characterValue += String.valueOf(numericValue);
         }
     }
 
-    public String getSuit() {
-        return suit;
-    }
+//    public String getSuit() {
+//        return suit;
+//    }
 
     public String getCharacterValue() {
         return characterValue;
