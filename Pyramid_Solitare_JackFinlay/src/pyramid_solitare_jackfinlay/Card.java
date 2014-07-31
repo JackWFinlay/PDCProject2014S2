@@ -26,8 +26,10 @@ public class Card {
         this.numericValue = numericValue;
         this.characterValue = suit;
 
-        if (numericValue > 10) {
-            if (numericValue == 11) {
+        if (numericValue > 10 || numericValue == 1 ) {
+            if (numericValue == 1) {
+                this.characterValue += "A";
+            }else if (numericValue == 11) {
                 this.characterValue += "J";
             } else if (numericValue == 12) {
                 this.characterValue += "Q";
