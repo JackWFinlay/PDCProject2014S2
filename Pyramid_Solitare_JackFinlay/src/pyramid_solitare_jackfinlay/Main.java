@@ -18,8 +18,11 @@ public class Main {
      */
     public static void main(String[] args) {
         System.out.println("Welcome to Pyramid Solitaire");
-//        Card card = new Card(CardSuits.CLUBS.toString(), 13);
-//        System.out.println(card.getCharacterValue());
+        Card card = new Card(CardSuits.CLUBS, 13);
+        System.out.println(card.getCharacterValue());
+        
+        Deck deck = new Deck();
+        Board board = new Board(deck);
     }
 
 }

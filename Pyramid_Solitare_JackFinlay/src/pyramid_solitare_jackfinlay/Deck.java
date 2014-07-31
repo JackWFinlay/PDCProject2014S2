@@ -5,7 +5,10 @@
  */
 package pyramid_solitare_jackfinlay;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,15 +16,20 @@ import java.util.Set;
  * @author Jack Finlay ID: 1399273
  */
 public class Deck {
+    
+    public static final int DECK_SIZE = 52;
+    private List<Card> deck;
 
-    private Set<Card> deck;
-
-    public Deck() {
-        deck = createDeck();        
+    public Deck() {   
+        deck = createDeck();
     }
+    
+    public Deck(int i){
+        deck = new ArrayList();
+    } // TODO: Sort this out.
 
-    private HashSet createDeck(){
-        HashSet<Card> newDeck = new HashSet();
+    public ArrayList createDeck(){
+        ArrayList newDeck = new ArrayList();
         
         //Populate deck. 
         for ( int i = 0; i < 4; i++ ){
@@ -32,12 +40,18 @@ public class Deck {
         
         return newDeck;
     }
+    
+    public Deck shuffleDeck( Deck deck ){
+        Collections.shuffle((List<?>) deck);
+        return deck;
+    }
 
     public boolean addCard( Card card ) {
         boolean success = false;
         
-        if ( ( card != null ) && ( deck.size() <= 52  ) ){
-            success = this.deck.add(card);
+        if ( ( card != null ) && ( deck.size() <= DECK_SIZE  ) 
+                ){
+            success = deck.add(card);
         }
         
         return success;
@@ -52,5 +66,16 @@ public class Deck {
         
         return success;
     }
-
+    
+    public Card getCard( int index ){
+        if ( index < 0 || index >= deck.size() ) {
+            throw new ArrayIndexOutOfBoundsException( "Index is outside bounds of deck." );
+        }
+        
+        return (Card)deck.get(index);
+    }
+    
+    public int getSize() {
+        return deck.size();
+    }
 }
