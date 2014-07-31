@@ -22,9 +22,9 @@ public class Card {
 
     }
 
-    public Card(String suit, int numericValue) {
+    public Card(CardSuits suit, int numericValue) {
         this.numericValue = numericValue;
-        this.characterValue = suit;
+        this.characterValue = suit.getSymbol();
 
         if (numericValue > 10 || numericValue == 1 ) {
             if (numericValue == 1) {

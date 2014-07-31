@@ -6,10 +6,8 @@
 package pyramid_solitare_jackfinlay;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -42,15 +40,15 @@ public class CardTest {
     public void testGetCharacterValue() {
         System.out.println("getCharacterValue");
 
-        card1 = new Card(CardSuits.SPADES.toString(), 1);
-        card2 = new Card(CardSuits.CLUBS.toString(), 2);
+        card1 = new Card(CardSuits.SPADES, 1);
+        card2 = new Card(CardSuits.CLUBS, 2);
         assertEquals(card1.getCharacterValue(), "♠A");
         assertEquals(card2.getCharacterValue(), "♣2");
-        card1 = new Card(CardSuits.HEARTS.toString(), 11);
-        card2 = new Card(CardSuits.DIAMONDS.toString(), 12);
+        card1 = new Card(CardSuits.HEARTS, 11);
+        card2 = new Card(CardSuits.DIAMONDS, 12);
         assertEquals(card1.getCharacterValue(), "♥J");
         assertEquals(card2.getCharacterValue(), "♦Q");
-        card1 = new Card(CardSuits.HEARTS.toString(), 13);
+        card1 = new Card(CardSuits.HEARTS, 13);
         assertEquals(card1.getCharacterValue(), "♥K");
 
     }
@@ -63,7 +61,7 @@ public class CardTest {
         Card[] cards = new Card[13];
 
         for (int i = 1; i <= 12; i++) {
-            cards[i] = new Card(CardSuits.SPADES.toString(), (i + 1));
+            cards[i] = new Card(CardSuits.SPADES, (i + 1));
         }
         
         for (int i = 1; i <= 12; i++) {

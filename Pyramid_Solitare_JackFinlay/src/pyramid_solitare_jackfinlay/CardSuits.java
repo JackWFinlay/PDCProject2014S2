@@ -11,16 +11,22 @@ package pyramid_solitare_jackfinlay;
  */
 public enum CardSuits {
 
-    CLUBS("♣"), SPADES("♠"), DIAMONDS("♦"), HEARTS("♥");
+    CLUBS("C","♣"), SPADES("S","♠"), DIAMONDS("D","♦"), HEARTS("H","♥");
 
     private final String suit;
+    private final String symbol;
 
-    private CardSuits(String suit) {
+    private CardSuits(String suit, String symbol) {
         this.suit = suit;
+        this.symbol = symbol;
     }
 
     @Override
     public String toString() {
         return suit;
+    }
+    
+    public String getSymbol() {
+        return symbol;
     }
 }
