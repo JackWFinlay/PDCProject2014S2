@@ -5,7 +5,6 @@
  */
 package pyramid_solitare_jackfinlay;
 
-
 /**
  *
  * @author Jack Finlay ID: 1399273
@@ -14,18 +13,18 @@ public class Board {
 
     private final Deck deck;
     private final Deck pickUp;
-    private       Deck waste;
-    
+    private Deck waste;
+
     public Card[][] board;
 
     public Board(Deck deck) {
-        this.deck = deck.shuffleDeck(deck);
+        Deck.shuffleDeck(deck);
+        this.deck = deck;
         this.board = createBoard();
-        pickUp = new Deck(0);
+        pickUp = new Deck();
         populateBoard(deck);
         populatePickUpPile(deck);
-        printBoard();
-        
+
     }
 
     private Card[][] createBoard() {
@@ -45,33 +44,47 @@ public class Board {
     private void populateBoard(Deck deck) {
 
         for (Card[] row : board) {
-            System.out.println();
             for (int i = 0; i < row.length; i++) {
                 Card card = deck.getCard(0);
                 row[i] = card;
-                //card = deck.getCard((int) (Math.random() * deck.getSize()));
                 deck.removeCard(card);
-                System.out.print(card.getCharacterValue());
             }
         }
-        System.out.println();
     }
-    
-    private void populatePickUpPile( Deck deck ){
-        
-        
-        System.out.println();
-        
-        while (deck.getSize() > 0) {  
+
+    private void populatePickUpPile(Deck deck) {
+        while (deck.getSize() > 0) {
             Card card = deck.getCard(0);
             pickUp.addCard(card);
             deck.removeCard(card);
-            System.out.print(card.getCharacterValue());
         }
-        
-        System.out.println();
     }
-    
-    private void printBoard(){
+
+    public void printUI() {
+        int score = 0;
+        int boards = 0; //placeholders
+
+        System.out.println("Player: " + Game.playerName);
+        System.out.println("Score: " + score + " Boards: " + boards);
+
+        printBoard();
+
+    }
+
+    private void printBoard() {
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < 7 - i; j++) {
+                System.out.print("  ");
+                //Spacing
+            }
+            for (Card card : board[i]) {
+                System.out.print(card.getCharacterValue() + " ");
+                if (card.getNumericValue() != 10) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
     }
 }

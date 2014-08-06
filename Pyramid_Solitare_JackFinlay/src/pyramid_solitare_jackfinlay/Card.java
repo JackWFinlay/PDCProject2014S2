@@ -37,7 +37,7 @@ public class Card {
                 this.characterValue += "K";
             }
         } else {
-            this.characterValue += String.valueOf(numericValue);
+            this.characterValue += (String.valueOf(numericValue) + "");
         }
     }
 

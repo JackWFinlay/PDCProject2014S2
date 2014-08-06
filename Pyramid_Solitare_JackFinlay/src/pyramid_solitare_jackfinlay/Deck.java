@@ -19,15 +19,11 @@ public class Deck {
     public static final int DECK_SIZE = 52;
     private ArrayList<Card> deck;
 
-    public Deck() {   
-        deck = createDeck();
+    public Deck(){
+        this.deck = new ArrayList();
     }
-    
-    public Deck(int i){
-        deck = new ArrayList();
-    } // TODO: Sort this out.
 
-    public ArrayList createDeck(){
+    public void createDeck(){
         ArrayList newDeck = new ArrayList();
         
         //Populate deck. 
@@ -37,14 +33,14 @@ public class Deck {
             }
         }
         
-        return newDeck;
+        this.deck = newDeck;
     }
     
     private ArrayList getDeckAsList(){
         return this.deck;
     }
     
-    public Deck shuffleDeck( Deck deck ){
+    public static Deck shuffleDeck( Deck deck ){
         Collections.shuffle((List<?>) deck.getDeckAsList());
         return deck;
     }
