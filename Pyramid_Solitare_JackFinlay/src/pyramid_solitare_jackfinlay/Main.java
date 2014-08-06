@@ -17,12 +17,15 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Welcome to Pyramid Solitaire");
-        Card card = new Card(CardSuits.CLUBS, 13);
-        System.out.println(card.getCharacterValue());
         
-        Deck deck = new Deck();
-        Board board = new Board(deck);
+        System.out.println("Welcome to Pyramid Solitaire");
+        
+        
+//        Card card = new Card(CardSuits.CLUBS, 13);
+//        System.out.println(card.getCharacterValue());
+//        
+//        Deck deck = new Deck();
+//        Board board = new Board(deck);
     }
 
 }

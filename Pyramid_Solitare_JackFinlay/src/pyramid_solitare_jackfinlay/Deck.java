@@ -7,9 +7,8 @@ package pyramid_solitare_jackfinlay;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  *
@@ -18,7 +17,7 @@ import java.util.Set;
 public class Deck {
     
     public static final int DECK_SIZE = 52;
-    private List<Card> deck;
+    private ArrayList<Card> deck;
 
     public Deck() {   
         deck = createDeck();
@@ -41,8 +40,12 @@ public class Deck {
         return newDeck;
     }
     
+    private ArrayList getDeckAsList(){
+        return this.deck;
+    }
+    
     public Deck shuffleDeck( Deck deck ){
-        Collections.shuffle((List<?>) deck);
+        Collections.shuffle((List<?>) deck.getDeckAsList());
         return deck;
     }
 

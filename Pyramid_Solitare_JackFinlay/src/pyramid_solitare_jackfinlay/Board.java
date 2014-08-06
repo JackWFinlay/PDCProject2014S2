@@ -5,9 +5,6 @@
  */
 package pyramid_solitare_jackfinlay;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *
@@ -15,25 +12,20 @@ import java.util.Collections;
  */
 public class Board {
 
-    private Deck deck;
+    private final Deck deck;
+    private final Deck pickUp;
+    private       Deck waste;
     
     public Card[][] board;
-    
-    private ArrayDeque<Card> wastePile = new ArrayDeque();
-    
-    private Deck pickUp;
-    private ArrayDeque<Card> pickUpPile = new ArrayDeque();
-    // TODO: Create pick up pile class.
 
     public Board(Deck deck) {
-        this.deck = deck;
+        this.deck = deck.shuffleDeck(deck);
         this.board = createBoard();
         pickUp = new Deck(0);
         populateBoard(deck);
         populatePickUpPile(deck);
-
+        printBoard();
         
-
     }
 
     private Card[][] createBoard() {
@@ -54,8 +46,10 @@ public class Board {
 
         for (Card[] row : board) {
             System.out.println();
-            for (Card card : row) {
-                card = deck.getCard((int) (Math.random() * deck.getSize()));
+            for (int i = 0; i < row.length; i++) {
+                Card card = deck.getCard(0);
+                row[i] = card;
+                //card = deck.getCard((int) (Math.random() * deck.getSize()));
                 deck.removeCard(card);
                 System.out.print(card.getCharacterValue());
             }
@@ -69,12 +63,15 @@ public class Board {
         System.out.println();
         
         while (deck.getSize() > 0) {  
-            Card card = deck.getCard((int) (Math.random() * deck.getSize()));
+            Card card = deck.getCard(0);
             pickUp.addCard(card);
             deck.removeCard(card);
             System.out.print(card.getCharacterValue());
         }
         
         System.out.println();
+    }
+    
+    private void printBoard(){
     }
 }
