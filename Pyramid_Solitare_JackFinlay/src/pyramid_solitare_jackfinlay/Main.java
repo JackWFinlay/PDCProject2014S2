@@ -5,7 +5,10 @@
  */
 package pyramid_solitare_jackfinlay;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,12 +47,17 @@ public class Main {
             String playerName;
             do {
                 scanner.nextLine(); // Clears buffer.
-                System.out.print("Please enter your name: ");
+                System.out.println("Enter your name, or type \"Cancel\" to abort.");
+                System.out.print(" > ");
                 playerName = scanner.nextLine();
             } while (playerName.isEmpty());
 
-            Game game = new Game(playerName);
-            
+            if (!playerName.equalsIgnoreCase("Cancel")) {
+                Game game = new Game(playerName);
+            } else {
+                menu();
+            }
+
         } else if (selection == 2) {
             //TODO: HighScore code
         } else if (selection == 3) {
@@ -57,5 +65,23 @@ public class Main {
             //TODO: Exit Code
         }
     }
+
+
+//    public static void clearConsole() {
+//        String os = System.getProperty("os.name");
+//        String command;
+//        if (os.startsWith("Window")) {
+//            command = "cls";
+//        } else {
+//            command = "clear";
+//        }
+//
+//        try {
+//            Runtime.getRuntime().exec(command);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
 
 }
