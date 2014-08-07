@@ -5,10 +5,7 @@
  */
 package pyramid_solitare_jackfinlay;
 
-import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -30,31 +27,39 @@ public class Main {
     }
 
     private static void menu() {
-        int selection;
+        int selection = 0;
 
-        System.out.println("Welcome to Pyramid Solitaire\n\n");
+        System.out.println("Welcome to Pyramid Solitaire\n");
         System.out.println("Menu:");
         System.out.println("1 - New Game");
         System.out.println("2 - Highscores");
         System.out.println("3 - Exit");
 
-        do {
-            System.out.print("\nEnter a selection: ");
-            selection = scanner.nextInt();
-        } while (selection < 1 || selection > 3);
+        System.out.print("\nEnter a selection. \n > ");
+
+        while (selection < 1 || selection > 3) {
+
+            if (scanner.hasNextInt()) {
+                selection = scanner.nextInt();
+            } else {
+                System.out.print("Invalid input. Please try again. \n > ");
+                scanner.nextLine(); // Clear buffer
+            }
+
+        }
 
         if (selection == 1) {
             String playerName;
             do {
                 scanner.nextLine(); // Clears buffer.
-                System.out.println("Enter your name, or type \"Cancel\" to abort.");
-                System.out.print(" > ");
+                System.out.print("Enter your name, or type \"Cancel\" to abort. \n > ");
                 playerName = scanner.nextLine();
             } while (playerName.isEmpty());
 
             if (!playerName.equalsIgnoreCase("Cancel")) {
                 Game game = new Game(playerName);
             } else {
+                clearConsole();
                 menu();
             }
 
@@ -62,12 +67,15 @@ public class Main {
             //TODO: HighScore code
         } else if (selection == 3) {
 
-            //TODO: Exit Code
+            System.exit(0);
         }
     }
 
+    public static void clearConsole() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println("");
+        }
 
-//    public static void clearConsole() {
 //        String os = System.getProperty("os.name");
 //        String command;
 //        if (os.startsWith("Window")) {
@@ -82,6 +90,6 @@ public class Main {
 //            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //
-//    }
+    }
 
 }
