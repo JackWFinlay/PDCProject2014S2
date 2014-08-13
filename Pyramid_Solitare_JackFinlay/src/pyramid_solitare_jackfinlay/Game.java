@@ -10,12 +10,12 @@ package pyramid_solitare_jackfinlay;
  *
  * @author Jack Finlay ID: 1399273
  */
-public class Game {
-    public static String playerName;
+public final class Game {
+    public static Player player;
     
-    public Game(String playerName){
+    public Game(Player player){
         
-        Game.playerName = playerName;
+        Game.player = player;
         newGame();
     }
     
