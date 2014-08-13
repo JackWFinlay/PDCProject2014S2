@@ -10,25 +10,16 @@ package pyramid_solitare_jackfinlay;
  *
  * @author Jack Finlay ID: 1399273
  */
-public class Score {
-    private int score;
-    private String playerName;
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+public class Score extends Player{
+    private final int rank;
+    
+    public Score( int rank, String playerName, int score  ){
+        super(playerName);
+        setScore(score);
+        this.rank = rank;
     }
     
-    
+    public int getRank(){
+        return rank;
+    }
 }
