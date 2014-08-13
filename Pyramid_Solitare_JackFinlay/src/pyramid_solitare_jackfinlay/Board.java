@@ -64,7 +64,7 @@ public class Board {
         int score = 0;
         int boards = 0; //placeholders
 
-        System.out.println("Player: " + Game.playerName);
+        System.out.println("Player: " + Game.player.getPlayerName());
         System.out.println("Score: " + score + " Boards: " + boards);
 
         printBoard();
