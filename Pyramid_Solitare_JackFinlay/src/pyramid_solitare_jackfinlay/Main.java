@@ -6,6 +6,7 @@
 package pyramid_solitare_jackfinlay;
 
 import java.util.Scanner;
+import static pyramid_solitare_jackfinlay.CUI.scanner;
 
 /**
  *
@@ -25,6 +26,10 @@ public class Main {
     public static void main(String[] args) {
         cui = new CUI();
         cui.menu();
+        while(true) {
+            System.out.print("Enter a command, or type help\n>");
+            cui.commandInterpretter(scanner.next());
+        }
     }
 
     
