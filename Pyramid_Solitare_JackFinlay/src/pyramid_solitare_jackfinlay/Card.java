@@ -32,12 +32,16 @@ public class Card {
         if (numericValue > 10 || numericValue == 1) {
             if (numericValue == 1) {
                 this.symbolValue += "A";
+                this.characterValue += "A";
             } else if (numericValue == 11) {
                 this.symbolValue += "J";
+                this.characterValue += "J";
             } else if (numericValue == 12) {
                 this.symbolValue += "Q";
+                this.characterValue += "Q";
             } else if (numericValue == 13) {
                 this.symbolValue += "K";
+                this.characterValue += "K";
             }
         } else {
             this.symbolValue += (String.valueOf(numericValue) + "");
