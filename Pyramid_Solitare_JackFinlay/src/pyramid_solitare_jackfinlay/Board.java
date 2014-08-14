@@ -12,7 +12,7 @@ package pyramid_solitare_jackfinlay;
 public class Board {
 
     private final Deck deck;
-    private final Deck pickUp;
+    private Deck pickUp;
     private Deck waste;
 
     public Card[][] board;
@@ -22,6 +22,7 @@ public class Board {
         this.deck = deck;
         this.board = createBoard();
         pickUp = new Deck();
+        waste = new Deck();
         populateBoard(deck);
         populatePickUpPile(deck);
 
@@ -85,6 +86,13 @@ public class Board {
                 }
             }
             System.out.println();
+        }
+        
+        System.out.println();
+        System.out.println(pickUp.getCard(0).getCharacterValue());
+        
+        if ( waste != null && waste.getSize() > 0 ){
+            System.out.println(waste.getCard(0).getCharacterValue());
         }
     }
 }
