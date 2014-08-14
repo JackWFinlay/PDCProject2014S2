@@ -11,9 +11,9 @@ package pyramid_solitare_jackfinlay;
  */
 public class Board {
 
-    private final Deck deck;
-    private Deck pickUp;
-    private Deck waste;
+    public static Deck deck;
+    public static Deck pickUp;
+    public static Deck waste;
 
     public Card[][] board;
 
@@ -80,7 +80,7 @@ public class Board {
                 //Spacing
             }
             for (Card card : board[i]) {
-                System.out.print(card.getCharacterValue() + " ");
+                System.out.print(card.getSymbolValue() + " ");
                 if (card.getNumericValue() != 10) {
                     System.out.print(" ");
                 }
@@ -89,10 +89,10 @@ public class Board {
         }
         
         System.out.println();
-        System.out.println(pickUp.getCard(0).getCharacterValue());
+        System.out.println(pickUp.getCard(0).getSymbolValue());
         
         if ( waste != null && waste.getSize() > 0 ){
-            System.out.println(waste.getCard(0).getCharacterValue());
+            System.out.println(waste.getCard(0).getSymbolValue());
         }
     }
 }
