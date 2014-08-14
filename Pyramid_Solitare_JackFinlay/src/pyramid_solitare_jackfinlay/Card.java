@@ -13,10 +13,12 @@ package pyramid_solitare_jackfinlay;
  */
 public class Card {
 
+    private String symbolValue;
     private String characterValue;
+
     private int numericValue;
 
-    private boolean matched = false;
+    private boolean playable = false;
 
     public Card() {
 
@@ -24,21 +26,27 @@ public class Card {
 
     public Card(CardSuits suit, int numericValue) {
         this.numericValue = numericValue;
-        this.characterValue = suit.getSymbol();
+        this.symbolValue = suit.getSymbol();
+        this.characterValue = suit.toString();
 
-        if (numericValue > 10 || numericValue == 1 ) {
+        if (numericValue > 10 || numericValue == 1) {
             if (numericValue == 1) {
-                this.characterValue += "A";
-            }else if (numericValue == 11) {
-                this.characterValue += "J";
+                this.symbolValue += "A";
+            } else if (numericValue == 11) {
+                this.symbolValue += "J";
             } else if (numericValue == 12) {
-                this.characterValue += "Q";
+                this.symbolValue += "Q";
             } else if (numericValue == 13) {
-                this.characterValue += "K";
+                this.symbolValue += "K";
             }
         } else {
+            this.symbolValue += (String.valueOf(numericValue) + "");
             this.characterValue += (String.valueOf(numericValue) + "");
         }
+    }
+
+    public String getSymbolValue() {
+        return symbolValue;
     }
 
     public String getCharacterValue() {
@@ -49,13 +57,12 @@ public class Card {
         return numericValue;
     }
 
-    public boolean isMatched() {
-        return matched;
-
+    public boolean isPlayable() {
+        return playable;
     }
 
-    public void setMatched(boolean matched) {
-        this.matched = matched;
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
     }
 
 }
