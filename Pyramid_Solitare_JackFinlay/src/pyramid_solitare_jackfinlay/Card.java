@@ -29,20 +29,22 @@ public class Card {
         this.symbolValue = suit.getSymbol();
         this.characterValue = suit.toString();
 
+        String value = "";
         if (numericValue > 10 || numericValue == 1) {
             if (numericValue == 1) {
-                this.symbolValue += "A";
-                this.characterValue += "A";
+                value = "A";
+
             } else if (numericValue == 11) {
-                this.symbolValue += "J";
-                this.characterValue += "J";
+                value = "J";
             } else if (numericValue == 12) {
-                this.symbolValue += "Q";
-                this.characterValue += "Q";
+                value = "Q";
             } else if (numericValue == 13) {
-                this.symbolValue += "K";
-                this.characterValue += "K";
+                value = "K";
             }
+
+            this.symbolValue += value;
+            this.characterValue += value;
+
         } else {
             this.symbolValue += (String.valueOf(numericValue) + "");
             this.characterValue += (String.valueOf(numericValue) + "");
