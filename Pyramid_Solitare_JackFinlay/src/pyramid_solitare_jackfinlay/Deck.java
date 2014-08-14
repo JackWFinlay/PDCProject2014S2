@@ -36,7 +36,7 @@ public class Deck {
         this.deck = newDeck;
     }
     
-    private ArrayList getDeckAsList(){
+    public ArrayList getDeckAsList(){
         return this.deck;
     }
     
