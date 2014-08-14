@@ -5,7 +5,6 @@
  */
 package pyramid_solitare_jackfinlay;
 
-import java.util.Scanner;
 import static pyramid_solitare_jackfinlay.CUI.scanner;
 
 /**

@@ -34,7 +34,7 @@ public class CardTest {
     }
 
     /**
-     * Test of getCharacterValue method, of class Card.
+     * Test of getSymbolValue method, of class Card.
      */
     @Test
     public void testGetCharacterValue() {
@@ -42,14 +42,14 @@ public class CardTest {
 
         card1 = new Card(CardSuits.SPADES, 1);
         card2 = new Card(CardSuits.CLUBS, 2);
-        assertEquals(card1.getCharacterValue(), "♠A");
-        assertEquals(card2.getCharacterValue(), "♣2");
+        assertEquals(card1.getSymbolValue(), "♠A");
+        assertEquals(card2.getSymbolValue(), "♣2");
         card1 = new Card(CardSuits.HEARTS, 11);
         card2 = new Card(CardSuits.DIAMONDS, 12);
-        assertEquals(card1.getCharacterValue(), "♥J");
-        assertEquals(card2.getCharacterValue(), "♦Q");
+        assertEquals(card1.getSymbolValue(), "♥J");
+        assertEquals(card2.getSymbolValue(), "♦Q");
         card1 = new Card(CardSuits.HEARTS, 13);
-        assertEquals(card1.getCharacterValue(), "♥K");
+        assertEquals(card1.getSymbolValue(), "♥K");
 
     }
 
@@ -71,38 +71,38 @@ public class CardTest {
     }
 
     /**
-     * Test of isMatched method, of class Card.
+     * Test of isPlayable method, of class Card.
      */
     @Test
-    public void testIsMatched_Matched() {
-        card1.setMatched(true);
-        assertTrue(card1.isMatched());
+    public void testIsPlayable_Playable() {
+        card1.setPlayable(true);
+        assertTrue(card1.isPlayable());
 
     }
 
     @Test
-    public void testIsMatched_NotMatched() {
+    public void testIsPlayable_NotPlayable() {
         //Default state is false.
-        assertFalse(card1.isMatched());
+        assertFalse(card1.isPlayable());
     }
 
     /**
-     * Test of setMatched method, of class Card.
+     * Test of setPlayable method, of class Card.
      */
     @Test
-    public void testSetMatched_Matched() {
-        assertFalse(card1.isMatched());
-        card1.setMatched(true);
-        assertTrue(card1.isMatched());
+    public void testSetPlayable_Playable() {
+        assertFalse(card1.isPlayable());
+        card1.setPlayable(true);
+        assertTrue(card1.isPlayable());
     }
 
     @Test
-    public void testSetMatched_UnMatch() {
-        assertFalse(card1.isMatched());
-        card1.setMatched(true);
-        assertTrue(card1.isMatched());
-        card1.setMatched(false);
-        assertFalse(card1.isMatched());
+    public void testSetPlayable_UnMark() {
+        assertFalse(card1.isPlayable());
+        card1.setPlayable(true);
+        assertTrue(card1.isPlayable());
+        card1.setPlayable(false);
+        assertFalse(card1.isPlayable());
     }
 
 }
