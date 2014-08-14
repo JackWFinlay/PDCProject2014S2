@@ -51,6 +51,10 @@ public class Board {
                 deck.removeCard(card);
             }
         }
+        
+        for ( Card card: board[6] ) {
+            card.setPlayable(true);
+        }
     }
 
     private void populatePickUpPile(Deck deck) {
@@ -59,6 +63,8 @@ public class Board {
             pickUp.addCard(card);
             deck.removeCard(card);
         }
+        
+        pickUp.getCard(0).setPlayable(true);
     }
 
     public void printUI() {
@@ -89,10 +95,10 @@ public class Board {
         }
         
         System.out.println();
-        System.out.println(pickUp.getCard(0).getSymbolValue());
+        System.out.println("Pickup: " + pickUp.getCard(0).getSymbolValue());
         
         if ( waste != null && waste.getSize() > 0 ){
-            System.out.println(waste.getCard(0).getSymbolValue());
+            System.out.println("Waste: " + waste.getCard(0).getSymbolValue());
         }
     }
 }
