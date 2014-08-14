@@ -26,6 +26,7 @@ public class Main {
         cui = new CUI();
         cui.menu();
         while(true) {
+            
             System.out.print("Enter a command, or type help\n>");
             cui.commandInterpretter(scanner.next());
         }
