@@ -88,7 +88,7 @@ public class CUI {
             } else {
                 game.continueGame();
             }
-        } else if (command.equalsIgnoreCase("Select")){
+        } else if (command.equalsIgnoreCase("Select")){ 
             game.selectCard();
         } else {
             System.out.println("Invalid input. Try again.");
