@@ -76,19 +76,22 @@ public class CUI {
     }
 
     public void commandInterpretter(String command) {
-        if (command.equals("Help") || command.equals("help")) {
+        if (command.equalsIgnoreCase("Help")) {
             showHelp();
             
-        } else if (command.equals("Exit") || command.equals("exit")) {
+        } else if (command.equalsIgnoreCase("Exit")) {
             
-            System.out.println("Are you sure? (Y/N)\n>");
-            if (scanner.next().equals("Y") || scanner.next().equals("y")) {
+            System.out.print("Are you sure? (Y/N)\n>");
+            command = scanner.next();
+            if (command.equalsIgnoreCase("Y")) {
                 System.exit(0);
             } else {
                 game.continueGame();
             }
-        } else if (command.equals("Select") || command.equals("select")){
+        } else if (command.equalsIgnoreCase("Select")){
             game.selectCard();
+        } else {
+            System.out.println("Invalid input. Try again.");
         }
     }
     
