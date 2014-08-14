@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class CUI {
 
     public static Scanner scanner = new Scanner(System.in);
+    public static Game game;
 
     public void menu() {
         int selection = 0;
@@ -41,13 +42,13 @@ public class CUI {
             newGame();
 
         } else if (selection == 2) {
-            
+
             clearConsole();
             HighScores hs = new HighScores();
             hs.printHighScores();
-            
+
         } else if (selection == 3) {
-            
+
             System.exit(0);
         }
     }
@@ -64,7 +65,7 @@ public class CUI {
             clearConsole();
             menu();
         } else {
-            Game game = new Game(new Player(playerName));
+            game = new Game(new Player(playerName));
         }
     }
 
@@ -72,20 +73,26 @@ public class CUI {
         for (int i = 0; i < 50; i++) {
             System.out.println("");
         }
+    }
 
-//        String os = System.getProperty("os.name");
-//        String command;
-//        if (os.startsWith("Window")) {
-//            command = "cls";
-//        } else {
-//            command = "clear";
-//        }
-//
-//        try {
-//            Runtime.getRuntime().exec(command);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
+    public void commandInterpretter(String command) {
+        if (command.equals("Help") || command.equals("help")) {
+            showHelp();
+            
+        } else if (command.equals("Exit") || command.equals("exit")) {
+            
+            System.out.println("Are you sure? (Y/N)\n>");
+            if (scanner.next().equals("Y") || scanner.next().equals("y")) {
+                System.exit(0);
+            } else {
+                game.continueGame();
+            }
+        } else if (command.equals("Select") || command.equals("select")){
+            game.selectCard();
+        }
+    }
+    
+    private void showHelp(){
+        System.out.println("Placeholder help screen.");
     }
 }
