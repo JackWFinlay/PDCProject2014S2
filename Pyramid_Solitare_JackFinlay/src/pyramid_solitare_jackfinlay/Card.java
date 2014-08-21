@@ -19,6 +19,7 @@ public class Card {
     private int numericValue;
 
     private boolean playable = false;
+    private boolean matched = false;
 
     public Card() {
 
@@ -69,6 +70,12 @@ public class Card {
 
     public void setPlayable(boolean playable) {
         this.playable = playable;
+    }
+    
+    public void setMatched(){
+        this.symbolValue = "xx";
+        this.matched = true;
+        
     }
 
 }

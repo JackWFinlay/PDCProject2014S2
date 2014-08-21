@@ -51,8 +51,8 @@ public class Board {
                 deck.removeCard(card);
             }
         }
-        
-        for ( Card card: board[6] ) {
+
+        for (Card card : board[6]) {
             card.setPlayable(true);
         }
     }
@@ -63,12 +63,18 @@ public class Board {
             pickUp.addCard(card);
             deck.removeCard(card);
         }
-        
+
         pickUp.getCard(0).setPlayable(true);
     }
+    
+    public void draw(){
+        Card card = pickUp.getCard(0);
+        waste.addCard(card);
+        pickUp.removeCard(card);
+    };
 
     public void printUI() {
-        int score = 0;
+        int score = Game.player.getScore();
         int boards = 0; //placeholders
 
         System.out.println("Player: " + Game.player.getPlayerName());
@@ -86,19 +92,21 @@ public class Board {
                 //Spacing
             }
             for (Card card : board[i]) {
+                
                 System.out.print(card.getSymbolValue() + " ");
-                if (card.getNumericValue() != 10) {
+                
+                if (card.getNumericValue() != 10 ) {
                     System.out.print(" ");
                 }
             }
             System.out.println();
         }
-        
+
         System.out.println();
         System.out.println("Pickup: " + pickUp.getCard(0).getSymbolValue());
-        
-        if ( waste != null && waste.getSize() > 0 ){
-            System.out.println("Waste: " + waste.getCard(0).getSymbolValue());
+
+        if (waste != null && waste.getSize() > 0) {
+            System.out.println("Waste: " + waste.getCard(waste.getSize()-1).getSymbolValue());
         }
     }
 }

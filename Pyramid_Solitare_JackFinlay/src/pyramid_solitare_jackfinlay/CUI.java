@@ -27,16 +27,20 @@ public class CUI {
 
         System.out.print("\nEnter a selection. \n > ");
 
-        while (selection < 1 || selection > 3) {
+        do {
 
             if (scanner.hasNextInt()) {
                 selection = scanner.nextInt();
             } else {
+                selection = 4;
+            }
+
+            if ((selection < 1 || selection > 3)) {
                 System.out.print("Invalid input. Please try again. \n > ");
                 scanner.nextLine(); // Clear buffer
             }
 
-        }
+        } while (selection < 1 || selection > 3);
 
         if (selection == 1) {
             newGame();
@@ -78,9 +82,9 @@ public class CUI {
     public void commandInterpretter(String command) {
         if (command.equalsIgnoreCase("Help")) {
             showHelp();
-            
+
         } else if (command.equalsIgnoreCase("Exit")) {
-            
+
             System.out.print("Are you sure? (Y/N)\n>");
             command = scanner.next();
             if (command.equalsIgnoreCase("Y")) {
@@ -88,14 +92,17 @@ public class CUI {
             } else {
                 game.continueGame();
             }
-        } else if (command.equalsIgnoreCase("Select")){ 
+        } else if (command.equalsIgnoreCase("Select")) {
             game.selectCard();
+        } else if (command.equalsIgnoreCase("Draw")) {
+            Game.board.draw();
+            game.continueGame();
         } else {
             System.out.println("Invalid input. Try again.");
         }
     }
-    
-    private void showHelp(){
+
+    private void showHelp() {
         System.out.println("Placeholder help screen.");
     }
 }

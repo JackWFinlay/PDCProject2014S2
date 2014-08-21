@@ -16,6 +16,7 @@ public final class Game {
     public static Player player;
     public static Board board;
     public static Card selectedCard1, selectedCard2;
+    public Deck source1, source2;
 
     public Game(Player player) {
         selectedCard1 = null;
@@ -43,12 +44,15 @@ public final class Game {
         String cardName = scanner.next();
 
         Card card = null;
+        Deck source = new Deck();
 
         if (cardName.equalsIgnoreCase(Board.pickUp.getCard(0).getCharacterValue())) {
             card = Board.pickUp.getCard(0);
+            source = Board.pickUp;
         } else if (Board.waste.getSize() > 0
                 && cardName.equalsIgnoreCase(Board.waste.getCard(0).getCharacterValue())) {
             card = Board.waste.getCard(0);
+            source = Board.pickUp;
 
         } else {
 
@@ -62,23 +66,61 @@ public final class Game {
         }
 
         if (card != null && card.isPlayable()) {
-            setSelected(card);
+            setSelected(card, source);
         }
 
     }
 
-    public void setSelected(Card card) {
+    public void setSelected(Card card, Deck source) {
         if (selectedCard1 == null) {
             selectedCard1 = card;
+            source1 = source;
+
+            if (card.getNumericValue() == 13) { //King.
+                player.increaseScore(5);
+                source.removeCard(card);
+                selectedCard1 = null;
+            }
+
             System.out.println("Selected card 1:" + card.getSymbolValue());
         } else {
             selectedCard2 = card;
+            source2 = source;
             System.out.println("Selected card 2:" + card.getSymbolValue());
-            checkMatch(selectedCard1,selectedCard2); //TODO: Do something with this.
+            checkMatch(selectedCard1, selectedCard2);
+            continueGame();
         }
+
     }
 
-    public boolean checkMatch(Card card1, Card card2) {
-        return ((card1.getNumericValue() + card2.getNumericValue()) == 13);
+    public void checkMatch(Card card1, Card card2) {
+        if ((card1.getNumericValue() + card2.getNumericValue()) == 13) {
+
+            player.increaseScore(5);
+            removeCards(card1, card2);
+
+        } else {
+
+            selectedCard1 = null;
+            selectedCard2 = null;
+
+            System.out.println("Not a valid match, try again.");
+        }
+
+    }
+
+    private void removeCards(Card card1, Card card2) {
+        card1.setMatched();
+        card2.setMatched();
+
+        if (source1 != null) {
+            source1.removeCard(card1);
+        }
+        if (source2 != null) {
+            source2.removeCard(card2);
+        }
+
+        selectedCard1 = null;
+        selectedCard2 = null;
     }
 }
