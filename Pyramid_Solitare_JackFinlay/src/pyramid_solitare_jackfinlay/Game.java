@@ -6,55 +6,117 @@
 package pyramid_solitare_jackfinlay;
 
 /**
- *
+ *  This class runs the logic of the game and initialises components.
+ * 
  * @author Jack Finlay ID: 1399273
  */
 public final class Game {
 
-    public static Player player;
-    public static Board board;
-    public static Card selectedCard1, selectedCard2;
-    public Deck source1, source2;
+    public static final int BOARD_CLEAR_SCORE = 20;
+    public static final int CARD_MATCH_SCORE = 5;
+    public static final int START_SHUFFLE_COUNT = 2;
 
+    private Player player;
+    private Board board;
+    public Card selectedCard1, selectedCard2;
+    private Deck mainDeck, source1, source2;
+    private int shufflesRemaining;
+    
+    /**
+     * The default constructor.
+     */
+    public Game(){}
+    
+    /**
+     * Constructor to start a new game.
+     * 
+     * @param player The player.
+     */
     public Game(Player player) {
         selectedCard1 = null;
         selectedCard2 = null;
-        Game.player = player;
+        this.player = player;
+        this.shufflesRemaining = START_SHUFFLE_COUNT;
 
-        newGame();
+        newBoard();
     }
 
-    public void newGame() {
-        Deck deck = new Deck();
-        deck.createDeck();
-        board = new Board(deck);
-        board.printUI();
+    /**
+     * Returns the current player.
+     * 
+     * @return the player
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * Returns the current instance of Board.
+     * 
+     * @return the board
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Returns the number of shuffles the player has remaining.
+     * 
+     * @return the shufflesRemaining
+     */
+    public int getShufflesRemaining() {
+        return shufflesRemaining;
+    }
+
+    /**
+     * Decrements the number of shuffles remaining.
+     */
+    public void decrementShufflesRemaining() {
+        this.shufflesRemaining--;
+    }
+
+    /**
+     * Sets up a new game board and decks required.
+     */
+    public void newBoard() {
+        mainDeck = new Deck();
+        mainDeck.createDeck();
+        board = new Board(this, player, mainDeck);
+        getBoard().printUI();
 
     }
 
+    /**
+     * Reprints the game board so that the game may continue.
+     */
     public void continueGame() {
-        board.printUI();
+        getBoard().printUI();
     }
-
+    
+    /**
+     * Finds the location of a card and sets it as selected.
+     * 
+     * @param cardName The name of the card to be selected.
+     */
     public void selectCard(String cardName) {
 
         Card card = null;
         Deck source = new Deck();
 
-        if (cardName.equalsIgnoreCase(Board.pickUp.getCard(0).getCharacterValue())) {
+        if (cardName.equalsIgnoreCase(board.getPickUp().getCard(0).getCharacterValue())) {
 
-            card = Board.pickUp.getCard(0);
-            source = Board.pickUp;
+            card = board.getPickUp().getCard(0);
+            source = board.getPickUp();
 
-        } else if (Board.waste.getSize() > 0
-                && cardName.equalsIgnoreCase(Board.waste.getCard(0).getCharacterValue())) {
+        } else if (board.getWaste().getSize() > 0
+                && cardName.equalsIgnoreCase(board.getWaste().getCard(0).getCharacterValue())) {
 
-            card = Board.waste.getCard(0);
-            source = Board.waste;
+            card = board.getWaste().getCard(0);
+            source = board.getWaste();
 
         } else {
 
-            for (Card[] row : board.board) {
+            for (Card[] row : board.getBoard()) {
                 for (Card aCard : row) {
                     if (cardName.equalsIgnoreCase(aCard.getCharacterValue())) {
                         card = aCard;
@@ -69,6 +131,12 @@ public final class Game {
 
     }
 
+    /**
+     * Performs action of setting a card as selected.
+     * 
+     * @param card The card to be set as selected.
+     * @param source The deck that that <i>card</i> came from.
+     */
     public void setSelected(Card card, Deck source) {
 
         if (selectedCard1 == null) {
@@ -76,13 +144,9 @@ public final class Game {
             source1 = source;
             System.out.println("Selected card 1:" + card.getSymbolValue());
 
-            if (card.getNumericValue() == 13) { //King.
+            if (card.getNumericValue() == 13) { //Card is a King.
                 checkMatch(selectedCard1, new Card());
-
-//                player.increaseScore(5);
-//                card.setMatched();
-//                source.removeCard(card);
-//                selectedCard1 = null;
+                // Compare with card of value 0.
                 continueGame();
             }
 
@@ -100,7 +164,7 @@ public final class Game {
         if ((card1.getNumericValue() + card2.getNumericValue()) == 13) {
 
             System.out.println("\nMatch!");
-            player.increaseScore(5);
+            getPlayer().increaseScore(CARD_MATCH_SCORE);
             removeCards(card1, card2);
 
         } else {
@@ -126,5 +190,14 @@ public final class Game {
 
         selectedCard1 = null;
         selectedCard2 = null;
+
+        if (mainDeck.getSize() == 0) {
+            System.out.println("\n\nBoard Cleared!");
+
+            newBoard();
+            getPlayer().increaseScore(BOARD_CLEAR_SCORE);
+            getPlayer().incrementBoardsCount();
+        }
     }
+
 }
