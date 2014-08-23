@@ -5,8 +5,6 @@
  */
 package pyramid_solitare_jackfinlay;
 
-import static pyramid_solitare_jackfinlay.CUI.scanner;
-
 /**
  *
  * @author Jack Finlay ID: 1399273
@@ -38,21 +36,21 @@ public final class Game {
         board.printUI();
     }
 
-    public void selectCard() {
-
-        System.out.print("Enter a card name e.g. \"C10\" for ♣10\n>");
-        String cardName = scanner.next();
+    public void selectCard(String cardName) {
 
         Card card = null;
         Deck source = new Deck();
 
         if (cardName.equalsIgnoreCase(Board.pickUp.getCard(0).getCharacterValue())) {
+
             card = Board.pickUp.getCard(0);
             source = Board.pickUp;
+
         } else if (Board.waste.getSize() > 0
                 && cardName.equalsIgnoreCase(Board.waste.getCard(0).getCharacterValue())) {
+
             card = Board.waste.getCard(0);
-            source = Board.pickUp;
+            source = Board.waste;
 
         } else {
 
@@ -72,17 +70,22 @@ public final class Game {
     }
 
     public void setSelected(Card card, Deck source) {
+
         if (selectedCard1 == null) {
             selectedCard1 = card;
             source1 = source;
+            System.out.println("Selected card 1:" + card.getSymbolValue());
 
             if (card.getNumericValue() == 13) { //King.
-                player.increaseScore(5);
-                source.removeCard(card);
-                selectedCard1 = null;
+                checkMatch(selectedCard1, new Card());
+
+//                player.increaseScore(5);
+//                card.setMatched();
+//                source.removeCard(card);
+//                selectedCard1 = null;
+                continueGame();
             }
 
-            System.out.println("Selected card 1:" + card.getSymbolValue());
         } else {
             selectedCard2 = card;
             source2 = source;
@@ -96,6 +99,7 @@ public final class Game {
     public void checkMatch(Card card1, Card card2) {
         if ((card1.getNumericValue() + card2.getNumericValue()) == 13) {
 
+            System.out.println("\nMatch!");
             player.increaseScore(5);
             removeCards(card1, card2);
 
@@ -104,7 +108,7 @@ public final class Game {
             selectedCard1 = null;
             selectedCard2 = null;
 
-            System.out.println("Not a valid match, try again.");
+            System.out.println("\nNot a valid match, try again.");
         }
 
     }

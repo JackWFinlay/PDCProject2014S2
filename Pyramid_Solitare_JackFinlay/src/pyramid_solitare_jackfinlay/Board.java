@@ -60,27 +60,46 @@ public class Board {
     private void populatePickUpPile(Deck deck) {
         while (deck.getSize() > 0) {
             Card card = deck.getCard(0);
+            card.setPlayable(false);
             pickUp.addCard(card);
             deck.removeCard(card);
         }
 
         pickUp.getCard(0).setPlayable(true);
     }
-    
-    public void draw(){
-        Card card = pickUp.getCard(0);
-        waste.addCard(card);
-        pickUp.removeCard(card);
-    };
+
+    public void draw() {
+
+        if (pickUp.getSize() == 1) {
+
+            populatePickUpPile(waste);
+
+        } else {
+
+            Card card = pickUp.getCard(0);
+
+            waste.addCard(card);
+
+            pickUp.removeCard(card);
+
+            pickUp.getCard(0).setPlayable(true);
+
+            if (waste.getSize() > 1) {
+                waste.getCard(1).setPlayable(false);
+            }
+            
+        }
+    }
 
     public void printUI() {
         int score = Game.player.getScore();
-        int boards = 0; //placeholders
+        int boards = 0; //placeholder
 
         System.out.println("Player: " + Game.player.getPlayerName());
         System.out.println("Score: " + score + " Boards: " + boards);
 
         printBoard();
+        setPlayableCardsOnBoard();
 
     }
 
@@ -92,10 +111,10 @@ public class Board {
                 //Spacing
             }
             for (Card card : board[i]) {
-                
+
                 System.out.print(card.getSymbolValue() + " ");
-                
-                if (card.getNumericValue() != 10 ) {
+
+                if (card.getNumericValue() != 10) {
                     System.out.print(" ");
                 }
             }
@@ -106,7 +125,20 @@ public class Board {
         System.out.println("Pickup: " + pickUp.getCard(0).getSymbolValue());
 
         if (waste != null && waste.getSize() > 0) {
-            System.out.println("Waste: " + waste.getCard(waste.getSize()-1).getSymbolValue());
+            waste.getCard(0).setPlayable(true);
+            System.out.println("Waste: " + waste.getCard(0).getSymbolValue());
+        }
+    }
+
+    private void setPlayableCardsOnBoard() {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Card card = board[i][j];
+
+                if (board[i + 1][j].isMatched() && board[i + 1][j + 1].isMatched()) {
+                    card.setPlayable(true);
+                }
+            }
         }
     }
 }

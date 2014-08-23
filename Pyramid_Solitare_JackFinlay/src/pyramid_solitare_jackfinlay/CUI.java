@@ -6,6 +6,7 @@
 package pyramid_solitare_jackfinlay;
 
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -80,10 +81,14 @@ public class CUI {
     }
 
     public void commandInterpretter(String command) {
-        if (command.equalsIgnoreCase("Help")) {
-            showHelp();
+        
+        command = command.toLowerCase();
+        
+        
+        if (command.equals("help")) {
 
-        } else if (command.equalsIgnoreCase("Exit")) {
+            showHelp();
+        } else if (command.equals("exit")) {
 
             System.out.print("Are you sure? (Y/N)\n>");
             command = scanner.next();
@@ -92,9 +97,20 @@ public class CUI {
             } else {
                 game.continueGame();
             }
-        } else if (command.equalsIgnoreCase("Select")) {
-            game.selectCard();
-        } else if (command.equalsIgnoreCase("Draw")) {
+        } else if (command.startsWith("select")) {
+            
+            StringTokenizer tokenizer = new StringTokenizer(command," ,");
+            tokenizer.nextToken();
+            
+            
+            if (tokenizer.hasMoreTokens()) { // Check card name is presesnt
+                String card = tokenizer.nextToken();
+                game.selectCard(card); 
+            
+            } else {
+                System.out.println("Select command requires a card name.");
+            }
+        } else if (command.equalsIgnoreCase("draw")) {
             Game.board.draw();
             game.continueGame();
         } else {

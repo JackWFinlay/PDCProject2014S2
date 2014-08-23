@@ -28,7 +28,8 @@ public class Main {
         while(true) {
             
             System.out.print("Enter a command, or type help\n>");
-            cui.commandInterpretter(scanner.next());
+            String input = scanner.nextLine();
+            cui.commandInterpretter(input);
         }
     }
 

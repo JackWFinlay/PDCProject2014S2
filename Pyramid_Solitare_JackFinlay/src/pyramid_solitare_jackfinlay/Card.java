@@ -22,7 +22,7 @@ public class Card {
     private boolean matched = false;
 
     public Card() {
-
+        this.numericValue = 0; //Empty card, basically.
     }
 
     public Card(CardSuits suit, int numericValue) {
@@ -53,19 +53,23 @@ public class Card {
     }
 
     public String getSymbolValue() {
-        return symbolValue;
+        return this.symbolValue;
     }
 
     public String getCharacterValue() {
-        return characterValue;
+        return this.characterValue;
     }
 
     public int getNumericValue() {
-        return numericValue;
+        return this.numericValue;
     }
 
     public boolean isPlayable() {
-        return playable;
+        return this.playable;
+    }
+    
+    public boolean isMatched(){
+        return this.matched;
     }
 
     public void setPlayable(boolean playable) {
@@ -74,7 +78,9 @@ public class Card {
     
     public void setMatched(){
         this.symbolValue = "xx";
+        this.numericValue = 0;
         this.matched = true;
+        this.playable = false;
         
     }
 
