@@ -11,22 +11,84 @@ package pyramid_solitare_jackfinlay;
  */
 public class Board {
 
-    public static Deck deck;
-    public static Deck pickUp;
-    public static Deck waste;
+    private Deck deck, pickUp, waste;
+    private Card[][] board;
+    private final Game game;
+    private final Player player;
 
-    public Card[][] board;
-
-    public Board(Deck deck) {
-        Deck.shuffleDeck(deck);
+    public Board(Game game, Player player, Deck deck) {
+        
+        this.game = game;
+        this.player = player;
         this.deck = deck;
         this.board = createBoard();
-        pickUp = new Deck();
-        waste = new Deck();
+        this.pickUp = new Deck();
+        this.waste = new Deck();
+        
+        Deck.shuffleDeck(this.deck);
         populateBoard(deck);
         populatePickUpPile(deck);
-
+        
     }
+    
+    // <editor-fold desc="Setters and Getters">
+
+    /**
+     * @return the deck
+     */
+    public Deck getDeck() {
+        return deck;
+    }
+
+    /**
+     * @param deck the deck to set
+     */
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    /**
+     * @return the pickUp
+     */
+    public Deck getPickUp() {
+        return pickUp;
+    }
+
+    /**
+     * @param pickUp the pickUp to set
+     */
+    public void setPickUp(Deck pickUp) {
+        this.pickUp = pickUp;
+    }
+
+    /**
+     * @return the waste
+     */
+    public Deck getWaste() {
+        return waste;
+    }
+
+    /**
+     * @param waste the waste to set
+     */
+    public void setWaste(Deck waste) {
+        this.waste = waste;
+    }
+
+    /**
+     * @return the board
+     */
+    public Card[][] getBoard() {
+        return board;
+    }
+
+    /**
+     * @param board the board to set
+     */
+    public void setBoard(Card[][] board) {
+        this.board = board;
+    }
+    // </editor-fold>
 
     private Card[][] createBoard() {
         Card[][] newBoard = new Card[7][];
@@ -44,7 +106,7 @@ public class Board {
 
     private void populateBoard(Deck deck) {
 
-        for (Card[] row : board) {
+        for (Card[] row : getBoard()) {
             for (int i = 0; i < row.length; i++) {
                 Card card = deck.getCard(0);
                 row[i] = card;
@@ -52,7 +114,7 @@ public class Board {
             }
         }
 
-        for (Card card : board[6]) {
+        for (Card card : getBoard()[6]) {
             card.setPlayable(true);
         }
     }
@@ -61,42 +123,41 @@ public class Board {
         while (deck.getSize() > 0) {
             Card card = deck.getCard(0);
             card.setPlayable(false);
-            pickUp.addCard(card);
+            getPickUp().addCard(card);
             deck.removeCard(card);
         }
 
-        pickUp.getCard(0).setPlayable(true);
+        getPickUp().getCard(0).setPlayable(true);
     }
 
     public void draw() {
 
-        if (pickUp.getSize() == 1) {
+        if (getPickUp().getSize() == 1) {
 
-            populatePickUpPile(waste);
+            populatePickUpPile(getWaste());
 
         } else {
 
-            Card card = pickUp.getCard(0);
+            Card card = getPickUp().getCard(0);
 
-            waste.addCard(card);
+            getWaste().addCard(card);
 
-            pickUp.removeCard(card);
+            getPickUp().removeCard(card);
 
-            pickUp.getCard(0).setPlayable(true);
+            getPickUp().getCard(0).setPlayable(true);
 
-            if (waste.getSize() > 1) {
-                waste.getCard(1).setPlayable(false);
+            if (getWaste().getSize() > 1) {
+                getWaste().getCard(1).setPlayable(false);
             }
             
         }
     }
 
     public void printUI() {
-        int score = Game.player.getScore();
-        int boards = 0; //placeholder
 
-        System.out.println("Player: " + Game.player.getPlayerName());
-        System.out.println("Score: " + score + " Boards: " + boards);
+        System.out.println("Player: " + player.getPlayerName());
+        System.out.println("Score: " + player.getScore() 
+                + " Boards Complete: " + player.getBoards());
 
         printBoard();
         setPlayableCardsOnBoard();
@@ -105,40 +166,51 @@ public class Board {
 
     private void printBoard() {
 
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < getBoard().length; i++) {
             for (int j = 0; j < 7 - i; j++) {
                 System.out.print("  ");
-                //Spacing
+                //Forward spacing between cards
             }
-            for (Card card : board[i]) {
+            for (Card card : getBoard()[i]) {
 
                 System.out.print(card.getSymbolValue() + " ");
 
                 if (card.getNumericValue() != 10) {
-                    System.out.print(" ");
+                    System.out.print(" "); 
+                    // Cards with one digit/character values need extra spacing.
                 }
             }
             System.out.println();
         }
 
         System.out.println();
-        System.out.println("Pickup: " + pickUp.getCard(0).getSymbolValue());
+        System.out.println("Pickup: " + getPickUp().getCard(0).getSymbolValue());
 
-        if (waste != null && waste.getSize() > 0) {
-            waste.getCard(0).setPlayable(true);
-            System.out.println("Waste: " + waste.getCard(0).getSymbolValue());
+        if (getWaste() != null && getWaste().getSize() > 0) {
+            getWaste().getCard(0).setPlayable(true);
+            System.out.println("Waste: " + getWaste().getCard(0).getSymbolValue());
         }
     }
 
     private void setPlayableCardsOnBoard() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                Card card = board[i][j];
+        
+        for (int i = 0; i < 6; i++) { // Check every row except row 6.
+            for (int j = 0; j < getBoard()[i].length; j++) {
+                Card card = getBoard()[i][j];
 
-                if (board[i + 1][j].isMatched() && board[i + 1][j + 1].isMatched()) {
+                if (getBoard()[i + 1][j].isMatched() 
+                        && getBoard()[i + 1][j + 1].isMatched()) {
+                    
                     card.setPlayable(true);
-                }
+                } // Checks whether the cards below have been removed.
             }
         }
+        
+        getPickUp().getCard(0).setPlayable(true);
+        
+        if (getWaste() != null && getWaste().getSize() > 0) {
+            getWaste().getCard(0).setPlayable(true);
+        }
     }
+
 }

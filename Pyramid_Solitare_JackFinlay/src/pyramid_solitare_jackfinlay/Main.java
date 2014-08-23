@@ -5,13 +5,13 @@
  */
 package pyramid_solitare_jackfinlay;
 
-import static pyramid_solitare_jackfinlay.CUI.scanner;
-
 /**
- *
+ *The class called when the program is run.
+ * 
  * @author Jack Finlay ID: 1399273
  *
  * @version: 2014.07.30: Created - JF
+ * @version: 2014.08.23: Changed how the game is run - JF
  */
 public class Main {
     public static CUI cui;
@@ -24,13 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         cui = new CUI();
-        cui.menu();
-        while(true) {
-            
-            System.out.print("Enter a command, or type help\n>");
-            String input = scanner.nextLine();
-            cui.commandInterpretter(input);
-        }
+        cui.menu();        
     }
 
     

@@ -12,7 +12,7 @@ package pyramid_solitare_jackfinlay;
  */
 public class Player {
     private int score;
-    private int boards;
+    private int boardsCount;
     private String playerName;
     
     public Player(){}
@@ -20,6 +20,7 @@ public class Player {
     public Player( String playerName ){
         this.playerName = playerName;
         this.score = 0;
+        this.boardsCount = 0;
     }
 
     public int getScore() {
@@ -44,11 +45,15 @@ public class Player {
     }
 
     public int getBoards() {
-        return boards;
+        return boardsCount;
     }
 
     public void setBoards(int boards) {
-        this.boards = boards;
+        this.boardsCount = boards;
+    }
+    
+    public void incrementBoardsCount(){
+        this.boardsCount++;
     }
     
     
