@@ -5,7 +5,7 @@ package pyramid_solitare_jackfinlay.model;
  * @author Jack Finlay ID: 1399273
  */
 public class Score extends Player{
-    private final int rank;
+    private int rank;
     
     public Score( int rank, String playerName, int score  ){
         super(playerName);
@@ -15,5 +15,9 @@ public class Score extends Player{
     
     public int getRank(){
         return rank;
+    }
+    
+    public void setRank(int rank){
+        this.rank = rank;
     }
 }

@@ -70,24 +70,25 @@ public class CUI {
         String input;
 
         do {
-            do {
-                System.out.print("Enter your name, or type \"Cancel\" to abort. \n > ");
-                playerName = scanner.nextLine();
+            System.out.print("Enter your name, or type \"Cancel\" to abort. \n > ");
+            playerName = scanner.nextLine();
 
-            } while (playerName.isEmpty()); // Name cannot be an empty line
+            if (playerName.equalsIgnoreCase("Cancel")) { //Player chose to cancel
+                clearConsole();
+                menu();
+            }
 
             System.out.print("Is \'" + playerName + "\' correct? (Y/N) \n> ");
 
             input = scanner.nextLine();
 
-        } while (!input.equalsIgnoreCase("Y"));//Anything other than "Y"
+            if (!input.equalsIgnoreCase("Y")) {
+                playerName = "";
+            }
 
-        if (playerName.equalsIgnoreCase("Cancel")) { //Player chose to cancel
-            clearConsole();
-            menu();
-        } else {
-            game = new Game(new Player(playerName));
-        }
+        } while (playerName.isEmpty()); // Name cannot be an empty line
+
+        game = new Game(new Player(playerName));
 
         while (true) {
 
@@ -113,12 +114,16 @@ public class CUI {
         } else if (command.equals("exit")) {
 
             System.out.print("Are you sure? (Y/N)\n> ");
-            command = scanner.next();
+            command = scanner.nextLine();
             if (command.equalsIgnoreCase("Y")) {
                 System.out.println("Final Score: "
                         + game.getPlayer().getScore());
 
-                System.exit(0);
+                HighScores hs = new HighScores();
+                hs.updateHighScores(game.getPlayer());
+                hs.writeScoreFile();
+
+                menu();
 
             } else {
 

@@ -34,16 +34,8 @@ public class Player {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public int getBoards() {
+    public int getBoardCount() {
         return boardsCount;
-    }
-
-    public void setBoards(int boards) {
-        this.boardsCount = boards;
     }
     
     public void incrementBoardsCount(){

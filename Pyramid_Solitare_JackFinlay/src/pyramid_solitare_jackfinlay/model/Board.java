@@ -158,10 +158,10 @@ public class Board {
     public void printUI() {
 
         System.out.println("Player: " + player.getPlayerName()
-                + "Shuffles remaining: " + game.getShufflesRemaining());
+                + " | Shuffles remaining: " + game.getShufflesRemaining());
         System.out.println("Score: " + player.getScore()
-                + " | Boards Complete: " + player.getBoards());
-
+                + " | Boards Complete: " + player.getBoardCount());
+        System.out.println("");
         printBoard();
         setPlayableCardsOnBoard();
 
