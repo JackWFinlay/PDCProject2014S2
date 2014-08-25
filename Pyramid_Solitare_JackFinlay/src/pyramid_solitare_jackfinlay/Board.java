@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay;
 
 /**
@@ -11,28 +6,28 @@ package pyramid_solitare_jackfinlay;
  */
 public class Board {
 
-    private Deck deck, pickUp, waste;
+    private Deck deck, boardDeck, pickUp, waste;
     private Card[][] board;
     private final Game game;
     private final Player player;
 
     public Board(Game game, Player player, Deck deck) {
-        
+
         this.game = game;
         this.player = player;
         this.deck = deck;
         this.board = createBoard();
+        this.boardDeck = new Deck();
         this.pickUp = new Deck();
         this.waste = new Deck();
-        
+
         Deck.shuffleDeck(this.deck);
         populateBoard(deck);
         populatePickUpPile(deck);
-        
-    }
-    
-    // <editor-fold desc="Setters and Getters">
 
+    }
+
+    // <editor-fold desc="Setters and Getters">
     /**
      * @return the deck
      */
@@ -111,6 +106,7 @@ public class Board {
                 Card card = deck.getCard(0);
                 row[i] = card;
                 deck.removeCard(card);
+                boardDeck.addCard(card);
             }
         }
 
@@ -149,15 +145,22 @@ public class Board {
             if (getWaste().getSize() > 1) {
                 getWaste().getCard(1).setPlayable(false);
             }
-            
+
         }
+
+        game.setSelectedCard1(null);
+        game.setSelectedCard2(null);
+        game.setSource1(null);
+        game.setSource2(null);
+
     }
 
     public void printUI() {
 
-        System.out.println("Player: " + player.getPlayerName());
-        System.out.println("Score: " + player.getScore() 
-                + " Boards Complete: " + player.getBoards());
+        System.out.println("Player: " + player.getPlayerName()
+                + "Shuffles remaining: " + game.getShufflesRemaining());
+        System.out.println("Score: " + player.getScore()
+                + " | Boards Complete: " + player.getBoards());
 
         printBoard();
         setPlayableCardsOnBoard();
@@ -176,7 +179,7 @@ public class Board {
                 System.out.print(card.getSymbolValue() + " ");
 
                 if (card.getNumericValue() != 10) {
-                    System.out.print(" "); 
+                    System.out.print(" ");
                     // Cards with one digit/character values need extra spacing.
                 }
             }
@@ -193,24 +196,28 @@ public class Board {
     }
 
     private void setPlayableCardsOnBoard() {
-        
+
         for (int i = 0; i < 6; i++) { // Check every row except row 6.
             for (int j = 0; j < getBoard()[i].length; j++) {
                 Card card = getBoard()[i][j];
 
-                if (getBoard()[i + 1][j].isMatched() 
+                if (getBoard()[i + 1][j].isMatched()
                         && getBoard()[i + 1][j + 1].isMatched()) {
-                    
+
                     card.setPlayable(true);
                 } // Checks whether the cards below have been removed.
             }
         }
-        
+
         getPickUp().getCard(0).setPlayable(true);
-        
+
         if (getWaste() != null && getWaste().getSize() > 0) {
             getWaste().getCard(0).setPlayable(true);
         }
+    }
+
+    public Deck getBoardDeck() {
+        return boardDeck;
     }
 
 }

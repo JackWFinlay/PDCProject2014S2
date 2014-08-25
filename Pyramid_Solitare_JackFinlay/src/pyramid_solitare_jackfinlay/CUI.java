@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay;
 
 import java.util.Scanner;
@@ -18,6 +13,7 @@ public class CUI {
     public static Game game;
 
     public void menu() {
+        String input;
         int selection = 0;
 
         System.out.println("Welcome to Pyramid Solitaire\n");
@@ -26,19 +22,27 @@ public class CUI {
         System.out.println("2 - Highscores");
         System.out.println("3 - Exit");
 
-        System.out.print("\nEnter a selection. \n > ");
-
         do {
+            boolean validInput = false;
 
-            if (scanner.hasNextInt()) {
-                selection = scanner.nextInt();
-            } else {
-                selection = 4;
+            while (!validInput) { // Check that the input is an integer
+                System.out.print("\nEnter a selection. \n > ");
+
+                input = scanner.nextLine();
+
+                try {
+                    selection = Integer.parseInt(input.trim());
+
+                    validInput = true;
+                } catch (NumberFormatException error) {
+                    validInput = false;
+
+                    selection = 4;
+                }
             }
 
             if ((selection < 1 || selection > 3)) {
-                System.out.print("Invalid input. Please try again. \n > ");
-                scanner.nextLine(); // Clear buffer
+                System.out.println("Invalid input. Please try again.");
             }
 
         } while (selection < 1 || selection > 3);
@@ -60,11 +64,20 @@ public class CUI {
 
     public void newGame() {
         String playerName;
+        String input;
+
         do {
-            scanner.nextLine(); // Clears buffer.
-            System.out.print("Enter your name, or type \"Cancel\" to abort. \n > ");
-            playerName = scanner.nextLine();
-        } while (playerName.isEmpty()); // Name cannot be an empty line
+            do {
+                System.out.print("Enter your name, or type \"Cancel\" to abort. \n > ");
+                playerName = scanner.nextLine();
+
+            } while (playerName.isEmpty()); // Name cannot be an empty line
+
+            System.out.print("Is \'" + playerName + "\' correct? (Y/N) \n> ");
+
+            input = scanner.nextLine();
+
+        } while (!input.equalsIgnoreCase("Y"));//Anything other than "Y"
 
         if (playerName.equalsIgnoreCase("Cancel")) { //Player chose to cancel
             clearConsole();
@@ -75,8 +88,8 @@ public class CUI {
 
         while (true) {
 
-            System.out.print("Enter a command, or type help\n>");
-            String input = scanner.nextLine();
+            System.out.print("Enter a command, or type help\n> ");
+            input = scanner.nextLine();
             commandInterpretter(input);
         }
     }
@@ -96,16 +109,19 @@ public class CUI {
             showHelp();
         } else if (command.equals("exit")) {
 
-            System.out.print("Are you sure? (Y/N)\n>");
+            System.out.print("Are you sure? (Y/N)\n> ");
             command = scanner.next();
             if (command.equalsIgnoreCase("Y")) {
                 System.out.println("Final Score: "
                         + game.getPlayer().getScore());
 
                 System.exit(0);
+
             } else {
+
                 game.continueGame();
             }
+
         } else if (command.startsWith("select")) {
 
             StringTokenizer tokenizer = new StringTokenizer(command, " ");
@@ -119,13 +135,20 @@ public class CUI {
             } else {
                 System.out.println("Select command requires a card name.");
             }
+        } else if (command.equals("unselect")) {
+            System.out.println("Card unselected.");
+            game.setSelectedCard1(null);
+            game.setSource1(null);
         } else if (command.equals("draw")) {
             game.getBoard().draw();
             game.continueGame();
         } else if (command.equals("shuffle")) {
+
             if (game.getShufflesRemaining() > 0) {
-                game.newBoard();
+
                 game.decrementShufflesRemaining();
+                game.newBoard();
+
             } else {
                 System.out.println("Cannot reshuffle. Type exit to end game.");
             }

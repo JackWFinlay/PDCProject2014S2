@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay;
 
 /**
@@ -11,7 +6,7 @@ package pyramid_solitare_jackfinlay;
  */
 public enum CardSuits {
 
-    CLUBS("C","♣"), SPADES("S","♠"), DIAMONDS("D","♦"), HEARTS("H","♥");
+    CLUBS("C", "♣"), SPADES("S", "♠"), DIAMONDS("D", "♦"), HEARTS("H", "♥");
 
     private final String suit;
     private final String symbol;
@@ -25,7 +20,7 @@ public enum CardSuits {
     public String toString() {
         return suit;
     }
-    
+
     public String getSymbol() {
         return symbol;
     }

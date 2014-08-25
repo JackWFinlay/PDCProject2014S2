@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay;
 
 /**
- * This class runs the logic of the game and initialises components.
+ * This class runs the logic of the game and initializes components.
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -18,7 +13,7 @@ public final class Game {
 
     private Player player;
     private Board board;
-    public Card selectedCard1, selectedCard2;
+    private Card selectedCard1, selectedCard2;
     private Deck mainDeck, source1, source2;
     private int shufflesRemaining;
 
@@ -76,6 +71,38 @@ public final class Game {
         this.shufflesRemaining--;
     }
 
+    public Card getSelectedCard1() {
+        return selectedCard1;
+    }
+
+    public void setSelectedCard1(Card selectedCard1) {
+        this.selectedCard1 = selectedCard1;
+    }
+
+    public Card getSelectedCard2() {
+        return selectedCard2;
+    }
+
+    public void setSelectedCard2(Card selectedCard2) {
+        this.selectedCard2 = selectedCard2;
+    }
+
+    public Deck getSource1() {
+        return source1;
+    }
+
+    public void setSource1(Deck source1) {
+        this.source1 = source1;
+    }
+
+    public Deck getSource2() {
+        return source2;
+    }
+
+    public void setSource2(Deck source2) {
+        this.source2 = source2;
+    }
+
     /**
      * Sets up a new game board and decks required.
      */
@@ -128,6 +155,10 @@ public final class Game {
 
         if (card != null && card.isPlayable()) {
             setSelected(card, source);
+        } else if (card != null && !card.isPlayable()) {
+            System.out.println("Card is not playable at this stage. Try another.");
+        } else { //card is null, i.e. Card ID is incorrect.
+            System.out.println("Incorrect Card ID. Type help for information.");
         }
 
     }
@@ -191,7 +222,7 @@ public final class Game {
         selectedCard1 = null;
         selectedCard2 = null;
 
-        if (mainDeck.getSize() == 0) {
+        if (board.getBoardDeck().getSize() == 0) {
             boardCleared();
         }
     }
@@ -208,4 +239,5 @@ public final class Game {
         getPlayer().incrementBoardsCount();
 
     }
+
 }

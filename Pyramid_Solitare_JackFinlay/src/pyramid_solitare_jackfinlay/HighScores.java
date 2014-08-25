@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -34,9 +31,11 @@ public final class HighScores {
     public void readScoreFile() {
 
         try {
-
-            URL url = getClass().getResource("Scores.txt");
-            BufferedReader reader = new BufferedReader(new FileReader(url.getPath()));
+            
+            InputStream in = getClass().getResourceAsStream("Data/Scores.txt");
+            // Using InputStream rather than FileStream allows storing of 
+            // txt file in the .jar file
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -59,9 +58,9 @@ public final class HighScores {
     }
 
     public void printHighScores() {
-        
+
         System.out.println("Rank   Name        Score");
-        
+
         for (Score score : highScores) {
 
             System.out.print(score.getRank());
