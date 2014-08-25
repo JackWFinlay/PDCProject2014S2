@@ -1,5 +1,7 @@
 package pyramid_solitare_jackfinlay;
 
+import pyramid_solitare_jackfinlay.model.ui.CUI;
+
 /**
  * The class called when the program is run.
  *

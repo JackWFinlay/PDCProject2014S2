@@ -1,4 +1,6 @@
-package pyramid_solitare_jackfinlay;
+package pyramid_solitare_jackfinlay.model;
+
+import pyramid_solitare_jackfinlay.model.Player;
 
 /**
  * This class runs the logic of the game and initializes components.

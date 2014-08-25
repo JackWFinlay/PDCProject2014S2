@@ -1,4 +1,4 @@
-package pyramid_solitare_jackfinlay;
+package pyramid_solitare_jackfinlay.model;
 
 /**
  * @author Jack Finlay ID: 1399273

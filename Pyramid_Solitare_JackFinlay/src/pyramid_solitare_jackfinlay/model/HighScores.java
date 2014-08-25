@@ -1,18 +1,17 @@
-package pyramid_solitare_jackfinlay;
+package pyramid_solitare_jackfinlay.model;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static pyramid_solitare_jackfinlay.CUI.scanner;
 import static pyramid_solitare_jackfinlay.Main.cui;
+import pyramid_solitare_jackfinlay.model.ui.CUI;
+import static pyramid_solitare_jackfinlay.model.ui.CUI.scanner;
 
 /**
  *

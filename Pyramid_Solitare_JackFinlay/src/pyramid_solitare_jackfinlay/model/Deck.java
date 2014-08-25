@@ -1,4 +1,4 @@
-package pyramid_solitare_jackfinlay;
+package pyramid_solitare_jackfinlay.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

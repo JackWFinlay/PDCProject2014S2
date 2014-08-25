@@ -1,7 +1,10 @@
-package pyramid_solitare_jackfinlay;
+package pyramid_solitare_jackfinlay.model.ui;
 
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import pyramid_solitare_jackfinlay.model.Player;
+import pyramid_solitare_jackfinlay.model.Game;
+import pyramid_solitare_jackfinlay.model.HighScores;
 
 /**
  *

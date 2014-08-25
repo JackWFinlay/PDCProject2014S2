@@ -3,19 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pyramid_solitare_jackfinlay;
+
+package pyramid_solitare_jackfinlay.model;
 
 import org.junit.After;
-import static org.junit.Assert.*;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Jack
  */
 public class CardTest {
-
+    
     private static Card card1, card2;
 
     public CardTest() {
@@ -70,7 +73,7 @@ public class CardTest {
         
     }
 
-    /**
+/**
      * Test of isPlayable method, of class Card.
      */
     @Test
@@ -105,4 +108,29 @@ public class CardTest {
         assertFalse(card1.isPlayable());
     }
 
+    /**
+     * Test of isMatched method, of class Card.
+     */
+    @Test
+    public void testIsMatched_NotMatched() {
+        card1.setMatched();
+        card2.setMatched();
+        assertFalse(card1.isMatched());
+        assertFalse(card2.isMatched());
+        
+    }
+
+
+    /**
+     * Test of setMatched method, of class Card.
+     */
+    @Test
+    public void testSetMatched() {
+        System.out.println("setMatched");
+        Card instance = new Card();
+        instance.setMatched();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
 }

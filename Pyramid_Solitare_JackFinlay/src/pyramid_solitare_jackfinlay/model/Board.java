@@ -1,4 +1,4 @@
-package pyramid_solitare_jackfinlay;
+package pyramid_solitare_jackfinlay.model;
 
 /**
  *
