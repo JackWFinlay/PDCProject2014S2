@@ -66,13 +66,6 @@ public final class Game {
         return shufflesRemaining;
     }
 
-    /**
-     * Decrements the number of shuffles remaining.
-     */
-    public void decrementShufflesRemaining() {
-        this.shufflesRemaining--;
-    }
-
     public Card getSelectedCard1() {
         return selectedCard1;
     }
@@ -111,8 +104,8 @@ public final class Game {
     public void newBoard() {
         mainDeck = new Deck();
         mainDeck.createDeck();
-        board = new Board(this, player, mainDeck);
-        getBoard().printUI();
+        this.board = new Board(this, player, mainDeck);
+        board.printUI();
 
     }
 
@@ -120,7 +113,11 @@ public final class Game {
      * Reprints the game board so that the game may continue.
      */
     public void continueGame() {
-        getBoard().printUI();
+        if (selectedCard2 != null) {
+            checkMatch(selectedCard1, selectedCard2);
+        }
+
+        this.board.printUI();
     }
 
     /**
@@ -179,7 +176,7 @@ public final class Game {
             System.out.println("Selected card 1:" + card.getSymbolValue());
 
             if (card.getNumericValue() == 13) { //Card is a King.
-                checkMatch(selectedCard1, new Card());
+                selectedCard2 = new Card();
                 // Compare with card of value 0.
                 continueGame();
             }
@@ -188,7 +185,6 @@ public final class Game {
             selectedCard2 = card;
             source2 = source;
             System.out.println("Selected card 2:" + card.getSymbolValue());
-            checkMatch(selectedCard1, selectedCard2);
             continueGame();
         }
 
@@ -240,6 +236,22 @@ public final class Game {
         getPlayer().increaseScore(BOARD_CLEAR_SCORE);
         getPlayer().incrementBoardsCount();
 
+    }
+
+    /**
+     * Decrements the number of shuffles remaining.
+     *
+     * @return <code>true</code> if successful, <code>false</code> if not.
+     */
+    public boolean decrementShufflesRemaining() {
+        boolean success = false;
+
+        if (shufflesRemaining > 0) {
+            success = true;
+            this.shufflesRemaining--;
+        }
+
+        return success;
     }
 
 }

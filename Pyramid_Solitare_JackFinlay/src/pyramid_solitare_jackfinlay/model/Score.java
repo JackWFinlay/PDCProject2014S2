@@ -7,6 +7,10 @@ package pyramid_solitare_jackfinlay.model;
 public class Score extends Player{
     private int rank;
     
+    public Score(){
+        super();
+    }
+    
     public Score( int rank, String playerName, int score  ){
         super(playerName);
         setScore(score);

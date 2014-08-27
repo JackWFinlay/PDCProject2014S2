@@ -14,6 +14,8 @@ public class CUI {
 
     public static Scanner scanner = new Scanner(System.in);
     public static Game game;
+    
+    public CUI(){}
 
     public void menu() {
         String input;
@@ -143,6 +145,7 @@ public class CUI {
             } else {
                 System.out.println("Select command requires a card name.");
             }
+   
         } else if (command.equals("unselect")) {
             System.out.println("Card unselected.");
             game.setSelectedCard1(null);

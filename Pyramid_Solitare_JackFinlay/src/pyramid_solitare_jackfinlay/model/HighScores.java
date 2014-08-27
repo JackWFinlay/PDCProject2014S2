@@ -21,20 +21,19 @@ import static pyramid_solitare_jackfinlay.model.ui.CUI.scanner;
  * @author Jack Finlay ID: 1399273
  */
 public final class HighScores {
-
-    ArrayList<Score> highScores;
+    private static final String SCORES_FILE_LOCATION = "../Data/Scores.txt";
+    private ArrayList<Score> highScores;
 
     public HighScores() {
         highScores = new ArrayList();
         readScoreFile();
-
     }
 
     public void readScoreFile() {
 
         try {
 
-            InputStream in = getClass().getResourceAsStream("../Data/Scores.txt");
+            InputStream in = getClass().getResourceAsStream(SCORES_FILE_LOCATION);
             // Using InputStream rather than FileReader allows storing of 
             // txt file in the .jar file
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -64,7 +63,7 @@ public final class HighScores {
     public void writeScoreFile() {
         PrintWriter output = null;
 
-        URL url = getClass().getResource("../Data/Scores.txt");
+        URL url = getClass().getResource(SCORES_FILE_LOCATION);
 
         try {
             output = new PrintWriter(new FileOutputStream(url.getPath()));

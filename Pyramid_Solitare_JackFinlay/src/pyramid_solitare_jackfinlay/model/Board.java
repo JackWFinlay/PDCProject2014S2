@@ -8,8 +8,10 @@ public class Board {
 
     private Deck deck, boardDeck, pickUp, waste;
     private Card[][] board;
-    private final Game game;
-    private final Player player;
+    private Game game;
+    private Player player;
+
+    public Board() {}
 
     public Board(Game game, Player player, Deck deck) {
 

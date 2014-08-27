@@ -1,24 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package pyramid_solitare_jackfinlay.model;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Jack
+ * @author Jack Finlay ID: 1399273
  */
 public class CardTest {
-    
+
     private static Card card1, card2;
 
     public CardTest() {
@@ -40,9 +32,7 @@ public class CardTest {
      * Test of getSymbolValue method, of class Card.
      */
     @Test
-    public void testGetCharacterValue() {
-        System.out.println("getCharacterValue");
-
+    public void testGetSymbolValue() {
         card1 = new Card(CardSuits.SPADES, 1);
         card2 = new Card(CardSuits.CLUBS, 2);
         assertEquals(card1.getSymbolValue(), "♠A");
@@ -57,6 +47,24 @@ public class CardTest {
     }
 
     /**
+     * Test of getCharacterValue method, of class Card.
+     */
+    @Test
+    public void testGetCharacterValue() {
+        card1 = new Card(CardSuits.SPADES, 1);
+        card2 = new Card(CardSuits.CLUBS, 2);
+        assertEquals(card1.getCharacterValue(), "SA");
+        assertEquals(card2.getCharacterValue(), "C2");
+        card1 = new Card(CardSuits.HEARTS, 11);
+        card2 = new Card(CardSuits.DIAMONDS, 12);
+        assertEquals(card1.getCharacterValue(), "HJ");
+        assertEquals(card2.getCharacterValue(), "DQ");
+        card1 = new Card(CardSuits.HEARTS, 13);
+        assertEquals(card1.getCharacterValue(), "HK");
+
+    }
+
+    /**
      * Test of getNumericValue method, of class Card.
      */
     @Test
@@ -66,27 +74,21 @@ public class CardTest {
         for (int i = 1; i <= 12; i++) {
             cards[i] = new Card(CardSuits.SPADES, (i + 1));
         }
-        
+
         for (int i = 1; i <= 12; i++) {
             assertEquals(cards[i].getNumericValue(), (i + 1));
         }
-        
+
     }
 
-/**
+    /**
      * Test of isPlayable method, of class Card.
      */
     @Test
-    public void testIsPlayable_Playable() {
-        card1.setPlayable(true);
-        assertTrue(card1.isPlayable());
-
-    }
-
-    @Test
-    public void testIsPlayable_NotPlayable() {
+    public void testIsPlayable_NotPlayableOnContruction() {
         //Default state is false.
         assertFalse(card1.isPlayable());
+        assertFalse(card2.isPlayable());
     }
 
     /**
@@ -95,42 +97,51 @@ public class CardTest {
     @Test
     public void testSetPlayable_Playable() {
         assertFalse(card1.isPlayable());
+        assertFalse(card2.isPlayable());
+
         card1.setPlayable(true);
+        card1.setPlayable(true);
+
+        assertTrue(card1.isPlayable());
         assertTrue(card1.isPlayable());
     }
 
     @Test
     public void testSetPlayable_UnMark() {
-        assertFalse(card1.isPlayable());
+        //First set to playable.
         card1.setPlayable(true);
+        card2.setPlayable(true);
         assertTrue(card1.isPlayable());
+        assertTrue(card2.isPlayable());
+
+        //Set to false and check.
         card1.setPlayable(false);
+        card2.setPlayable(false);
         assertFalse(card1.isPlayable());
+        assertFalse(card2.isPlayable());
     }
 
     /**
      * Test of isMatched method, of class Card.
      */
     @Test
-    public void testIsMatched_NotMatched() {
-        card1.setMatched();
-        card2.setMatched();
+    public void testIsMatched_NotMatchedOnCreation() {
+        assertFalse(card1.isMatched());
+        assertFalse(card2.isMatched());
+    }
+
+    @Test
+    public void testIsMatched_Matched() {
+        //Check not already matched.
         assertFalse(card1.isMatched());
         assertFalse(card2.isMatched());
         
+        // Set and check is true.
+        card1.setMatched();
+        card2.setMatched();
+        assertTrue(card1.isMatched());
+        assertTrue(card1.isMatched());
+        // Effectively also tests setMatched().
     }
 
-
-    /**
-     * Test of setMatched method, of class Card.
-     */
-    @Test
-    public void testSetMatched() {
-        System.out.println("setMatched");
-        Card instance = new Card();
-        instance.setMatched();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }
