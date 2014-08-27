@@ -1,6 +1,7 @@
 package pyramid_solitare_jackfinlay.model;
 
 /**
+ * Creates and maintains the game board.
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -11,7 +12,8 @@ public class Board {
     private Game game;
     private Player player;
 
-    public Board() {}
+    public Board() {
+    }
 
     public Board(Game game, Player player, Deck deck) {
 
@@ -143,9 +145,9 @@ public class Board {
 
             pickUp.removeCard(card);
             pickUp.getCard(0).setPlayable(true);
-            
+
             card.setSource(waste);
-            
+
             if (waste.getSize() > 1) {
                 waste.getCard(1).setPlayable(false);
                 // Set the card that was previously on top as unplayable.

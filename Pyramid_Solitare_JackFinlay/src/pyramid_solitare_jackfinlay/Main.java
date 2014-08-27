@@ -7,8 +7,6 @@ import pyramid_solitare_jackfinlay.model.ui.CUI;
  *
  * @author Jack Finlay ID: 1399273
  *
- * @version: 2014.07.30: Created - JF
- * @version: 2014.08.23: Changed how the game is run - JF
  */
 public class Main {
 

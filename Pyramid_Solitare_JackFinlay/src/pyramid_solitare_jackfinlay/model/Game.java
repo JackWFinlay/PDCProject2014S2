@@ -1,7 +1,5 @@
 package pyramid_solitare_jackfinlay.model;
 
-import pyramid_solitare_jackfinlay.model.Player;
-
 /**
  * This class runs the logic of the game and initializes components.
  *
@@ -81,8 +79,8 @@ public final class Game {
     public void setSelectedCard2(Card selectedCard2) {
         this.selectedCard2 = selectedCard2;
     }
-    
-    public Deck getMainDeck(){
+
+    public Deck getMainDeck() {
         return mainDeck;
     }
 
@@ -101,7 +99,6 @@ public final class Game {
      * Reprints the game board so that the game may continue.
      */
     public void continueGame() {
-        
 
         this.board.printUI();
     }
@@ -143,7 +140,7 @@ public final class Game {
         } else if (card == null) { //card is null, i.e. Card ID is incorrect.
             System.out.println("Incorrect Card ID. Type help for information.");
         }
-        
+
         return card;
     }
 
@@ -165,26 +162,26 @@ public final class Game {
 
         } else {
             selectedCard2 = card;
-            System.out.println("Selected card 2:" + card.getSymbolValue()); 
+            System.out.println("Selected card 2:" + card.getSymbolValue());
         }
 
     }
-    
-    public boolean checkMatch(){
-        return checkMatch(selectedCard1,selectedCard2);
+
+    public boolean checkMatch() {
+        return checkMatch(selectedCard1, selectedCard2);
     }
-    
+
     /**
      * Checks whether the cards passed to this method are a match.
      *
      * @param card1 A card to compare.
      * @param card2 The other card in the comparison.
-     * @return <code>true</code> if cards match to 13,
-     *         <code>false</code> if not.
+     * @return <code>true</code> if cards match to 13, <code>false</code> if
+     * not.
      */
     public boolean checkMatch(Card card1, Card card2) {
         boolean match = false;
-        
+
         if ((card1.getNumericValue() + card2.getNumericValue()) == 13) {
 
             System.out.println("\nMatch!");
@@ -192,10 +189,10 @@ public final class Game {
 
             card1.getSource().removeCard(card1);
             card2.getSource().removeCard(card2);
-            
+
             card1.setMatched();
             card2.setMatched();
-            
+
             match = true;
 
         } else {
@@ -208,7 +205,7 @@ public final class Game {
         if (board.getBoardDeck().getSize() == 0) {
             boardCleared();
         }
-        
+
         return match;
     }
 

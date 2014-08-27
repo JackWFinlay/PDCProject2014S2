@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Tests for the Card Class
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -72,11 +73,11 @@ public class CardTest {
         Card[] cards = new Card[13];
 
         for (int i = 0; i <= 12; i++) {
-            cards[i] = new Card(CardSuits.SPADES, (i+1));
+            cards[i] = new Card(CardSuits.SPADES, (i + 1));
         }
 
         for (int i = 0; i <= 12; i++) {
-            assertEquals(cards[i].getNumericValue(), (i+1));
+            assertEquals(cards[i].getNumericValue(), (i + 1));
         }
 
     }
@@ -135,7 +136,7 @@ public class CardTest {
         //Check not already matched.
         assertFalse(card1.isMatched());
         assertFalse(card2.isMatched());
-        
+
         // Set and check is true.
         card1.setMatched();
         card2.setMatched();

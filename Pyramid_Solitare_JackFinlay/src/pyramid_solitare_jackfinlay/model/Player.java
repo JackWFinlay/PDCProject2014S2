@@ -1,14 +1,15 @@
 package pyramid_solitare_jackfinlay.model;
 
 /**
- *
+ * This class represents Player objects.
+ * 
  * @author Jack Finlay ID: 1399273
  */
 public class Player {
     private int score;
     private int boardsCount;
     private String playerName;
-    
+
     public Player(){}
     
     public Player( String playerName ){

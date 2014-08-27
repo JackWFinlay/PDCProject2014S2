@@ -9,6 +9,7 @@ import pyramid_solitare_jackfinlay.model.HighScores;
 import pyramid_solitare_jackfinlay.model.Player;
 
 /**
+ * Manages input and output to and from the game.
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -114,13 +115,13 @@ public class CUI {
         command = command.toLowerCase();
 
         if (command.equals("help")) {
-            
+
             showHelp();
         } else if (command.equals("exit")) {
-            
+
             showExit();
         } else if (command.startsWith("select")) {
-            
+
             showSelect(command);
         } else if (command.equals("unselect")) {
 
@@ -139,8 +140,6 @@ public class CUI {
             System.out.println("Invalid input. Try again.");
         }
     }
-
-    
 
     private void showExit() {
         System.out.print("Are you sure? (Y/N)\n> ");
@@ -195,11 +194,11 @@ public class CUI {
             System.out.println("Cannot reshuffle. Type 'Exit' to end game.");
         }
     }
-    
+
     private void showHelp() {
         Help help = new Help();
         System.out.println("Type anything followed by return to continue...");
-        
+
         String consumeBuffer = scanner.next();
         game.continueGame();
     }

@@ -1,7 +1,8 @@
 package pyramid_solitare_jackfinlay.model;
 
 /**
- *
+ * Stores the help text.
+ * 
  * @author Jack Finlay ID: 1399273
  */
 public class Help {

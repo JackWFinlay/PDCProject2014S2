@@ -1,8 +1,9 @@
 package pyramid_solitare_jackfinlay.model;
 
 /**
- * @author Jack Finlay ID: 1399273
+ * Enumerates the names, character and symbol representations of the card suits.
  *
+ * @author Jack Finlay ID: 1399273
  */
 public enum CardSuits {
 

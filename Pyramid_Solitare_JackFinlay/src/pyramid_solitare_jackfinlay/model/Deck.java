@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * The class representing Deck objects.
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -30,6 +31,11 @@ public class Deck {
         this.deck = newDeck;
     }
 
+    /**
+     * Returns the current deck as an ArrayList.
+     *
+     * @return The deck as an ArrayList.
+     */
     public ArrayList getDeckAsList() {
         return this.deck;
     }

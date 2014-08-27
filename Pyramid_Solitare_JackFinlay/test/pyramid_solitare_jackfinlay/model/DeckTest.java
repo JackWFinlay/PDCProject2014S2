@@ -1,12 +1,12 @@
 package pyramid_solitare_jackfinlay.model;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Tests for the Deck class.
  *
  * @author Jack Finlay ID: 1399273
  */

@@ -17,6 +17,7 @@ import pyramid_solitare_jackfinlay.model.ui.CUI;
 import static pyramid_solitare_jackfinlay.model.ui.CUI.scanner;
 
 /**
+ * Reads,maintains and writes the saved highscores file.
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -98,7 +99,7 @@ public final class HighScores {
             }
         } // Find if player beat a high score.
 
-        if (highScores.size() >= 10  || lowestIndex <= highScores.size() ) {
+        if (highScores.size() >= 10 || lowestIndex <= highScores.size()) {
             highScores.add(lowestIndex, currentPlayer);
             // Add player at index - index of 10 puts it at rank 11.
         } else {
@@ -106,7 +107,6 @@ public final class HighScores {
             // If there aren't 10 highscores and it doesn't beat any, 
             // stick on end of list.
         }
-        
 
         for (Score score : highScores) {
             score.setRank((highScores.indexOf(score)) + 1);

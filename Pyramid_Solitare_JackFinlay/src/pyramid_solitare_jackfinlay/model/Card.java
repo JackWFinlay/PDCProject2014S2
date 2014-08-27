@@ -5,9 +5,6 @@ package pyramid_solitare_jackfinlay.model;
  *
  * @author Jack Finlay ID: 1399273
  *
- * @version: 2014.07.30: Created - JF
- * @version: 2014.08.05: Updated to add symbolValue field and methods - JF
- * @version: 2014.08.22: Added setMatched() - JF
  */
 public class Card {
 
@@ -37,12 +34,12 @@ public class Card {
     public Card(CardSuits suit, int numericValue) {
         createCard(suit, numericValue, new Deck());
     }
-    
-    public Card(CardSuits suit, int numericValue, Deck source){
-        createCard(suit, numericValue, source );
+
+    public Card(CardSuits suit, int numericValue, Deck source) {
+        createCard(suit, numericValue, source);
     }
-    
-    public void createCard(CardSuits suit, int numericValue, Deck source){
+
+    public void createCard(CardSuits suit, int numericValue, Deck source) {
         this.numericValue = numericValue;
         this.symbolValue = suit.getSymbol();
         this.characterValue = suit.toString();
@@ -96,12 +93,12 @@ public class Card {
     public int getNumericValue() {
         return this.numericValue;
     }
-    
-    public Deck getSource(){
+
+    public Deck getSource() {
         return this.sourceDeck;
     }
-    
-    public void setSource(Deck source){
+
+    public void setSource(Deck source) {
         this.sourceDeck = source;
     }
 
