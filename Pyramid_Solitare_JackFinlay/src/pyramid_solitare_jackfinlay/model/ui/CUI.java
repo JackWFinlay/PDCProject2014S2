@@ -192,7 +192,7 @@ public class CUI {
             game.newBoard();
 
         } else {
-            System.out.println("Cannot reshuffle. Type exit to end game.");
+            System.out.println("Cannot reshuffle. Type 'Exit' to end game.");
         }
     }
     

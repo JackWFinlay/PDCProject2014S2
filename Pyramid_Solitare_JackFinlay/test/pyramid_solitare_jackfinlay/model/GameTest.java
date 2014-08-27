@@ -70,9 +70,7 @@ public class GameTest {
     public void testSetSelected() {
         // Create cards to test against
         Deck deck = new Deck();
-        
-        
-        
+
         Card card1 = new Card(CardSuits.CLUBS, 1);
         Card card2 = new Card(CardSuits.SPADES, 10);
 

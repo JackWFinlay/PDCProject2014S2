@@ -71,12 +71,12 @@ public class CardTest {
     public void testGetNumericValue() {
         Card[] cards = new Card[13];
 
-        for (int i = 1; i <= 12; i++) {
-            cards[i] = new Card(CardSuits.SPADES, (i + 1));
+        for (int i = 0; i <= 12; i++) {
+            cards[i] = new Card(CardSuits.SPADES, (i+1));
         }
 
-        for (int i = 1; i <= 12; i++) {
-            assertEquals(cards[i].getNumericValue(), (i + 1));
+        for (int i = 0; i <= 12; i++) {
+            assertEquals(cards[i].getNumericValue(), (i+1));
         }
 
     }
