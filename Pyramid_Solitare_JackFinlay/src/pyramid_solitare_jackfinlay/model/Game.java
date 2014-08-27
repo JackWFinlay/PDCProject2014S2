@@ -99,7 +99,8 @@ public final class Game {
      * Reprints the game board so that the game may continue.
      */
     public void continueGame() {
-
+        
+        
         this.board.printUI();
     }
 
@@ -137,6 +138,7 @@ public final class Game {
 
         if (card != null && !card.isPlayable()) {
             System.out.println("Card is not playable at this stage. Try another.");
+            card = null;
         } else if (card == null) { //card is null, i.e. Card ID is incorrect.
             System.out.println("Incorrect Card ID. Type help for information.");
         }

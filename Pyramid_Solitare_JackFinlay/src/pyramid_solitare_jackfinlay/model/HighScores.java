@@ -130,7 +130,7 @@ public final class HighScores {
 
         }
 
-        System.out.println("Type anything followed by the enter key to return...");
+        System.out.println("Press the enter key to return to menu...");
 
         scanner.nextLine();
         CUI.clearConsole();

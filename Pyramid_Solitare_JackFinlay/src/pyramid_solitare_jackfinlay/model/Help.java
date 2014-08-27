@@ -26,6 +26,7 @@ public class Help {
                 + "     The Card ID is the first letter of the suit followed by the face value of the card.\n"
                 + "     For example to select ♣A - The Ace of Clubs, 'Select CA', \n"
                 + "                  or ♠10 - Ten of Spades, 'Select S10'.");
+        System.out.println("'Unselect' - Deselects the first card selected.");
         System.out.println("'Draw' - Draws a new card to the top of the Pick-Up pile and places \n"
                 + "     the old top card on the top of the Waste pile.");
         System.out.println("'Shuffle' - Shuffle the deck and re-draw the board. Can be performed \n"

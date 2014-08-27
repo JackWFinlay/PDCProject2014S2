@@ -197,9 +197,9 @@ public class CUI {
 
     private void showHelp() {
         Help help = new Help();
-        System.out.println("Type anything followed by return to continue...");
+        System.out.println("Press return key to continue...");
 
-        String consumeBuffer = scanner.next();
+        String consumeBuffer = scanner.nextLine();
         game.continueGame();
     }
 }

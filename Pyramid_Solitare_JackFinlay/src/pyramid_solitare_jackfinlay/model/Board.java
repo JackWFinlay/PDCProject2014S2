@@ -127,15 +127,17 @@ public class Board {
             deck.removeCard(card);
             card.setSource(pickUp);
         }
-
-        pickUp.getCard(0).setPlayable(true);
+        
+        if (pickUp.getSize() >= 0) {
+            pickUp.getCard(0).setPlayable(true);
+        }
     }
 
     public void draw() {
 
-        if (pickUp.getSize() == 1) {
+        if (pickUp.getSize() <= 1) {
 
-            populatePickUpPile(getWaste());
+            populatePickUpPile(waste);
 
         } else {
 
@@ -192,6 +194,10 @@ public class Board {
         }
 
         System.out.println();
+
+        if (pickUp.getSize() == 0 && waste != null) {
+            populatePickUpPile(waste);
+        }
         System.out.println("Pickup: " + pickUp.getCard(0).getSymbolValue());
 
         if (getWaste() != null && waste.getSize() > 0) {
