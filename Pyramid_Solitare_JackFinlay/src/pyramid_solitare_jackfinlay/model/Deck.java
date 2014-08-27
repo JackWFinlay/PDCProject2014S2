@@ -23,7 +23,7 @@ public class Deck {
         //Populate deck. 
         for (int i = 0; i < 4; i++) {
             for (int j = 1; j <= 13; j++) {
-                newDeck.add(new Card(CardSuits.values()[i], j));
+                newDeck.add(new Card(CardSuits.values()[i], j, this));
             }
         }
 

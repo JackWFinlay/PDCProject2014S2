@@ -16,7 +16,7 @@ public final class Game {
     private Player player;
     private Board board;
     private Card selectedCard1, selectedCard2;
-    private Deck mainDeck, source1, source2;
+    private Deck mainDeck;
     private int shufflesRemaining;
 
     /**
@@ -81,21 +81,9 @@ public final class Game {
     public void setSelectedCard2(Card selectedCard2) {
         this.selectedCard2 = selectedCard2;
     }
-
-    public Deck getSource1() {
-        return source1;
-    }
-
-    public void setSource1(Deck source1) {
-        this.source1 = source1;
-    }
-
-    public Deck getSource2() {
-        return source2;
-    }
-
-    public void setSource2(Deck source2) {
-        this.source2 = source2;
+    
+    public Deck getMainDeck(){
+        return mainDeck;
     }
 
     /**
@@ -113,9 +101,7 @@ public final class Game {
      * Reprints the game board so that the game may continue.
      */
     public void continueGame() {
-        if (selectedCard2 != null) {
-            checkMatch(selectedCard1, selectedCard2);
-        }
+        
 
         this.board.printUI();
     }
@@ -125,7 +111,7 @@ public final class Game {
      *
      * @param cardName The name of the card to be selected.
      */
-    public void selectCard(String cardName) {
+    public Card selectCard(String cardName) {
 
         Card card = null;
         Deck source = new Deck();
@@ -152,66 +138,65 @@ public final class Game {
             }
         }
 
-        if (card != null && card.isPlayable()) {
-            setSelected(card, source);
-        } else if (card != null && !card.isPlayable()) {
+        if (card != null && !card.isPlayable()) {
             System.out.println("Card is not playable at this stage. Try another.");
-        } else { //card is null, i.e. Card ID is incorrect.
+        } else if (card == null) { //card is null, i.e. Card ID is incorrect.
             System.out.println("Incorrect Card ID. Type help for information.");
         }
-
+        
+        return card;
     }
 
     /**
      * Performs action of setting a card as selected.
      *
      * @param card The card to be set as selected.
-     * @param source The deck that that <i>card</i> came from.
      */
-    public void setSelected(Card card, Deck source) {
+    public void setSelected(Card card) {
 
         if (selectedCard1 == null) {
             selectedCard1 = card;
-            source1 = source;
             System.out.println("Selected card 1:" + card.getSymbolValue());
 
             if (card.getNumericValue() == 13) { //Card is a King.
                 selectedCard2 = new Card();
                 // Compare with card of value 0.
-                continueGame();
             }
 
         } else {
             selectedCard2 = card;
-            source2 = source;
-            System.out.println("Selected card 2:" + card.getSymbolValue());
-            continueGame();
+            System.out.println("Selected card 2:" + card.getSymbolValue()); 
         }
 
     }
-
+    
+    public boolean checkMatch(){
+        return checkMatch(selectedCard1,selectedCard2);
+    }
+    
     /**
      * Checks whether the cards passed to this method are a match.
      *
      * @param card1 A card to compare.
      * @param card2 The other card in the comparison.
+     * @return <code>true</code> if cards match to 13,
+     *         <code>false</code> if not.
      */
-    public void checkMatch(Card card1, Card card2) {
+    public boolean checkMatch(Card card1, Card card2) {
+        boolean match = false;
+        
         if ((card1.getNumericValue() + card2.getNumericValue()) == 13) {
-
-            card1.setMatched();
-            card2.setMatched();
 
             System.out.println("\nMatch!");
             getPlayer().increaseScore(CARD_MATCH_SCORE);
 
-            if (source1 != null) {
-                source1.removeCard(card1);
-            }
-            if (source2 != null) {
-                source2.removeCard(card2);
-
-            }
+            card1.getSource().removeCard(card1);
+            card2.getSource().removeCard(card2);
+            
+            card1.setMatched();
+            card2.setMatched();
+            
+            match = true;
 
         } else {
             System.out.println("\nNot a valid match, try again.");
@@ -223,6 +208,8 @@ public final class Game {
         if (board.getBoardDeck().getSize() == 0) {
             boardCleared();
         }
+        
+        return match;
     }
 
     /**

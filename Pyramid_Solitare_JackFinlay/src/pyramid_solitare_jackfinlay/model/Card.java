@@ -15,6 +15,7 @@ public class Card {
     private String characterValue;
 
     private int numericValue;
+    private Deck sourceDeck;
 
     private boolean playable = false;
     private boolean matched = false;
@@ -24,6 +25,7 @@ public class Card {
      */
     public Card() {
         this.numericValue = 0; //Empty card, basically.
+        this.sourceDeck = new Deck();
     }
 
     /**
@@ -33,9 +35,18 @@ public class Card {
      * @param numericValue The value of the card.
      */
     public Card(CardSuits suit, int numericValue) {
+        createCard(suit, numericValue, new Deck());
+    }
+    
+    public Card(CardSuits suit, int numericValue, Deck source){
+        createCard(suit, numericValue, source );
+    }
+    
+    public void createCard(CardSuits suit, int numericValue, Deck source){
         this.numericValue = numericValue;
         this.symbolValue = suit.getSymbol();
         this.characterValue = suit.toString();
+        this.sourceDeck = source;
 
         String value = "";
         if (numericValue > 10 || numericValue == 1) {
@@ -85,6 +96,14 @@ public class Card {
     public int getNumericValue() {
         return this.numericValue;
     }
+    
+    public Deck getSource(){
+        return this.sourceDeck;
+    }
+    
+    public void setSource(Deck source){
+        this.sourceDeck = source;
+    }
 
     /**
      * Returns whether a card is playable.
@@ -122,6 +141,7 @@ public class Card {
         this.numericValue = 0;
         this.matched = true;
         this.playable = false;
+        this.sourceDeck = null;
 
     }
 

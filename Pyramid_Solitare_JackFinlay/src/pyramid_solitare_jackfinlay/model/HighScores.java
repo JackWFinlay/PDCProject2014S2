@@ -21,6 +21,7 @@ import static pyramid_solitare_jackfinlay.model.ui.CUI.scanner;
  * @author Jack Finlay ID: 1399273
  */
 public final class HighScores {
+
     private static final String SCORES_FILE_LOCATION = "../Data/Scores.txt";
     private ArrayList<Score> highScores;
 
@@ -89,7 +90,7 @@ public final class HighScores {
     public void updateHighScores(Player player) {
         int lowestIndex = highScores.size();
         Score currentPlayer;
-        currentPlayer = new Score(0,player.getPlayerName(),player.getScore());
+        currentPlayer = new Score(0, player.getPlayerName(), player.getScore());
 
         for (int i = (highScores.size() - 1); i >= 0; i--) {
             if (currentPlayer.getScore() > highScores.get(i).getScore()) {
@@ -97,8 +98,15 @@ public final class HighScores {
             }
         } // Find if player beat a high score.
 
-        highScores.add(lowestIndex, currentPlayer);
-        // Add player at index - index of 10 puts it at rank 11.
+        if (highScores.size() >= 10  || lowestIndex <= highScores.size() ) {
+            highScores.add(lowestIndex, currentPlayer);
+            // Add player at index - index of 10 puts it at rank 11.
+        } else {
+            highScores.add(currentPlayer);
+            // If there aren't 10 highscores and it doesn't beat any, 
+            // stick on end of list.
+        }
+        
 
         for (Score score : highScores) {
             score.setRank((highScores.indexOf(score)) + 1);
@@ -122,9 +130,9 @@ public final class HighScores {
 
         }
 
-        System.out.println("Type anything to return...");
+        System.out.println("Type anything followed by the enter key to return...");
 
-        scanner.next();
+        scanner.nextLine();
         CUI.clearConsole();
         cui.menu();
     }

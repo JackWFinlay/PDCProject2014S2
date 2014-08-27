@@ -63,53 +63,76 @@ public class GameTest {
     }
 
     /**
-     * Test of selectCard method, of class Game.
+     * Test of setSelected method, of class Game.
      * Effectively also tests getSelectedCard methods.
      */
     @Test
-    public void testSelectCard() {
+    public void testSetSelected() {
         // Create cards to test against
         Deck deck = new Deck();
-        deck.createDeck();
         
-        Card card1 = new Card(CardSuits.CLUBS, 1);//TODO
+        
+        
+        Card card1 = new Card(CardSuits.CLUBS, 1);
         Card card2 = new Card(CardSuits.SPADES, 10);
 
         // Select the cards
-        game.selectCard("C1");
-        game.selectCard("S10");
+        game.setSelected(card1);
+        game.setSelected(card2);
         
         // Check cards were selected.
         assertEquals(game.getSelectedCard1(), card1);
         assertEquals(game.getSelectedCard2(), card2);
     }
 
-    /**
-     * Test of setSelected method, of class Game.
-     */
-    @Test
-    public void testSetSelected() {
-        System.out.println("setSelected");
-        Card card = null;
-        Deck source = null;
-        Game instance = new Game();
-        instance.setSelected(card, source);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of checkMatch method, of class Game.
      */
     @Test
     public void testCheckMatch() {
-        System.out.println("checkMatch");
-        Card card1 = null;
-        Card card2 = null;
-        Game instance = new Game();
-        instance.checkMatch(card1, card2);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Deck testDeck = new Deck();
+        
+        
+        // Card suit is irrelevant to match
+        Card card0 = new Card(); // Value of zero.
+        Card card1 = new Card(CardSuits.CLUBS, 1, testDeck);
+        Card card2 = new Card(CardSuits.CLUBS, 2, testDeck);
+        Card card3 = new Card(CardSuits.CLUBS, 3, testDeck);
+        Card card4 = new Card(CardSuits.CLUBS, 4, testDeck);
+        Card card5 = new Card(CardSuits.CLUBS, 5, testDeck);
+        Card card6 = new Card(CardSuits.CLUBS, 6, testDeck);
+        Card card7 = new Card(CardSuits.CLUBS, 7, testDeck);
+        Card card8 = new Card(CardSuits.CLUBS, 8, testDeck);
+        Card card9 = new Card(CardSuits.CLUBS, 9, testDeck);
+        Card card10 = new Card(CardSuits.CLUBS, 10, testDeck);
+        Card card11 = new Card(CardSuits.CLUBS, 11, testDeck);
+        Card card12 = new Card(CardSuits.CLUBS, 12, testDeck);
+        Card card13 = new Card(CardSuits.CLUBS, 13, testDeck);
+        
+        assertTrue(game.checkMatch(card1,card12));
+        assertTrue(game.checkMatch(card2,card11));
+        assertTrue(game.checkMatch(card3,card10));
+        assertTrue(game.checkMatch(card4,card9));
+        assertTrue(game.checkMatch(card5,card8));
+        assertTrue(game.checkMatch(card6,card7));
+        assertTrue(game.checkMatch(card13, card0));
+        
+        assertFalse(game.checkMatch(card1, card0));
+        assertFalse(game.checkMatch(card2, card0));
+        assertFalse(game.checkMatch(card3, card0));
+        assertFalse(game.checkMatch(card4, card0));
+        assertFalse(game.checkMatch(card5, card0));
+        assertFalse(game.checkMatch(card6, card0));
+        assertFalse(game.checkMatch(card7, card0));
+        assertFalse(game.checkMatch(card8, card0));
+        assertFalse(game.checkMatch(card9, card0));
+        assertFalse(game.checkMatch(card10, card0));
+        assertFalse(game.checkMatch(card11, card0));
+        assertFalse(game.checkMatch(card12, card0));
+        assertFalse(game.checkMatch(card13, card1));
+        
+        
     }
 
 }

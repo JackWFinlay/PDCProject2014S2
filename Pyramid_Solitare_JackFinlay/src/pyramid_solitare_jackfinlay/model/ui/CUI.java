@@ -2,9 +2,11 @@ package pyramid_solitare_jackfinlay.model.ui;
 
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import pyramid_solitare_jackfinlay.model.Player;
+import pyramid_solitare_jackfinlay.model.Card;
 import pyramid_solitare_jackfinlay.model.Game;
+import pyramid_solitare_jackfinlay.model.Help;
 import pyramid_solitare_jackfinlay.model.HighScores;
+import pyramid_solitare_jackfinlay.model.Player;
 
 /**
  *
@@ -14,8 +16,9 @@ public class CUI {
 
     public static Scanner scanner = new Scanner(System.in);
     public static Game game;
-    
-    public CUI(){}
+
+    public CUI() {
+    }
 
     public void menu() {
         String input;
@@ -31,7 +34,7 @@ public class CUI {
             boolean validInput = false;
 
             while (!validInput) { // Check that the input is an integer
-                System.out.print("\nEnter a selection. \n > ");
+                System.out.print("\nEnter a selection (number) \n > ");
 
                 input = scanner.nextLine();
 
@@ -111,65 +114,93 @@ public class CUI {
         command = command.toLowerCase();
 
         if (command.equals("help")) {
-
+            
             showHelp();
         } else if (command.equals("exit")) {
-
-            System.out.print("Are you sure? (Y/N)\n> ");
-            command = scanner.nextLine();
-            if (command.equalsIgnoreCase("Y")) {
-                System.out.println("Final Score: "
-                        + game.getPlayer().getScore());
-
-                HighScores hs = new HighScores();
-                hs.updateHighScores(game.getPlayer());
-                hs.writeScoreFile();
-
-                menu();
-
-            } else {
-
-                game.continueGame();
-            }
-
+            
+            showExit();
         } else if (command.startsWith("select")) {
-
-            StringTokenizer tokenizer = new StringTokenizer(command, " ");
-            tokenizer.nextToken();
-
-            if (tokenizer.hasMoreTokens()) { // Check card name is presesnt
-
-                String card = tokenizer.nextToken();
-                game.selectCard(card);
-
-            } else {
-                System.out.println("Select command requires a card name.");
-            }
-   
+            
+            showSelect(command);
         } else if (command.equals("unselect")) {
+
             System.out.println("Card unselected.");
             game.setSelectedCard1(null);
-            game.setSource1(null);
+
         } else if (command.equals("draw")) {
+
             game.getBoard().draw();
             game.continueGame();
+
         } else if (command.equals("shuffle")) {
 
-            if (game.getShufflesRemaining() > 0) {
-
-                game.decrementShufflesRemaining();
-                game.newBoard();
-
-            } else {
-                System.out.println("Cannot reshuffle. Type exit to end game.");
-            }
-
+            showShuffle();
         } else {
             System.out.println("Invalid input. Try again.");
         }
     }
 
+    
+
+    private void showExit() {
+        System.out.print("Are you sure? (Y/N)\n> ");
+        String command = scanner.nextLine();
+
+        if (command.equalsIgnoreCase("Y")) {
+            System.out.println("Final Score: "
+                    + game.getPlayer().getScore());
+            System.out.println("");
+            HighScores hs = new HighScores();
+            hs.updateHighScores(game.getPlayer());
+            hs.writeScoreFile();
+            hs.printHighScores();
+
+            menu();
+
+        } else {
+            game.continueGame();
+        }
+    }
+
+    private void showSelect(String command) {
+        StringTokenizer tokenizer = new StringTokenizer(command, " ");
+        tokenizer.nextToken();
+
+        if (tokenizer.hasMoreTokens()) { // Check card name is presesnt
+
+            String card = tokenizer.nextToken();
+            Card selectedCard = game.selectCard(card);
+
+            if (selectedCard != null) {
+                game.setSelected(selectedCard);
+            }
+
+        } else {
+            System.out.println("Select command requires a card name.");
+        }
+
+        if (game.getSelectedCard2() != null) {
+            game.checkMatch();
+            game.continueGame();
+        }
+    }
+
+    private void showShuffle() {
+        if (game.getShufflesRemaining() > 0) {
+
+            game.decrementShufflesRemaining();
+            game.newBoard();
+
+        } else {
+            System.out.println("Cannot reshuffle. Type exit to end game.");
+        }
+    }
+    
     private void showHelp() {
-        System.out.println("Placeholder help screen.");
+        Help help = new Help();
+        System.out.println("Type anything followed by return to continue...");
+        
+        String consumeBuffer = scanner.next();
+        game.continueGame();
     }
 }
