@@ -136,7 +136,7 @@ public final class Game {
             }
         }
 
-        if (card != null && !card.isPlayable()) {
+        if (card != null && (!card.isPlayable() || card.isMatched())) {
             System.out.println("Card is not playable at this stage. Try another.");
             card = null;
         } else if (card == null) { //card is null, i.e. Card ID is incorrect.
@@ -161,6 +161,8 @@ public final class Game {
                 selectedCard2 = new Card();
                 // Compare with card of value 0.
             }
+            
+            
 
         } else {
             selectedCard2 = card;
@@ -204,7 +206,7 @@ public final class Game {
         selectedCard1 = null;
         selectedCard2 = null;
 
-        if (board.getBoardDeck().getSize() == 0) {
+        if (board.getBoard()[0][0].isMatched()) {
             boardCleared();
         }
 
