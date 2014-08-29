@@ -6,6 +6,10 @@ package pyramid_solitare_jackfinlay.model;
  * @author Jack Finlay ID: 1399273
  */
 public class Help {
+    
+    /**
+     * Prints the help text.
+     */
     public Help(){
         System.out.println(" --HELP--");
         System.out.println("The objective of the game is to clear as many 'Boards' as you can. \n"
@@ -33,6 +37,6 @@ public class Help {
         System.out.println("'Shuffle' - Shuffle the deck and re-draw the board. Can be performed \n"
                 + "     twice per game.");
         System.out.println("'Exit' - Exits the game and saves score if it is a High Score. \n");
-        
+        // Will upgrade to read from a text file in next version.
     }
 }

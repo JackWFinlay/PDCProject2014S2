@@ -12,9 +12,20 @@ public class Board {
     private Game game;
     private Player player;
 
+    /**
+     * The default constructor of this class.
+     */
     public Board() {
     }
 
+    /**
+     * The preferred constructor for this class. Sets up the game decks and game
+     * board.
+     *
+     * @param game The current instance of Game
+     * @param player The current player.
+     * @param deck A deck to populate the game board with.
+     */
     public Board(Game game, Player player, Deck deck) {
 
         this.game = game;
@@ -47,28 +58,28 @@ public class Board {
     }
 
     /**
-     * @return the pickUp
+     * @return the pickUp deck
      */
     public Deck getPickUp() {
         return pickUp;
     }
 
     /**
-     * @param pickUp the pickUp to set
+     * @param pickUp The deck to set pickup to.
      */
     public void setPickUp(Deck pickUp) {
         this.pickUp = pickUp;
     }
 
     /**
-     * @return the waste
+     * @return the waste deck.
      */
     public Deck getWaste() {
         return waste;
     }
 
     /**
-     * @param waste the waste to set
+     * @param waste the deck to set waste to.
      */
     public void setWaste(Deck waste) {
         this.waste = waste;
@@ -87,8 +98,14 @@ public class Board {
     public void setBoard(Card[][] board) {
         this.board = board;
     }
+
     // </editor-fold>
 
+    /**
+     * Sets up a 2D array to store the cards in the pyramid arrangement.
+     *
+     * @return An array representing the card pyramid.
+     */
     private Card[][] createBoard() {
         Card[][] newBoard = new Card[7][];
 
@@ -103,6 +120,11 @@ public class Board {
         return newBoard;
     }
 
+    /**
+     * Fills the pyramid array with cards.
+     *
+     * @param deck The deck to populate the board with.
+     */
     private void populateBoard(Deck deck) {
 
         for (Card[] row : getBoard()) {
@@ -119,6 +141,9 @@ public class Board {
         }
     }
 
+    /**
+     * Populates the pick-up pile with the remaining cards of deck.
+     */
     private void populatePickUpPile(Deck deck) {
         while (deck.getSize() > 0) {
             Card card = deck.getCard(0);
@@ -127,16 +152,20 @@ public class Board {
             deck.removeCard(card);
             card.setSource(pickUp);
         }
-        
+
         if (pickUp.getSize() >= 0) {
             pickUp.getCard(0).setPlayable(true);
         }
     }
 
+    /**
+     * Moves a card from the top of the pick-up pile to the top of the waste
+     * pile.
+     */
     public void draw() {
 
         if (pickUp.getSize() <= 1) {
-
+            // Moves the waste pile to the pick-up pile when pick-up is empty.
             populatePickUpPile(waste);
 
         } else {
@@ -157,11 +186,15 @@ public class Board {
 
         }
 
+        // Clears the currently selected cards as only the top cards can be used.
         game.setSelectedCard1(null);
         game.setSelectedCard2(null);
 
     }
 
+    /**
+     * Sets up and prints the game board.
+     */
     public void printUI() {
 
         System.out.println("Player: " + player.getPlayerName()
@@ -206,6 +239,10 @@ public class Board {
         }
     }
 
+    /**
+     * Modifies card's playable field, tracking what is playable after each
+     * move.
+     */
     private void setPlayableCardsOnBoard() {
 
         for (int i = 0; i < 6; i++) { // Check every row except row 6.
@@ -225,10 +262,6 @@ public class Board {
         if (getWaste() != null && waste.getSize() > 0) {
             waste.getCard(0).setPlayable(true);
         }
-    }
-
-    public Deck getBoardDeck() {
-        return boardDeck;
     }
 
 }

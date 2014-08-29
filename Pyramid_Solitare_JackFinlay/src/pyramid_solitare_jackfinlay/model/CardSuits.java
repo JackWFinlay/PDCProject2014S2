@@ -22,6 +22,10 @@ public enum CardSuits {
         return suit;
     }
 
+    /**
+     * Returns the symbol for a card's suit.
+     * @return The symbol of the card's suit.
+     */
     public String getSymbol() {
         return symbol;
     }

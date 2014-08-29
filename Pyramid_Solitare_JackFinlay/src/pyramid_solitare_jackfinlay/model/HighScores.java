@@ -17,7 +17,7 @@ import pyramid_solitare_jackfinlay.model.ui.CUI;
 import static pyramid_solitare_jackfinlay.model.ui.CUI.scanner;
 
 /**
- * Reads,maintains and writes the saved highscores file.
+ * Reads, maintains, and writes the saved high scores file.
  *
  * @author Jack Finlay ID: 1399273
  */
@@ -26,12 +26,18 @@ public final class HighScores {
     private static final String SCORES_FILE_LOCATION = "../Data/Scores.txt";
     private ArrayList<Score> highScores;
 
+    /**
+     * Constructor to set up HighScores instance.
+     */
     public HighScores() {
         highScores = new ArrayList();
         readScoreFile();
     }
-
-    public void readScoreFile() {
+    
+    /**
+     * Reads the score file stored in the .jar file.
+     */
+    private void readScoreFile() {
 
         try {
 
@@ -59,35 +65,12 @@ public final class HighScores {
         } catch (IOException ex) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
-    public void writeScoreFile() {
-        PrintWriter output = null;
-
-        URL url = getClass().getResource(SCORES_FILE_LOCATION);
-
-        try {
-            output = new PrintWriter(new FileOutputStream(url.getPath()));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (output != null) {
-
-            for (Score score : highScores) {
-                int rank = score.getRank();
-                int playerScore = score.getScore();
-                String name = score.getPlayerName();
-
-                String outputLine = (rank + "," + playerScore + "," + name);
-                output.println(outputLine);
-            }
-
-            output.close();
-        }
-    }
-
+    /**
+     * Updates the current score roster.
+     * @param player The current player.
+     */
     public void updateHighScores(Player player) {
         int lowestIndex = highScores.size();
         Score currentPlayer;
@@ -116,7 +99,39 @@ public final class HighScores {
             highScores.remove(10); // Remove score at rank 11.
         }
     }
+    
+    /**
+     * Writes the current high score list to a .txt file.
+     */
+    public void writeScoreFile() {
+        PrintWriter output = null;
 
+        URL url = getClass().getResource(SCORES_FILE_LOCATION);
+
+        try {
+            output = new PrintWriter(new FileOutputStream(url.getPath()));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (output != null) {
+
+            for (Score score : highScores) {
+                int rank = score.getRank();
+                int playerScore = score.getScore();
+                String name = score.getPlayerName();
+
+                String outputLine = (rank + "," + playerScore + "," + name);
+                output.println(outputLine);
+            }
+
+            output.close();
+        }
+    }
+
+    /**
+     * Prints the current high score list to the console.
+     */
     public void printHighScores() {
 
         System.out.println("Rank   Name        Score");
@@ -131,8 +146,8 @@ public final class HighScores {
         }
 
         System.out.println("Press the enter key to return to menu...");
-
-        scanner.nextLine();
+        scanner.nextLine(); // Clear scanner buffer.
+        
         CUI.clearConsole();
         cui.menu();
     }

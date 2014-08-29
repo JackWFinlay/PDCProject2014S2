@@ -10,8 +10,9 @@ public class Card {
 
     private String symbolValue;
     private String characterValue;
-
+    
     private int numericValue;
+    
     private Deck sourceDeck;
 
     private boolean playable = false;
@@ -24,22 +25,14 @@ public class Card {
         this.numericValue = 0; //Empty card, basically.
         this.sourceDeck = new Deck();
     }
-
+    
     /**
      * Constructor for building valid cards.
      *
      * @param suit The suit of the card.
      * @param numericValue The value of the card.
      */
-    public Card(CardSuits suit, int numericValue) {
-        createCard(suit, numericValue, new Deck());
-    }
-
     public Card(CardSuits suit, int numericValue, Deck source) {
-        createCard(suit, numericValue, source);
-    }
-
-    public void createCard(CardSuits suit, int numericValue, Deck source) {
         this.numericValue = numericValue;
         this.symbolValue = suit.getSymbol();
         this.characterValue = suit.toString();
@@ -66,6 +59,7 @@ public class Card {
             this.characterValue += (String.valueOf(numericValue) + "");
         }
     }
+
 
     /**
      * Returns the symbol value of a card for display.
@@ -94,10 +88,17 @@ public class Card {
         return this.numericValue;
     }
 
+    /**
+     * @return The source deck of this card.
+     */
     public Deck getSource() {
         return this.sourceDeck;
     }
 
+    /**
+     * Sets the source deck of this card.
+     * @param source The deck to set this card's source as.
+     */
     public void setSource(Deck source) {
         this.sourceDeck = source;
     }

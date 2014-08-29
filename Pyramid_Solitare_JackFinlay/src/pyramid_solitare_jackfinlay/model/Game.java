@@ -29,8 +29,8 @@ public final class Game {
      * @param player The player.
      */
     public Game(Player player) {
-        selectedCard1 = null;
-        selectedCard2 = null;
+        this.selectedCard1 = null;
+        this.selectedCard2 = null;
         this.player = player;
         this.shufflesRemaining = START_SHUFFLE_COUNT;
 
@@ -99,15 +99,14 @@ public final class Game {
      * Reprints the game board so that the game may continue.
      */
     public void continueGame() {
-        
-        
-        this.board.printUI();
+        board.printUI();
     }
 
     /**
      * Finds the location of a card and sets it as selected.
      *
      * @param cardName The name of the card to be selected.
+     * @return The card that was selected.
      */
     public Card selectCard(String cardName) {
 
@@ -161,8 +160,6 @@ public final class Game {
                 selectedCard2 = new Card();
                 // Compare with card of value 0.
             }
-            
-            
 
         } else {
             selectedCard2 = card;
@@ -171,17 +168,13 @@ public final class Game {
 
     }
 
-    public boolean checkMatch() {
-        return checkMatch(selectedCard1, selectedCard2);
-    }
-
     /**
      * Checks whether the cards passed to this method are a match.
      *
      * @param card1 A card to compare.
      * @param card2 The other card in the comparison.
-     * @return <code>true</code> if cards match to 13, <code>false</code> if
-     * not.
+     * @return <code>true</code> if cards match to 13, 
+     *         <code>false</code> if not.
      */
     public boolean checkMatch(Card card1, Card card2) {
         boolean match = false;
@@ -207,6 +200,7 @@ public final class Game {
         selectedCard2 = null;
 
         if (board.getBoard()[0][0].isMatched()) {
+            // The last card in the board was cleared.
             boardCleared();
         }
 
