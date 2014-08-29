@@ -173,8 +173,8 @@ public final class Game {
      *
      * @param card1 A card to compare.
      * @param card2 The other card in the comparison.
-     * @return <code>true</code> if cards match to 13, 
-     *         <code>false</code> if not.
+     * @return <code>true</code> if cards match to 13, <code>false</code> if
+     * not.
      */
     public boolean checkMatch(Card card1, Card card2) {
         boolean match = false;
@@ -213,11 +213,10 @@ public final class Game {
     private void boardCleared() {
 
         System.out.println("\n\nBoard Cleared!");
-        
+
         getPlayer().increaseScore(BOARD_CLEAR_SCORE);
         getPlayer().incrementBoardsCount();
         newBoard();
-        
 
     }
 

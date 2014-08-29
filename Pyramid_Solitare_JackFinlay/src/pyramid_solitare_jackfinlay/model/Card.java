@@ -10,9 +10,9 @@ public class Card {
 
     private String symbolValue;
     private String characterValue;
-    
+
     private int numericValue;
-    
+
     private Deck sourceDeck;
 
     private boolean playable = false;
@@ -25,7 +25,7 @@ public class Card {
         this.numericValue = 0; //Empty card, basically.
         this.sourceDeck = new Deck();
     }
-    
+
     /**
      * Constructor for building valid cards.
      *
@@ -59,7 +59,6 @@ public class Card {
             this.characterValue += (String.valueOf(numericValue) + "");
         }
     }
-
 
     /**
      * Returns the symbol value of a card for display.
@@ -97,6 +96,7 @@ public class Card {
 
     /**
      * Sets the source deck of this card.
+     *
      * @param source The deck to set this card's source as.
      */
     public void setSource(Deck source) {

@@ -33,7 +33,7 @@ public final class HighScores {
         highScores = new ArrayList();
         readScoreFile();
     }
-    
+
     /**
      * Reads the score file stored in the .jar file.
      */
@@ -69,6 +69,7 @@ public final class HighScores {
 
     /**
      * Updates the current score roster.
+     *
      * @param player The current player.
      */
     public void updateHighScores(Player player) {
@@ -99,7 +100,7 @@ public final class HighScores {
             highScores.remove(10); // Remove score at rank 11.
         }
     }
-    
+
     /**
      * Writes the current high score list to a .txt file.
      */
@@ -147,7 +148,7 @@ public final class HighScores {
 
         System.out.println("Press the enter key to return to menu...");
         scanner.nextLine(); // Clear scanner buffer.
-        
+
         CUI.clearConsole();
         cui.menu();
     }

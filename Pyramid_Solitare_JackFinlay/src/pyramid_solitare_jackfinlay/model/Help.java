@@ -2,22 +2,22 @@ package pyramid_solitare_jackfinlay.model;
 
 /**
  * Stores the help text.
- * 
+ *
  * @author Jack Finlay ID: 1399273
  */
 public class Help {
-    
+
     /**
      * Prints the help text.
      */
-    public Help(){
+    public Help() {
         System.out.println(" --HELP--");
         System.out.println("The objective of the game is to clear as many 'Boards' as you can. \n"
                 + "The Board is the pyramid shaped arrangement of cards. You can only play the cards \n"
                 + "which have had both cards below them matched. A match is made when the value of two \n"
                 + "selected cards adds to 13. The value of the face cards are: Ace - 1, Jack - 11, \n"
                 + "Queen - 12, King - 13. Kings can be removed directly i.e. they do not have to matched\n"
-                + "to another card.\n"); 
+                + "to another card.\n");
         System.out.println("A match can be made between any of: the Board, the Pick-Up pile, \n"
                 + "or the Waste pile. When a card is drawn from the Pick-up pile, it is moved to the\n"
                 + "top of the Waste pile.\n");

@@ -48,7 +48,7 @@ public class Deck {
 
     /**
      * Shuffles the specified deck.
-     * 
+     *
      * @param deck The deck to be shuffled.
      * @return The shuffled deck.
      */
@@ -59,7 +59,7 @@ public class Deck {
 
     /**
      * Adds a card to the start of the deck.
-     * 
+     *
      * @param card The card to be added to this deck.
      */
     public void addCard(Card card) {
@@ -70,6 +70,7 @@ public class Deck {
 
     /**
      * Removes the specified card from the deck.
+     *
      * @param card The card to be removed.
      */
     public void removeCard(Card card) {
@@ -78,6 +79,7 @@ public class Deck {
 
     /**
      * Returns the card from the specified index.
+     *
      * @param index The index to get the card from.
      * @return The requested card.
      */

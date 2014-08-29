@@ -121,7 +121,7 @@ public class CUI {
 
     /**
      * Parses and executes the commands entered by the player.
-     * 
+     *
      * @param command The command to be interpreted.
      */
     public void commandInterpretter(String command) {
@@ -180,6 +180,7 @@ public class CUI {
 
     /**
      * Handles tasks related to the 'Select' command.
+     *
      * @param command The command string to read the card name from.
      */
     private void showSelect(String command) {
@@ -200,7 +201,7 @@ public class CUI {
         }
 
         if (game.getSelectedCard2() != null) {
-            game.checkMatch(game.getSelectedCard1(),game.getSelectedCard2());
+            game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2());
             game.continueGame();
         }
     }
@@ -224,10 +225,10 @@ public class CUI {
      */
     private void showHelp() {
         Help help = new Help();
-        
+
         System.out.println("Press return key to continue...");
         String consumeBuffer = scanner.nextLine();
-        
+
         game.continueGame();
     }
 }
