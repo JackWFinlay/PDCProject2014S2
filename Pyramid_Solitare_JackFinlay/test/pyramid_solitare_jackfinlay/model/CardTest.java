@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 public class CardTest {
 
     private static Card card1, card2;
+    private Deck deck;
 
     public CardTest() {
     }
@@ -21,6 +22,7 @@ public class CardTest {
     public void setUp() {
         card1 = new Card();
         card2 = new Card();
+        deck = new Deck();
     }
 
     @After
@@ -34,15 +36,15 @@ public class CardTest {
      */
     @Test
     public void testGetSymbolValue() {
-        card1 = new Card(CardSuits.SPADES, 1);
-        card2 = new Card(CardSuits.CLUBS, 2);
+        card1 = new Card(CardSuits.SPADES, 1, deck);
+        card2 = new Card(CardSuits.CLUBS, 2, deck);
         assertEquals(card1.getSymbolValue(), "♠A");
         assertEquals(card2.getSymbolValue(), "♣2");
-        card1 = new Card(CardSuits.HEARTS, 11);
-        card2 = new Card(CardSuits.DIAMONDS, 12);
+        card1 = new Card(CardSuits.HEARTS, 11, deck);
+        card2 = new Card(CardSuits.DIAMONDS, 12, deck);
         assertEquals(card1.getSymbolValue(), "♥J");
         assertEquals(card2.getSymbolValue(), "♦Q");
-        card1 = new Card(CardSuits.HEARTS, 13);
+        card1 = new Card(CardSuits.HEARTS, 13, deck);
         assertEquals(card1.getSymbolValue(), "♥K");
 
     }
@@ -52,15 +54,15 @@ public class CardTest {
      */
     @Test
     public void testGetCharacterValue() {
-        card1 = new Card(CardSuits.SPADES, 1);
-        card2 = new Card(CardSuits.CLUBS, 2);
+        card1 = new Card(CardSuits.SPADES, 1, deck);
+        card2 = new Card(CardSuits.CLUBS, 2, deck);
         assertEquals(card1.getCharacterValue(), "SA");
         assertEquals(card2.getCharacterValue(), "C2");
-        card1 = new Card(CardSuits.HEARTS, 11);
-        card2 = new Card(CardSuits.DIAMONDS, 12);
+        card1 = new Card(CardSuits.HEARTS, 11, deck);
+        card2 = new Card(CardSuits.DIAMONDS, 12, deck);
         assertEquals(card1.getCharacterValue(), "HJ");
         assertEquals(card2.getCharacterValue(), "DQ");
-        card1 = new Card(CardSuits.HEARTS, 13);
+        card1 = new Card(CardSuits.HEARTS, 13, deck);
         assertEquals(card1.getCharacterValue(), "HK");
 
     }
@@ -73,7 +75,7 @@ public class CardTest {
         Card[] cards = new Card[13];
 
         for (int i = 0; i <= 12; i++) {
-            cards[i] = new Card(CardSuits.SPADES, (i + 1));
+            cards[i] = new Card(CardSuits.SPADES, (i + 1), deck);
         }
 
         for (int i = 0; i <= 12; i++) {

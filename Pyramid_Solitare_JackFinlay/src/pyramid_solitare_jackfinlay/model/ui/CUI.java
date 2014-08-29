@@ -18,9 +18,15 @@ public class CUI {
     public static Scanner scanner = new Scanner(System.in);
     public static Game game;
 
+    /**
+     * The default constructor.
+     */
     public CUI() {
     }
 
+    /**
+     * Prints the menu and manages menu related activities.
+     */
     public void menu() {
         String input;
         int selection = 0;
@@ -71,6 +77,9 @@ public class CUI {
         }
     }
 
+    /**
+     * Sets up a new game and runs it.
+     */
     public void newGame() {
         String playerName;
         String input;
@@ -110,6 +119,11 @@ public class CUI {
         } //Simpler than implementing platform specific console clears.
     }
 
+    /**
+     * Parses and executes the commands entered by the player.
+     * 
+     * @param command The command to be interpreted.
+     */
     public void commandInterpretter(String command) {
 
         command = command.toLowerCase();
@@ -141,6 +155,9 @@ public class CUI {
         }
     }
 
+    /**
+     * Prompts confirmation to exit and prints out high scores.
+     */
     private void showExit() {
         System.out.print("Are you sure? (Y/N)\n> ");
         String command = scanner.nextLine();
@@ -161,6 +178,10 @@ public class CUI {
         }
     }
 
+    /**
+     * Handles tasks related to the 'Select' command.
+     * @param command The command string to read the card name from.
+     */
     private void showSelect(String command) {
         StringTokenizer tokenizer = new StringTokenizer(command, " ");
         tokenizer.nextToken();
@@ -179,11 +200,14 @@ public class CUI {
         }
 
         if (game.getSelectedCard2() != null) {
-            game.checkMatch();
+            game.checkMatch(game.getSelectedCard1(),game.getSelectedCard2());
             game.continueGame();
         }
     }
 
+    /**
+     * Handles tasks related to the 'Shuffle' command.
+     */
     private void showShuffle() {
         if (game.getShufflesRemaining() > 0) {
 
@@ -195,11 +219,15 @@ public class CUI {
         }
     }
 
+    /**
+     * Handles tasks related to the 'help' command.
+     */
     private void showHelp() {
         Help help = new Help();
+        
         System.out.println("Press return key to continue...");
-
         String consumeBuffer = scanner.nextLine();
+        
         game.continueGame();
     }
 }

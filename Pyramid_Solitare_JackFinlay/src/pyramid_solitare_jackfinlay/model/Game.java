@@ -213,10 +213,11 @@ public final class Game {
     private void boardCleared() {
 
         System.out.println("\n\nBoard Cleared!");
-
-        newBoard();
+        
         getPlayer().increaseScore(BOARD_CLEAR_SCORE);
         getPlayer().incrementBoardsCount();
+        newBoard();
+        
 
     }
 

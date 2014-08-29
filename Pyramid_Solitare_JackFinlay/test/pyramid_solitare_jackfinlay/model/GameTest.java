@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import pyramid_solitare_jackfinlay.*; 
+//Prevents some test errors. No idea why as it is in the same package.
+
 /**
  * Tests for the Game class.
  *
@@ -14,6 +17,7 @@ public class GameTest {
 
     private Game game;
     private Player player;
+    private Deck deck;
 
     public GameTest() {
     }
@@ -22,6 +26,7 @@ public class GameTest {
     public void setUp() {
         player = new Player("Player");
         game = new Game(player);
+        deck = new Deck();
     }
 
     @After
@@ -42,7 +47,6 @@ public class GameTest {
     /**
      * Test of decrementShufflesRemaining method, of class Game. Effectively
      * also tests getShufflesRemaining().
-     *
      */
     @Test
     public void testDecrementShufflesRemaining() {
@@ -72,8 +76,8 @@ public class GameTest {
         // Create cards to test against
         Deck deck = new Deck();
 
-        Card card1 = new Card(CardSuits.CLUBS, 1);
-        Card card2 = new Card(CardSuits.SPADES, 10);
+        Card card1 = new Card(CardSuits.CLUBS, 1, deck);
+        Card card2 = new Card(CardSuits.SPADES, 10, deck);
 
         // Select the cards
         game.setSelected(card1);
