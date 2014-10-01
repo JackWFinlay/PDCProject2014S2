@@ -1,5 +1,9 @@
 package pyramid_solitare_jackfinlay.model;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
 /**
  * Represents a card object in the game.
  *
@@ -17,6 +21,8 @@ public class Card {
 
     private boolean playable = false;
     private boolean matched = false;
+
+    private BufferedImage cardImage;
 
     /**
      * Default constructor. Creates cards with no value.
@@ -57,6 +63,13 @@ public class Card {
         } else {
             this.symbolValue += (String.valueOf(numericValue) + "");
             this.characterValue += (String.valueOf(numericValue) + "");
+        }
+
+        try {
+            String imagePath = ("../Images/" + this.characterValue + ".png");
+            this.cardImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
+        } catch (Exception e) {
+            System.out.println("Something broke re: getting card images in card class.");
         }
     }
 
@@ -101,6 +114,10 @@ public class Card {
      */
     public void setSource(Deck source) {
         this.sourceDeck = source;
+    }
+    
+    public BufferedImage getCardImage(){
+        return this.cardImage;
     }
 
     /**

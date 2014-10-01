@@ -1,35 +1,71 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
+import java.awt.GridLayout;
+import javax.swing.JPanel;
+import pyramid_solitare_jackfinlay.model.Card;
 import pyramid_solitare_jackfinlay.model.Game;
 
 /**
  * The view and controller for the GUI version of the game.
- * 
+ *
  * @author Jack Finlay ID: 1399273
  */
 public class GUI extends javax.swing.JFrame {
+
     private Game game;
-    
+    private CardGridPanel[][] cardGridPanelArray;
+
     /**
      * Default constructor
      */
     public GUI() {
     }
-    
+
     /**
      * Initializes the game GUI
-     * 
+     *
      * @param game The current game.
      */
-    public GUI( Game game ) {
+    public GUI(Game game) {
         this.game = game;
         initComponents();
-        
+
         update();
     }
-    
-    public void update(){
-        playerNameLabel.setText( game.getPlayer().getPlayerName() );
+
+    public void update() {
+        playerNameLabel.setText(game.getPlayer().getPlayerName());
+        drawCardGrid();
+    }
+
+    private void drawCardGrid() {
+        int rows = 7;
+        int columns = 13;
+
+        boardPanel.removeAll();
+        boardPanel.setLayout(new GridLayout(rows, columns));
+        cardGridPanelArray = new CardGridPanel[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                // Created panel for a sector and adds it to the UI.
+                CardGridPanel cardGridPanel = new CardGridPanel(null);
+                boardPanel.add(cardGridPanel);
+                cardGridPanelArray[i][j] = cardGridPanel;
+            }
+        }
+
+        Card[][] board = game.getBoard().getBoard();
+
+        cardGridPanelArray[0][6] = new CardGridPanel(board[0][0]);
+
+        cardGridPanelArray[1][5] = new CardGridPanel(board[1][0]);
+        cardGridPanelArray[1][7] = new CardGridPanel(board[1][1]);
+
+        cardGridPanelArray[2][4] = new CardGridPanel(board[2][0]);
+        cardGridPanelArray[2][6] = new CardGridPanel(board[2][1]);
+        cardGridPanelArray[2][8] = new CardGridPanel(board[2][2]);
+
     }
 
     /**
@@ -46,6 +82,7 @@ public class GUI extends javax.swing.JFrame {
         playerNameLabel = new javax.swing.JLabel();
         scoreLabel = new javax.swing.JLabel();
         scoreValueLabel = new javax.swing.JLabel();
+        boardPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newGameMenuItem = new javax.swing.JMenuItem();
@@ -75,22 +112,37 @@ public class GUI extends javax.swing.JFrame {
         scoreValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         scoreValueLabel.setText("0");
 
+        javax.swing.GroupLayout boardPanelLayout = new javax.swing.GroupLayout(boardPanel);
+        boardPanel.setLayout(boardPanelLayout);
+        boardPanelLayout.setHorizontalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        boardPanelLayout.setVerticalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 420, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout gamePanelLayout = new javax.swing.GroupLayout(gamePanel);
         gamePanel.setLayout(gamePanelLayout);
         gamePanelLayout.setHorizontalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gamePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(gamePanelLayout.createSequentialGroup()
-                        .addComponent(playerLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(playerNameLabel))
-                    .addGroup(gamePanelLayout.createSequentialGroup()
-                        .addComponent(scoreLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scoreValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(687, Short.MAX_VALUE))
+                        .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(gamePanelLayout.createSequentialGroup()
+                                .addComponent(playerLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(playerNameLabel))
+                            .addGroup(gamePanelLayout.createSequentialGroup()
+                                .addComponent(scoreLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(scoreValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 677, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         gamePanelLayout.setVerticalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +155,9 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(scoreLabel)
                     .addComponent(scoreValueLabel))
-                .addContainerGap(535, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         fileMenu.setText("File");
@@ -183,6 +237,7 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JPanel boardPanel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel gamePanel;

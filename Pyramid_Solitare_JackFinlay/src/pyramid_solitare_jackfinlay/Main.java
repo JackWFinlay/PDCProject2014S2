@@ -1,6 +1,9 @@
 package pyramid_solitare_jackfinlay;
 
-import pyramid_solitare_jackfinlay.model.ui.CUI;
+import javax.swing.JOptionPane;
+import pyramid_solitare_jackfinlay.model.Game;
+import pyramid_solitare_jackfinlay.model.Player;
+import pyramid_solitare_jackfinlay.model.ui.GUI;
 
 /**
  * The class called when the program is run.
@@ -10,7 +13,7 @@ import pyramid_solitare_jackfinlay.model.ui.CUI;
  */
 public class Main {
 
-    public static CUI cui;
+    public static GUI gui;
 
     /**
      * The Main method of the program.
@@ -18,8 +21,31 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        cui = new CUI();
-        cui.menu();
+        Game game;
+        
+        game = new Game(new Player(getPlayerName()));
+        
+        gui = new GUI( game );
+        gui.setVisible(true);
     }
 
+    public static String getPlayerName()
+    {
+        String input;
+
+        do
+        {
+            input = (JOptionPane.showInputDialog(null,
+                    "Enter your name: ",
+                    "Pyramid Solitaire", JOptionPane.PLAIN_MESSAGE));
+        } while (input != null && input.length() == 0);
+
+        // Cancel option selected:
+        if (input == null)
+        {
+            System.exit(0);
+        }
+
+        return input;
+    }
 }
