@@ -5,6 +5,7 @@
  */
 package pyramid_solitare_jackfinlay.model.ui;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,26 +21,33 @@ import pyramid_solitare_jackfinlay.model.Card;
  * @author Jack
  */
 public class CardGridPanel extends javax.swing.JPanel {
-    private Card card;
+
+    private Card card = null;
     private BufferedImage cardImage;
-    
+
     /**
      * Default constructor.
      */
-    public CardGridPanel(){}
-    
+    public CardGridPanel() {
+        initComponents();
+    }
+
     /**
      * Creates new form cardGridPanel
+     *
      * @param card The card that this panel may possibly have.
      */
-    public CardGridPanel( Card card ) {
+    public CardGridPanel(Card card) {
         initComponents();
         this.card = card;
+
+        this.cardImage = this.card.getCardImage();
         
-        if (this.card != null){
-            this.cardImage = this.card.getCardImage();
-            cardImageLabel = new JLabel(new ImageIcon(cardImage));
-        }
+        Image resizedImage = cardImage.getScaledInstance(40, 58, java.awt.Image.SCALE_SMOOTH);
+        this.cardImageLabel = new JLabel(new ImageIcon(resizedImage));
+        this.removeAll();
+        this.add(cardImageLabel);
+
     }
 
     /**
@@ -57,19 +65,17 @@ public class CardGridPanel extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(40, 60));
         setPreferredSize(new java.awt.Dimension(40, 60));
 
+        cardImageLabel.setText("hfkjg");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(cardImageLabel)
-                .addGap(0, 40, Short.MAX_VALUE))
+            .addComponent(cardImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(cardImageLabel)
-                .addGap(0, 60, Short.MAX_VALUE))
+            .addComponent(cardImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
