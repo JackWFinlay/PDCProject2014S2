@@ -1,7 +1,6 @@
 package pyramid_solitare_jackfinlay.model;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.imageio.ImageIO;
 
 /**

@@ -1,8 +1,9 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.GridLayout;
-import javax.swing.JPanel;
 import pyramid_solitare_jackfinlay.model.Card;
+import pyramid_solitare_jackfinlay.model.ChangeListener;
+import pyramid_solitare_jackfinlay.model.Deck;
 import pyramid_solitare_jackfinlay.model.Game;
 
 /**
@@ -10,9 +11,9 @@ import pyramid_solitare_jackfinlay.model.Game;
  *
  * @author Jack Finlay ID: 1399273
  */
-public class GUI extends javax.swing.JFrame {
-
-    private Game game;
+public class GUI extends javax.swing.JFrame implements ChangeListener {
+    
+    public static Game game;
     private CardGridPanel[][] cardGridPanelArray;
 
     /**
@@ -27,45 +28,100 @@ public class GUI extends javax.swing.JFrame {
      * @param game The current game.
      */
     public GUI(Game game) {
-        this.game = game;
+        GUI.game = game;
+        
+        GUI thisFrame = this;
+        game.addChangeListener(thisFrame);
+        
         initComponents();
-
+        
+        playerNameLabel.setText(game.getPlayer().getPlayerName());
+        
+        drawCardGrid();
         update();
     }
-
+    
+    @Override
     public void update() {
-        playerNameLabel.setText(game.getPlayer().getPlayerName());
-        drawCardGrid();
+        
+        boardPanel.removeAll();
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 13; j++) {
+                boardPanel.add(cardGridPanelArray[i][j]);
+            }
+        }
+        
+        scoreValueLabel.setText(String.valueOf(game.getPlayer().getScore()));
+        
+        game.getBoard().setPlayableCardsOnBoard();
+        
+        validate();
+        repaint();
     }
-
-    private void drawCardGrid() {
+    
+    public void drawCardGrid() {
         int rows = 7;
         int columns = 13;
-
+        
         boardPanel.removeAll();
         boardPanel.setLayout(new GridLayout(rows, columns));
         cardGridPanelArray = new CardGridPanel[rows][columns];
-
+        
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 // Created panel for a sector and adds it to the UI.
-                CardGridPanel cardGridPanel = new CardGridPanel(null);
-                boardPanel.add(cardGridPanel);
-                cardGridPanelArray[i][j] = cardGridPanel;
+                cardGridPanelArray[i][j] = new CardGridPanel();
+                game.addChangeListener(cardGridPanelArray[i][j]);
             }
         }
-
+        
         Card[][] board = game.getBoard().getBoard();
-
+        
         cardGridPanelArray[0][6] = new CardGridPanel(board[0][0]);
-
+        
         cardGridPanelArray[1][5] = new CardGridPanel(board[1][0]);
         cardGridPanelArray[1][7] = new CardGridPanel(board[1][1]);
-
+        
         cardGridPanelArray[2][4] = new CardGridPanel(board[2][0]);
         cardGridPanelArray[2][6] = new CardGridPanel(board[2][1]);
         cardGridPanelArray[2][8] = new CardGridPanel(board[2][2]);
-
+        
+        cardGridPanelArray[3][3] = new CardGridPanel(board[3][0]);
+        cardGridPanelArray[3][5] = new CardGridPanel(board[3][1]);
+        cardGridPanelArray[3][7] = new CardGridPanel(board[3][2]);
+        cardGridPanelArray[3][9] = new CardGridPanel(board[3][3]);
+        
+        cardGridPanelArray[4][2] = new CardGridPanel(board[4][0]);
+        cardGridPanelArray[4][4] = new CardGridPanel(board[4][1]);
+        cardGridPanelArray[4][6] = new CardGridPanel(board[4][2]);
+        cardGridPanelArray[4][8] = new CardGridPanel(board[4][3]);
+        cardGridPanelArray[4][10] = new CardGridPanel(board[4][4]);
+        
+        cardGridPanelArray[5][1] = new CardGridPanel(board[5][0]);
+        cardGridPanelArray[5][3] = new CardGridPanel(board[5][1]);
+        cardGridPanelArray[5][5] = new CardGridPanel(board[5][2]);
+        cardGridPanelArray[5][7] = new CardGridPanel(board[5][3]);
+        cardGridPanelArray[5][9] = new CardGridPanel(board[5][4]);
+        cardGridPanelArray[5][11] = new CardGridPanel(board[5][5]);
+        
+        cardGridPanelArray[6][0] = new CardGridPanel(board[6][0]);
+        cardGridPanelArray[6][2] = new CardGridPanel(board[6][1]);
+        cardGridPanelArray[6][4] = new CardGridPanel(board[6][2]);
+        cardGridPanelArray[6][6] = new CardGridPanel(board[6][3]);
+        cardGridPanelArray[6][8] = new CardGridPanel(board[6][4]);
+        cardGridPanelArray[6][10] = new CardGridPanel(board[6][5]);
+        cardGridPanelArray[6][12] = new CardGridPanel(board[6][6]);
+        
+        cardGridPanelArray[1][1].setCardImageLabel("Pickup:");
+        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
+        
+        Deck waste = game.getBoard().getWaste();
+        cardGridPanelArray[1][10].setCardImageLabel("Waste:");
+        
+        if (waste != null && waste.getSize() > 0) {
+            cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
+        }        
+        
     }
 
     /**
@@ -78,11 +134,13 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         gamePanel = new javax.swing.JPanel();
+        boardPanel = new javax.swing.JPanel();
         playerLabel = new javax.swing.JLabel();
         playerNameLabel = new javax.swing.JLabel();
         scoreLabel = new javax.swing.JLabel();
         scoreValueLabel = new javax.swing.JLabel();
-        boardPanel = new javax.swing.JPanel();
+        drawButton = new javax.swing.JButton();
+        shuffleButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newGameMenuItem = new javax.swing.JMenuItem();
@@ -103,25 +161,41 @@ public class GUI extends javax.swing.JFrame {
 
         gamePanel.setMinimumSize(new java.awt.Dimension(800, 580));
 
+        boardPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout boardPanelLayout = new javax.swing.GroupLayout(boardPanel);
+        boardPanel.setLayout(boardPanelLayout);
+        boardPanelLayout.setHorizontalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 776, Short.MAX_VALUE)
+        );
+        boardPanelLayout.setVerticalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 497, Short.MAX_VALUE)
+        );
+
         playerLabel.setText("Player: ");
 
         playerNameLabel.setText("Player Name");
 
         scoreLabel.setText("Score: ");
 
-        scoreValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        scoreValueLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         scoreValueLabel.setText("0");
 
-        javax.swing.GroupLayout boardPanelLayout = new javax.swing.GroupLayout(boardPanel);
-        boardPanel.setLayout(boardPanelLayout);
-        boardPanelLayout.setHorizontalGroup(
-            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        boardPanelLayout.setVerticalGroup(
-            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
-        );
+        drawButton.setText("Draw");
+        drawButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                drawButtonActionPerformed(evt);
+            }
+        });
+
+        shuffleButton.setText("Shuffle");
+        shuffleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shuffleButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout gamePanelLayout = new javax.swing.GroupLayout(gamePanel);
         gamePanel.setLayout(gamePanelLayout);
@@ -132,32 +206,33 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(gamePanelLayout.createSequentialGroup()
-                        .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(gamePanelLayout.createSequentialGroup()
-                                .addComponent(playerLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(playerNameLabel))
-                            .addGroup(gamePanelLayout.createSequentialGroup()
-                                .addComponent(scoreLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(scoreValueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 677, Short.MAX_VALUE)))
+                        .addComponent(playerLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(playerNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(scoreLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scoreValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(drawButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(shuffleButton)))
                 .addContainerGap())
         );
         gamePanelLayout.setVerticalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gamePanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playerLabel)
-                    .addComponent(playerNameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(playerNameLabel)
                     .addComponent(scoreLabel)
-                    .addComponent(scoreValueLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+                    .addComponent(scoreValueLabel)
+                    .addComponent(drawButton)
+                    .addComponent(shuffleButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .addGap(44, 44, 44))
         );
 
         fileMenu.setText("File");
@@ -200,6 +275,27 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
+        game.getBoard().draw();
+        Deck waste = game.getBoard().getWaste();
+        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
+        if (waste != null && waste.getSize() > 0) {
+            cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
+        } else {
+            cardGridPanelArray[1][11] = new CardGridPanel();
+        }
+        game.notifyChangeListeners();
+    }//GEN-LAST:event_drawButtonActionPerformed
+
+    private void shuffleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleButtonActionPerformed
+        game.shuffle();
+        if (game.getShufflesRemaining() == 0) {
+            shuffleButton.setEnabled(false);
+        }
+        drawCardGrid();
+        game.notifyChangeListeners();
+    }//GEN-LAST:event_shuffleButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -238,6 +334,7 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel boardPanel;
+    private javax.swing.JButton drawButton;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel gamePanel;
@@ -251,5 +348,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel playerNameLabel;
     private javax.swing.JLabel scoreLabel;
     private javax.swing.JLabel scoreValueLabel;
+    private javax.swing.JButton shuffleButton;
     // End of variables declaration//GEN-END:variables
 }

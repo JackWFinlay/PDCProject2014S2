@@ -1,5 +1,8 @@
 package pyramid_solitare_jackfinlay.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class runs the logic of the game and initializes components.
  *
@@ -10,6 +13,7 @@ public final class Game {
     public static final int BOARD_CLEAR_SCORE = 20;
     public static final int CARD_MATCH_SCORE = 5;
     public static final int START_SHUFFLE_COUNT = 2;
+    public Set<ChangeListener> changeListeners;
 
     private Player player;
     private Board board;
@@ -33,6 +37,7 @@ public final class Game {
         this.selectedCard2 = null;
         this.player = player;
         this.shufflesRemaining = START_SHUFFLE_COUNT;
+        this.changeListeners = new HashSet<>();
 
         newBoard();
     }
@@ -234,6 +239,40 @@ public final class Game {
         }
 
         return success;
+    }
+
+    public void shuffle() {
+        decrementShufflesRemaining();
+        newBoard();
+    }
+
+    /**
+     * Adds a listener for game change events.
+     *
+     * @param listener the listener to add
+     *
+     */
+    public void addChangeListener(ChangeListener listener) {
+        changeListeners.add(listener);
+    }
+
+    /**
+     * Removes a game change event listener.
+     *
+     * @param listener the listener to remove
+     */
+    public void removeChangeListener(
+            ChangeListener listener) {
+        changeListeners.remove(listener);
+    }
+
+    /**
+     * Notify all change listeners.
+     */
+    public void notifyChangeListeners() {
+        for (ChangeListener listener : changeListeners) {
+            listener.update();
+        }
     }
 
 }

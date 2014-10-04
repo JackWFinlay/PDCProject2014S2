@@ -167,7 +167,6 @@ public class Board {
         if (pickUp.getSize() <= 1) {
             // Moves the waste pile to the pick-up pile when pick-up is empty.
             populatePickUpPile(waste);
-
         } else {
 
             Card card = pickUp.getCard(0);
@@ -243,7 +242,7 @@ public class Board {
      * Modifies card's playable field, tracking what is playable after each
      * move.
      */
-    private void setPlayableCardsOnBoard() {
+    public void setPlayableCardsOnBoard() {
 
         for (int i = 0; i < 6; i++) { // Check every row except row 6.
             for (int j = 0; j < getBoard()[i].length; j++) {

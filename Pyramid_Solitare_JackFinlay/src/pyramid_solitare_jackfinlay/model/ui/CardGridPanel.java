@@ -5,30 +5,32 @@
  */
 package pyramid_solitare_jackfinlay.model.ui;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import pyramid_solitare_jackfinlay.model.Card;
+import pyramid_solitare_jackfinlay.model.ChangeListener;
+import pyramid_solitare_jackfinlay.model.Game;
 
 /**
  *
  * @author Jack
  */
-public class CardGridPanel extends javax.swing.JPanel {
+public class CardGridPanel extends javax.swing.JPanel implements ChangeListener {
 
     private Card card = null;
     private BufferedImage cardImage;
+    private final Game game;
 
     /**
      * Default constructor.
      */
     public CardGridPanel() {
+        this.game = GUI.game;
         initComponents();
     }
 
@@ -38,16 +40,41 @@ public class CardGridPanel extends javax.swing.JPanel {
      * @param card The card that this panel may possibly have.
      */
     public CardGridPanel(Card card) {
+        this.game = GUI.game;
         initComponents();
         this.card = card;
 
-        this.cardImage = this.card.getCardImage();
-        
-        Image resizedImage = cardImage.getScaledInstance(40, 58, java.awt.Image.SCALE_SMOOTH);
-        this.cardImageLabel = new JLabel(new ImageIcon(resizedImage));
-        this.removeAll();
-        this.add(cardImageLabel);
+        if (!card.isMatched()) {
+            setCardImage();
+        }
+    }
 
+    private void setCardImage() {
+        this.cardImage = this.card.getCardImage();
+
+        Image resizedImage = cardImage.getScaledInstance(48, 70, java.awt.Image.SCALE_SMOOTH);
+        cardImageLabel.setIcon(new ImageIcon(resizedImage));
+
+        if (this.card == GUI.game.getSelectedCard1()) {
+            this.setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
+        }
+    }
+
+    public void setCardImageLabel(String string) {
+        this.cardImageLabel.setText(string);
+    }
+
+    @Override
+    public void update() {
+        if (this.card != null) {
+            if (this.card.isMatched()) {
+                cardImageLabel.setIcon(null);
+                
+
+            } else {
+                setCardImage();
+            }
+        }
     }
 
     /**
@@ -61,26 +88,41 @@ public class CardGridPanel extends javax.swing.JPanel {
 
         cardImageLabel = new javax.swing.JLabel();
 
-        setMaximumSize(new java.awt.Dimension(40, 60));
-        setMinimumSize(new java.awt.Dimension(40, 60));
-        setPreferredSize(new java.awt.Dimension(40, 60));
+        setMaximumSize(null);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        setLayout(new java.awt.GridLayout());
 
-        cardImageLabel.setText("hfkjg");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cardImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cardImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-        );
+        cardImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cardImageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        cardImageLabel.setMaximumSize(new java.awt.Dimension(48, 70));
+        cardImageLabel.setPreferredSize(new java.awt.Dimension(48, 70));
+        add(cardImageLabel);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (this.card != null && !this.card.isMatched() && this.card.isPlayable()) {
+            Card aCard = game.selectCard(this.card.getCharacterValue());
+            game.setSelected(aCard);
+
+            if (game.getSelectedCard1() != null && game.getSelectedCard2() != null) {
+                if (game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2())) {
+
+                    GUI gui = (GUI) SwingUtilities.windowForComponent(this);
+                    gui.drawCardGrid();
+                }
+            }
+        }
+        
+        game.notifyChangeListeners();
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cardImageLabel;
     // End of variables declaration//GEN-END:variables
+
 }
