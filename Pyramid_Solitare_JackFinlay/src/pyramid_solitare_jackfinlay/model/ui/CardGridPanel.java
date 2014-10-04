@@ -23,7 +23,7 @@ import pyramid_solitare_jackfinlay.model.Game;
 public class CardGridPanel extends javax.swing.JPanel implements ChangeListener {
 
     private Card card = null;
-    private BufferedImage cardImage;
+    private ImageIcon cardImage;
     private final Game game;
 
     /**
@@ -51,9 +51,7 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
 
     private void setCardImage() {
         this.cardImage = this.card.getCardImage();
-
-        Image resizedImage = cardImage.getScaledInstance(48, 70, java.awt.Image.SCALE_SMOOTH);
-        cardImageLabel.setIcon(new ImageIcon(resizedImage));
+        cardImageLabel.setIcon(cardImage);
 
         if (this.card == GUI.game.getSelectedCard1()) {
             this.setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
@@ -69,8 +67,6 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
         if (this.card != null) {
             if (this.card.isMatched()) {
                 cardImageLabel.setIcon(null);
-                
-
             } else {
                 setCardImage();
             }

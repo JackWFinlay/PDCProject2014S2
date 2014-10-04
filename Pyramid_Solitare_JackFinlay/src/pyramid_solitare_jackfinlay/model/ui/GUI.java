@@ -12,7 +12,7 @@ import pyramid_solitare_jackfinlay.model.Game;
  * @author Jack Finlay ID: 1399273
  */
 public class GUI extends javax.swing.JFrame implements ChangeListener {
-    
+
     public static Game game;
     private CardGridPanel[][] cardGridPanelArray;
 
@@ -29,44 +29,45 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
      */
     public GUI(Game game) {
         GUI.game = game;
-        
+
         GUI thisFrame = this;
         game.addChangeListener(thisFrame);
-        
+
         initComponents();
-        
+
         playerNameLabel.setText(game.getPlayer().getPlayerName());
-        
+
         drawCardGrid();
         update();
     }
-    
+
     @Override
     public void update() {
-        
+
         boardPanel.removeAll();
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 13; j++) {
                 boardPanel.add(cardGridPanelArray[i][j]);
             }
         }
-        
+
         scoreValueLabel.setText(String.valueOf(game.getPlayer().getScore()));
-        
+        boardsClearValueLabel.setText(String.valueOf(game.getPlayer().getBoardCount()));
+
         game.getBoard().setPlayableCardsOnBoard();
-        
+
         validate();
         repaint();
     }
-    
+
     public void drawCardGrid() {
         int rows = 7;
         int columns = 13;
-        
+
         boardPanel.removeAll();
         boardPanel.setLayout(new GridLayout(rows, columns));
         cardGridPanelArray = new CardGridPanel[rows][columns];
-        
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 // Created panel for a sector and adds it to the UI.
@@ -74,36 +75,36 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
                 game.addChangeListener(cardGridPanelArray[i][j]);
             }
         }
-        
+
         Card[][] board = game.getBoard().getBoard();
-        
+
         cardGridPanelArray[0][6] = new CardGridPanel(board[0][0]);
-        
+
         cardGridPanelArray[1][5] = new CardGridPanel(board[1][0]);
         cardGridPanelArray[1][7] = new CardGridPanel(board[1][1]);
-        
+
         cardGridPanelArray[2][4] = new CardGridPanel(board[2][0]);
         cardGridPanelArray[2][6] = new CardGridPanel(board[2][1]);
         cardGridPanelArray[2][8] = new CardGridPanel(board[2][2]);
-        
+
         cardGridPanelArray[3][3] = new CardGridPanel(board[3][0]);
         cardGridPanelArray[3][5] = new CardGridPanel(board[3][1]);
         cardGridPanelArray[3][7] = new CardGridPanel(board[3][2]);
         cardGridPanelArray[3][9] = new CardGridPanel(board[3][3]);
-        
+
         cardGridPanelArray[4][2] = new CardGridPanel(board[4][0]);
         cardGridPanelArray[4][4] = new CardGridPanel(board[4][1]);
         cardGridPanelArray[4][6] = new CardGridPanel(board[4][2]);
         cardGridPanelArray[4][8] = new CardGridPanel(board[4][3]);
         cardGridPanelArray[4][10] = new CardGridPanel(board[4][4]);
-        
+
         cardGridPanelArray[5][1] = new CardGridPanel(board[5][0]);
         cardGridPanelArray[5][3] = new CardGridPanel(board[5][1]);
         cardGridPanelArray[5][5] = new CardGridPanel(board[5][2]);
         cardGridPanelArray[5][7] = new CardGridPanel(board[5][3]);
         cardGridPanelArray[5][9] = new CardGridPanel(board[5][4]);
         cardGridPanelArray[5][11] = new CardGridPanel(board[5][5]);
-        
+
         cardGridPanelArray[6][0] = new CardGridPanel(board[6][0]);
         cardGridPanelArray[6][2] = new CardGridPanel(board[6][1]);
         cardGridPanelArray[6][4] = new CardGridPanel(board[6][2]);
@@ -111,17 +112,21 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         cardGridPanelArray[6][8] = new CardGridPanel(board[6][4]);
         cardGridPanelArray[6][10] = new CardGridPanel(board[6][5]);
         cardGridPanelArray[6][12] = new CardGridPanel(board[6][6]);
-        
+
         cardGridPanelArray[1][1].setCardImageLabel("Pickup:");
-        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
+        if (game.getBoard().getPickUp().getSize() <= 0) {
+            game.getBoard().draw();
+        }
         
+        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
+
         Deck waste = game.getBoard().getWaste();
         cardGridPanelArray[1][10].setCardImageLabel("Waste:");
-        
+
         if (waste != null && waste.getSize() > 0) {
             cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
-        }        
-        
+        }
+
     }
 
     /**
@@ -141,6 +146,8 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         scoreValueLabel = new javax.swing.JLabel();
         drawButton = new javax.swing.JButton();
         shuffleButton = new javax.swing.JButton();
+        boardsClearLabel = new javax.swing.JLabel();
+        boardsClearValueLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newGameMenuItem = new javax.swing.JMenuItem();
@@ -197,6 +204,10 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
             }
         });
 
+        boardsClearLabel.setText("Boards Cleared: ");
+
+        boardsClearValueLabel.setText("0");
+
         javax.swing.GroupLayout gamePanelLayout = new javax.swing.GroupLayout(gamePanel);
         gamePanel.setLayout(gamePanelLayout);
         gamePanelLayout.setHorizontalGroup(
@@ -210,6 +221,10 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(playerNameLabel)
                         .addGap(18, 18, 18)
+                        .addComponent(boardsClearLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boardsClearValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scoreLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scoreValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,9 +244,11 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
                     .addComponent(scoreLabel)
                     .addComponent(scoreValueLabel)
                     .addComponent(drawButton)
-                    .addComponent(shuffleButton))
+                    .addComponent(shuffleButton)
+                    .addComponent(boardsClearLabel)
+                    .addComponent(boardsClearValueLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(44, 44, 44))
         );
 
@@ -334,6 +351,8 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel boardPanel;
+    private javax.swing.JLabel boardsClearLabel;
+    private javax.swing.JLabel boardsClearValueLabel;
     private javax.swing.JButton drawButton;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;

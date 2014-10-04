@@ -33,11 +33,13 @@ public final class Game {
      * @param player The player.
      */
     public Game(Player player) {
-        this.selectedCard1 = null;
-        this.selectedCard2 = null;
+        selectedCard1 = null;
+        selectedCard2 = null;
         this.player = player;
-        this.shufflesRemaining = START_SHUFFLE_COUNT;
-        this.changeListeners = new HashSet<>();
+        shufflesRemaining = START_SHUFFLE_COUNT;
+        changeListeners = new HashSet<>();
+        mainDeck = new Deck();
+        mainDeck.createDeck();
 
         newBoard();
     }
@@ -93,9 +95,9 @@ public final class Game {
      * Sets up a new game board and decks required.
      */
     public void newBoard() {
-        mainDeck = new Deck();
-        mainDeck.createDeck();
-        this.board = new Board(this, player, mainDeck);
+        //Deck deck = new mainDeck; 
+        // TODO
+        this.board = new Board(this, player, deck);
         board.printUI();
 
     }
