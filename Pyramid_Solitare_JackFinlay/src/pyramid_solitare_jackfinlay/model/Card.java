@@ -2,6 +2,8 @@ package pyramid_solitare_jackfinlay.model;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -11,7 +13,7 @@ import javax.swing.ImageIcon;
  * @author Jack Finlay ID: 1399273
  *
  */
-public class Card {
+public class Card implements Cloneable {
 
     private String symbolValue;
     private String characterValue;
@@ -71,7 +73,7 @@ public class Card {
             BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imagePath));
             Image resizedImage = image.getScaledInstance(48, 70, java.awt.Image.SCALE_SMOOTH);
             this.cardImage = new ImageIcon(resizedImage);
-                    
+
         } catch (Exception e) {
             System.out.println("Something broke re: getting card images in card class.");
         }
@@ -119,8 +121,8 @@ public class Card {
     public void setSource(Deck source) {
         this.sourceDeck = source;
     }
-    
-    public ImageIcon getCardImage(){
+
+    public ImageIcon getCardImage() {
         return this.cardImage;
     }
 
@@ -162,6 +164,23 @@ public class Card {
         this.playable = false;
         this.sourceDeck = null;
 
+    }
+
+    /**
+     * Allows a card to be cloned so that a deep copy can be made of a deck.
+     * @return A copy of the card.
+     * @throws CloneNotSupportedException 
+     */
+    @Override
+    protected Card clone() throws CloneNotSupportedException {
+        Card clone = null;
+        try {
+            clone = (Card) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Card.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return clone;
     }
 
 }

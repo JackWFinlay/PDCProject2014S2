@@ -6,11 +6,8 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import pyramid_solitare_jackfinlay.model.Card;
 import pyramid_solitare_jackfinlay.model.ChangeListener;

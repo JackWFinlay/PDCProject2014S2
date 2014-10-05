@@ -1,6 +1,8 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.GridLayout;
+import javax.swing.JOptionPane;
+import pyramid_solitare_jackfinlay.Main;
 import pyramid_solitare_jackfinlay.model.Card;
 import pyramid_solitare_jackfinlay.model.ChangeListener;
 import pyramid_solitare_jackfinlay.model.Deck;
@@ -11,7 +13,7 @@ import pyramid_solitare_jackfinlay.model.Game;
  *
  * @author Jack Finlay ID: 1399273
  */
-public class GUI extends javax.swing.JFrame implements ChangeListener {
+public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     public static Game game;
     private CardGridPanel[][] cardGridPanelArray;
@@ -117,7 +119,7 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         if (game.getBoard().getPickUp().getSize() <= 0) {
             game.getBoard().draw();
         }
-        
+
         cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
 
         Deck waste = game.getBoard().getWaste();
@@ -184,6 +186,7 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         playerLabel.setText("Player: ");
 
         playerNameLabel.setText("Player Name");
+        playerNameLabel.setMaximumSize(new java.awt.Dimension(200, 14));
 
         scoreLabel.setText("Score: ");
 
@@ -219,7 +222,7 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
                     .addGroup(gamePanelLayout.createSequentialGroup()
                         .addComponent(playerLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(playerNameLabel)
+                        .addComponent(playerNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(boardsClearLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,7 +243,7 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
                 .addGap(6, 6, 6)
                 .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playerLabel)
-                    .addComponent(playerNameLabel)
+                    .addComponent(playerNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(scoreLabel)
                     .addComponent(scoreValueLabel)
                     .addComponent(drawButton)
@@ -255,6 +258,11 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         fileMenu.setText("File");
 
         newGameMenuItem.setText("New Game");
+        newGameMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newGameMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(newGameMenuItem);
 
         highScoresMenuItem.setText("High Scores");
@@ -262,6 +270,11 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         fileMenu.add(menuSeparator);
 
         exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
@@ -272,6 +285,11 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
         helpMenu.add(helpMenuItem);
 
         aboutMenuItem.setText("About");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -305,13 +323,58 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
     }//GEN-LAST:event_drawButtonActionPerformed
 
     private void shuffleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleButtonActionPerformed
-        game.shuffle();
-        if (game.getShufflesRemaining() == 0) {
-            shuffleButton.setEnabled(false);
+        // Prompt user for confirmation.
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Are you sure you want to re-shuffle?\n"
+                + "Remaining shuffles: " + String.valueOf(game.getShufflesRemaining()),
+                "Re-Shuffle?", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        // Exit game if OK.
+        if (confirm == 0) {
+            game.shuffle();
+            if (game.getShufflesRemaining() == 0) {
+                shuffleButton.setEnabled(false);
+            }
+            drawCardGrid();
+            game.notifyChangeListeners();
         }
-        drawCardGrid();
-        game.notifyChangeListeners();
+
     }//GEN-LAST:event_shuffleButtonActionPerformed
+
+    private void newGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGameMenuItemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Start a new game?",
+                "Are you sure", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        // Exit game if OK.
+        if (confirm == 0) {
+            this.dispose();
+            Main.main(new String[0]);
+        }
+    }//GEN-LAST:event_newGameMenuItemActionPerformed
+
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Are you sure you wish to exit?",
+                "Exit?", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        // Exit game if OK.
+        if (confirm == 0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        // Create and show about window.
+        About about = new About();
+        about.setVisible(true);
+
+        // Make just the window close rather than entire program.
+        about.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -329,19 +392,16 @@ public class GUI extends javax.swing.JFrame implements ChangeListener {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GUI().setVisible(true);
             }

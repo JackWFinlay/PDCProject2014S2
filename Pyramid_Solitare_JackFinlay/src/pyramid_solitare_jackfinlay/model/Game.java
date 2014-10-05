@@ -95,8 +95,7 @@ public final class Game {
      * Sets up a new game board and decks required.
      */
     public void newBoard() {
-        //Deck deck = new mainDeck; 
-        // TODO
+        Deck deck = Deck.copy(mainDeck);
         this.board = new Board(this, player, deck);
         board.printUI();
 

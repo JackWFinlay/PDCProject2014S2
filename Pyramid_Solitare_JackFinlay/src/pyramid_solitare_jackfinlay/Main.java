@@ -26,7 +26,17 @@ public class Main {
         game = new Game(new Player(getPlayerName()));
         
         gui = new GUI( game );
-        gui.setVisible(true);
+        
+        java.awt.EventQueue.invokeLater( new Runnable()
+        {
+
+            @Override
+            public void run()
+            {
+                gui.setLocationRelativeTo(null);
+                gui.setVisible(true);
+            }
+        });
     }
 
     public static String getPlayerName()

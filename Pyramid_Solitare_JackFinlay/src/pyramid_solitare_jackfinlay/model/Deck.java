@@ -3,6 +3,8 @@ package pyramid_solitare_jackfinlay.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class representing Deck objects.
@@ -20,7 +22,37 @@ public class Deck {
     public Deck() {
         this.deck = new ArrayList();
     }
-
+    
+    /**
+     * Alternative constructor, used with the copy() copy constructor.
+     * @param deck The ArrayList representation of the deck.
+     */
+    public Deck(ArrayList<Card> deck){
+        this.deck = deck;
+    }
+    
+    /**
+     * Copy Constructor to create a duplicate of a deck.
+     * @param deck The Deck to copy.
+     * @return A duplicate of the passed deck.
+     */
+    public static Deck copy(Deck deck) {
+        ArrayList<Card> copy = new ArrayList<>();
+        
+        for ( Object aCard : deck.getDeckAsList() ){
+            Card card = (Card)aCard;
+            try {
+                copy.add(card.clone());
+                // Creates a deep copy of the items in the master deck.
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        return new Deck(copy);
+    }
+    
     /**
      * Creates and fills deck with a full set of playing cards.
      */
