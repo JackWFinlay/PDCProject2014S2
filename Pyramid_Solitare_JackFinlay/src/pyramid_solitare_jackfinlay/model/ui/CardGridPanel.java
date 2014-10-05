@@ -50,13 +50,18 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
         this.cardImage = this.card.getCardImage();
         cardImageLabel.setIcon(cardImage);
 
-        if (this.card == GUI.game.getSelectedCard1()) {
-            this.setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
-        }
     }
 
     public void setCardImageLabel(String string) {
         this.cardImageLabel.setText(string);
+    }
+
+    public void setHighlighted() {
+        cardImageLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+    }
+
+    public void deselect() {
+        cardImageLabel.setBorder(null);
     }
 
     @Override
@@ -81,17 +86,20 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
 
         cardImageLabel = new javax.swing.JLabel();
 
-        setMaximumSize(null);
+        setMaximumSize(new java.awt.Dimension(50, 72));
+        setMinimumSize(new java.awt.Dimension(50, 72));
+        setPreferredSize(new java.awt.Dimension(50, 72));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
             }
         });
-        setLayout(new java.awt.GridLayout());
+        setLayout(new java.awt.GridLayout(1, 0));
 
         cardImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         cardImageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         cardImageLabel.setMaximumSize(new java.awt.Dimension(48, 70));
+        cardImageLabel.setMinimumSize(new java.awt.Dimension(48, 70));
         cardImageLabel.setPreferredSize(new java.awt.Dimension(48, 70));
         add(cardImageLabel);
     }// </editor-fold>//GEN-END:initComponents
@@ -105,11 +113,19 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
                 if (game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2())) {
 
                     GUI gui = (GUI) SwingUtilities.windowForComponent(this);
+                    
                     gui.drawCardGrid();
                 }
+                GUI.selected.deselect();
+            } else {
+                if (GUI.selected != null) {
+                    GUI.selected.deselect();
+                }
+                GUI.selected = this;
+                this.setHighlighted();
             }
         }
-        
+
         game.notifyChangeListeners();
     }//GEN-LAST:event_formMouseClicked
 

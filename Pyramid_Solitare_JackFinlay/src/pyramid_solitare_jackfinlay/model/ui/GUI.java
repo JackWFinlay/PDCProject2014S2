@@ -17,6 +17,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     public static Game game;
     private CardGridPanel[][] cardGridPanelArray;
+    public static CardGridPanel selected;
 
     /**
      * Default constructor
@@ -47,6 +48,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
     public void update() {
 
         boardPanel.removeAll();
+        
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 13; j++) {
                 boardPanel.add(cardGridPanelArray[i][j]);
@@ -69,6 +71,11 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         boardPanel.removeAll();
         boardPanel.setLayout(new GridLayout(rows, columns));
         cardGridPanelArray = new CardGridPanel[rows][columns];
+        
+        if (selected != null){
+            selected.deselect();
+        }
+        
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -162,13 +169,14 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(800, 600));
-        setMinimumSize(new java.awt.Dimension(800, 600));
+        setMaximumSize(new java.awt.Dimension(670, 570));
+        setMinimumSize(new java.awt.Dimension(670, 570));
         setName("frame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
-        gamePanel.setMinimumSize(new java.awt.Dimension(800, 580));
+        gamePanel.setMaximumSize(new java.awt.Dimension(670, 600));
+        gamePanel.setMinimumSize(new java.awt.Dimension(670, 600));
+        gamePanel.setPreferredSize(new java.awt.Dimension(670, 600));
 
         boardPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -176,11 +184,11 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         boardPanel.setLayout(boardPanelLayout);
         boardPanelLayout.setHorizontalGroup(
             boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 776, Short.MAX_VALUE)
+            .addGap(0, 646, Short.MAX_VALUE)
         );
         boardPanelLayout.setVerticalGroup(
             boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         playerLabel.setText("Player: ");
@@ -217,8 +225,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gamePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(gamePanelLayout.createSequentialGroup()
                         .addComponent(playerLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -234,8 +241,9 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(drawButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(shuffleButton)))
-                .addContainerGap())
+                        .addComponent(shuffleButton))
+                    .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         gamePanelLayout.setVerticalGroup(
             gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,8 +259,8 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
                     .addComponent(boardsClearLabel)
                     .addComponent(boardsClearValueLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(44, 44, 44))
+                .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         fileMenu.setText("File");
@@ -282,6 +290,11 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         helpMenu.setText("Help");
 
         helpMenuItem.setText("Help");
+        helpMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(helpMenuItem);
 
         aboutMenuItem.setText("About");
@@ -300,11 +313,11 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gamePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 550, Short.MAX_VALUE)
         );
 
         pack();
@@ -375,6 +388,15 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         // Make just the window close rather than entire program.
         about.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void helpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuItemActionPerformed
+        // Create and show help window.
+        Help help = new Help();
+        help.setVisible(true);
+
+        // Make just the window close rather than entire program.
+        help.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_helpMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

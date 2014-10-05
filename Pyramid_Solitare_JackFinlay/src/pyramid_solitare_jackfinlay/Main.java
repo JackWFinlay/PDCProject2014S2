@@ -1,6 +1,10 @@
 package pyramid_solitare_jackfinlay;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import pyramid_solitare_jackfinlay.model.Game;
 import pyramid_solitare_jackfinlay.model.Player;
 import pyramid_solitare_jackfinlay.model.ui.GUI;
@@ -21,6 +25,15 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | 
+                IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } // Set Look and feel to the system's custom look and feel.
+        
+        
         Game game;
         
         game = new Game(new Player(getPlayerName()));
