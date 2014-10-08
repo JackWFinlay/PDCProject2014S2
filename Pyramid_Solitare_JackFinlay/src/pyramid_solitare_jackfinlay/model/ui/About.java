@@ -1,21 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay.model.ui;
 
 /**
  *
- * @author Jack
+ * @author Jack Finlay ID: 1399273
  */
 public class About extends javax.swing.JFrame {
 
+    private static About about;
+    
     /**
      * Creates new form About
      */
-    public About() {
+    private About() {
         initComponents();
+    }
+    
+    public static About getAbout(){
+        if ( about == null ) {
+            about = new About();
+        }
+        
+        return about;
     }
 
     /**

@@ -1,21 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay.model.ui;
 
 /**
- *
- * @author Jack
+ * Class for the Help window
+ * @author Jack Finlay, ID: 1399273
  */
 public class Help extends javax.swing.JFrame {
 
+    private static Help help;
+    
     /**
      * Creates new form Help
      */
-    public Help() {
+    private Help() {
         initComponents();
+    }
+    
+    /**
+     * The public method to create or return the window via the singleton pattern.
+     * @return An instance of the help window.
+     */
+    public static Help getHelp(){
+        if ( help == null){
+            help = new Help();
+        } 
+        
+        return help;
     }
 
     /**
@@ -32,6 +41,7 @@ public class Help extends javax.swing.JFrame {
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jScrollPane1.setBorder(null);
 

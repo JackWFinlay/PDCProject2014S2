@@ -112,9 +112,9 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
             if (game.getSelectedCard1() != null && game.getSelectedCard2() != null) {
                 if (game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2())) {
 
-                    GUI gui = (GUI) SwingUtilities.windowForComponent(this);
+                    GUI thisGui = (GUI) SwingUtilities.windowForComponent(this);
                     
-                    gui.drawCardGrid();
+                    thisGui.drawCardGrid();
                 }
                 GUI.selected.deselect();
             } else {

@@ -24,6 +24,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
      */
     public GUI() {
     }
+    
 
     /**
      * Initializes the game GUI
@@ -37,7 +38,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         game.addChangeListener(thisFrame);
 
         initComponents();
-
+        
         playerNameLabel.setText(game.getPlayer().getPlayerName());
 
         drawCardGrid();
@@ -46,6 +47,8 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     @Override
     public void update() {
+        
+        playerNameLabel.setText(game.getPlayer().getPlayerName());
 
         boardPanel.removeAll();
         
@@ -382,7 +385,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
         // Create and show about window.
-        About about = new About();
+        About about = About.getAbout();
         about.setVisible(true);
 
         // Make just the window close rather than entire program.
@@ -391,9 +394,9 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     private void helpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuItemActionPerformed
         // Create and show help window.
-        Help help = new Help();
+        Help help = Help.getHelp();
         help.setVisible(true);
-
+        
         // Make just the window close rather than entire program.
         help.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_helpMenuItemActionPerformed

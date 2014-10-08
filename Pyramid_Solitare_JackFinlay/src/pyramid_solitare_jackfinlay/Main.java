@@ -36,7 +36,7 @@ public class Main {
         
         Game game;
         
-        game = new Game(new Player(getPlayerName()));
+        game = new Game(new Player());
         
         gui = new GUI( game );
         
@@ -50,6 +50,9 @@ public class Main {
                 gui.setVisible(true);
             }
         });
+        
+        game.setPlayer(new Player(getPlayerName()));
+        game.notifyChangeListeners();
     }
 
     public static String getPlayerName()

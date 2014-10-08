@@ -52,6 +52,10 @@ public final class Game {
     public Player getPlayer() {
         return player;
     }
+    
+    public void setPlayer( Player player ) {
+        this.player = player;
+    }
 
     /**
      * Returns the current instance of Board.
