@@ -116,7 +116,9 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
                     
                     thisGui.drawCardGrid();
                 }
-                GUI.selected.deselect();
+                if (GUI.selected != null) {
+                    GUI.selected.deselect();
+                }
             } else {
                 if (GUI.selected != null) {
                     GUI.selected.deselect();

@@ -100,7 +100,6 @@ public class Board {
     }
 
     // </editor-fold>
-
     /**
      * Sets up a 2D array to store the cards in the pyramid arrangement.
      *
@@ -166,7 +165,9 @@ public class Board {
 
         if (pickUp.getSize() <= 1) {
             // Moves the waste pile to the pick-up pile when pick-up is empty.
-            populatePickUpPile(waste);
+            if (waste.getSize() > 0) {
+                populatePickUpPile(waste);
+            }
         } else {
 
             Card card = pickUp.getCard(0);

@@ -247,6 +247,7 @@ public final class Game {
     }
 
     public void shuffle() {
+        this.selectedCard1 = null;
         decrementShufflesRemaining();
         newBoard();
     }

@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import pyramid_solitare_jackfinlay.Main;
 
 /**
  * Represents a card object in the game.
@@ -69,8 +70,8 @@ public class Card implements Cloneable {
         }
 
         try {
-            String imagePath = ("../Images/" + this.characterValue + ".png");
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            String imagePath = ("Images/" + this.characterValue + ".png");
+            BufferedImage image = ImageIO.read(Main.class.getResourceAsStream(imagePath));
             Image resizedImage = image.getScaledInstance(48, 70, java.awt.Image.SCALE_SMOOTH);
             this.cardImage = new ImageIcon(resizedImage);
 
