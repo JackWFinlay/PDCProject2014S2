@@ -17,6 +17,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     public static Game game;
     private CardGridPanel[][] cardGridPanelArray;
+    private static GUI gui;
     public static CardGridPanel selected;
 
     /**
@@ -25,13 +26,20 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
     public GUI() {
     }
     
+    public static GUI getGUI(Game game){
+        if (gui == null) {
+            gui = new GUI(game);
+        }
+        
+        return gui;
+    }
 
     /**
      * Initializes the game GUI
      *
      * @param game The current game.
      */
-    public GUI(Game game) {
+    private GUI(Game game) {
         GUI.game = game;
 
         GUI thisFrame = this;

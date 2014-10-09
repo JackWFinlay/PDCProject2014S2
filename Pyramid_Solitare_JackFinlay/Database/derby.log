@@ -1,0 +1,18 @@
+Fri Oct 10 08:27:52 NZDT 2014 : Apache Derby Network Server - 10.10.1.3 - (1557168) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Fri Oct 10 08:28:52 NZDT 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-0148-f661-a83f-0000135dfcd7 
+on database directory C:\Users\Jack\Documents\Uni\2014_S2\PDC\Project\PDCProject2014S2\Pyramid_Solitare_JackFinlay\Database\Pyramid_Solitaire with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_20/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_20-b26
+user.dir=C:\Program Files\Java\jdk1.8.0_20\db
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=C:\Users\Jack\Documents\Uni\2014_S2\PDC\Project\PDCProject2014S2\Pyramid_Solitare_JackFinlay\Database
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Oct 10 08:29:00 NZDT 2014:
+Shutting down instance a816c00e-0148-f661-a83f-0000135dfcd7 on database directory C:\Users\Jack\Documents\Uni\2014_S2\PDC\Project\PDCProject2014S2\Pyramid_Solitare_JackFinlay\Database\Pyramid_Solitaire with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri Oct 10 08:29:00 NZDT 2014 Thread[DRDAConnThread_3,5,main] (DATABASE = Pyramid_Solitaire), (DRDAID = {2}), Database 'Pyramid_Solitaire' shutdown.

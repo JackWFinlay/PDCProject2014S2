@@ -37,7 +37,7 @@ public class Main {
 
         game = new Game(new Player());
 
-        gui = new GUI(game);
+        gui = GUI.getGUI(game);
 
         gui.setLocationRelativeTo(null);
         gui.setVisible(true);
