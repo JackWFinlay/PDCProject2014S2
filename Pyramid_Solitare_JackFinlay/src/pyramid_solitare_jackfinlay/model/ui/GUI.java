@@ -1,12 +1,15 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.GridLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import pyramid_solitare_jackfinlay.Main;
 import pyramid_solitare_jackfinlay.model.Card;
 import pyramid_solitare_jackfinlay.model.ChangeListener;
 import pyramid_solitare_jackfinlay.model.Deck;
 import pyramid_solitare_jackfinlay.model.Game;
+import pyramid_solitare_jackfinlay.model.HighScores;
 
 /**
  * The view and controller for the GUI version of the game.
@@ -285,6 +288,11 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         fileMenu.add(newGameMenuItem);
 
         highScoresMenuItem.setText("High Scores");
+        highScoresMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                highScoresMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(highScoresMenuItem);
         fileMenu.add(menuSeparator);
 
@@ -374,6 +382,9 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
         // Exit game if OK.
         if (confirm == 0) {
+            game.highScores.updateHighScores(game.getPlayer());
+            HighScores.printHighScores();
+            GUI.gui = null;
             this.dispose();
             Main.main(new String[0]);
         }
@@ -381,12 +392,14 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         int confirm = JOptionPane.showConfirmDialog(null,
-                "Are you sure you wish to exit?",
+                "Are you sure you wish to exit?\n",
                 "Exit?", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         // Exit game if OK.
         if (confirm == 0) {
+            game.highScores.updateHighScores(game.getPlayer());
+            HighScores.printHighScores();
             System.exit(0);
         }
     }//GEN-LAST:event_exitMenuItemActionPerformed
@@ -408,6 +421,13 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         // Make just the window close rather than entire program.
         help.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_helpMenuItemActionPerformed
+
+    private void highScoresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highScoresMenuItemActionPerformed
+        HighScoreView highScoreView = HighScoreView.getHSV();
+        highScoreView.setVisible(true);
+        
+        highScoreView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_highScoresMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,88 +1,127 @@
 package pyramid_solitare_jackfinlay.model;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * Reads, maintains, and writes the saved high scores file.
  *
  * @author Jack Finlay ID: 1399273
  */
-public final class HighScores {
+public final class HighScores implements Runnable {
 
     private static final String SCORES_FILE_LOCATION = "../Data/Scores.txt";
-    private ArrayList<Score> highScores;
-    public static Connection conn;
-    public static String url="url=jdbc:derby://localhost:1527/Pyramid_Solitaire; create=true";
-    public static String username="PS";
-    public static String password="P";
+    private static ArrayList<Score> highScores;
 
-    public void establishMySQLConnection()
-    {
-        try{
-            conn=DriverManager.getConnection(url, username, password);
-            System.out.println(url+" connected...");
-        }
-        catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
-    }
-
+    public static Connection connection;
+    public static String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
+    public static String URL = "jdbc:derby:PyramidSolitaireDB;create=true";
 
     /**
      * Constructor to set up HighScores instance.
      */
     public HighScores() {
         highScores = new ArrayList();
-        establishMySQLConnection();
-        readScoreFile();
+
+        // Performs actions as a seperate thread to the rest of the game as the
+        // results are not required in order to play a game.
+        new Thread(this).start();
+
+    }
+
+    public void run() {
+        establishConnection();
+
+        // Read scores from table.
+        readScores(getScoreTable());
+
+        printHighScores();
+    }
+
+    public void establishConnection() {
+        ResultSet results = null;
+        try {
+            // Load Driver
+            Class.forName(DRIVER);
+            //System.out.println("Driver Loaded.");
+
+            // Establish connection
+            connection = DriverManager.getConnection(URL);
+            System.out.println(URL + " connected...");
+
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
-     * Reads the score file stored in the .jar file.
+     * Reads the scores from the database.
      */
-    private void readScoreFile() {
+    private void readScores(ResultSet rs) {
+
+        if (rs != null) {
+            try {
+
+                while (rs.next()) {
+
+                    int rank = rs.getInt("RANK");
+                    int score = rs.getInt("SCORE");
+                    String name = rs.getString("NAME");
+
+                    highScores.add(new Score(rank, name, score));
+
+                }
+
+                rs.close();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public ResultSet getScoreTable() {
+        ResultSet results = null;
 
         try {
 
-            InputStream in = getClass().getResourceAsStream(SCORES_FILE_LOCATION);
-            // Using InputStream rather than FileReader allows storing of 
-            // txt file in the .jar file
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String line;
+            // Check if tables exist
+            DatabaseMetaData metadata = connection.getMetaData();
+            results = metadata.getTables(null, null, "SCORES", null);
 
-            while ((line = reader.readLine()) != null) {
-
-                StringTokenizer tokenizer = new StringTokenizer(line, ",");
-                int rank = Integer.parseInt(tokenizer.nextToken());
-                int score = Integer.parseInt(tokenizer.nextToken());
-                String name = (tokenizer.nextToken());
-
-                highScores.add(new Score(rank, name, score));
+            // Create SCORES table if it doesn't exist.
+            if (!results.next()) {
+                createScoreTable();
 
             }
 
-            in.close();
+            Statement statement = connection.createStatement();
+            results = statement.executeQuery("SELECT * FROM SCORES");
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return results;
+    }
+
+    public void createScoreTable() {
+        try {
+            Statement statement = connection.createStatement();
+
+            //Create the table:
+            statement.execute("CREATE TABLE SCORES(RANK INT, NAME VARCHAR(20), SCORE INT)");
+
+            System.out.println("Score Table created.");
+        } catch (SQLException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -117,55 +156,68 @@ public final class HighScores {
         if (highScores.size() > 10) {
             highScores.remove(10); // Remove score at rank 11.
         }
+
+        writeScoreFile();
     }
 
     /**
-     * Writes the current high score list to a .txt file.
+     * Writes the current high score list to the database.
      */
     public void writeScoreFile() {
-        PrintWriter output = null;
-
-        URL url = getClass().getResource(SCORES_FILE_LOCATION);
-
         try {
-            output = new PrintWriter(new FileOutputStream(url.getPath()));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (output != null) {
+            Statement statement = connection.createStatement();
+            clearHighScores();
 
             for (Score score : highScores) {
                 int rank = score.getRank();
                 int playerScore = score.getScore();
                 String name = score.getPlayerName();
 
-                String outputLine = (rank + "," + playerScore + "," + name);
-                output.println(outputLine);
+                String query = ("INSERT INTO SCORES VALUES(" + rank + ", '" + name + "', " + playerScore + ")");
+                statement.execute(query);
             }
 
-            output.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
      * Prints the current high score list to the console.
      */
-    public void printHighScores() {
+    public static String printHighScores() {
 
-        System.out.println("Rank   Name        Score");
+        String scores = "";
+        scores += ("Rank  Score    Name \n\n");
 
         for (Score score : highScores) {
 
-            System.out.print(score.getRank());
-            System.out.print("      " + score.getPlayerName());
-            System.out.print("      " + score.getScore());
-            System.out.println("");
+            scores += String.format("%2d", score.getRank());
+            scores += ("  ");
+            scores += String.format("%5d", score.getScore());
+            scores += ("      ");
+            scores += (score.getPlayerName());
+            scores += ("\n");
 
         }
 
-        System.out.println("Press the enter key to return to menu...");
-
+        System.out.println(scores);
+        return scores;
+    }
+    
+    public static void clearHighScores() {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("DELETE FROM SCORES");
+        } catch (SQLException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void resetScores() {
+        clearHighScores();
+        highScores.removeAll(highScores);
     }
 
 }

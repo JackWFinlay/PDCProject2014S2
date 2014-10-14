@@ -18,6 +18,7 @@ import pyramid_solitare_jackfinlay.model.ui.GUI;
 public class Main {
 
     public static GUI gui;
+    private static Game game;
 
     /**
      * The Main method of the program.
@@ -32,8 +33,6 @@ public class Main {
                 IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } // Set Look and feel to the system's custom look and feel.
-        
-        Game game;
 
         game = new Game(new Player());
 

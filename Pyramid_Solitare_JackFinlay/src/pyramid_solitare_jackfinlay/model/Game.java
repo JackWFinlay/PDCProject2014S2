@@ -14,7 +14,8 @@ public final class Game {
     public static final int CARD_MATCH_SCORE = 5;
     public static final int START_SHUFFLE_COUNT = 2;
     public Set<ChangeListener> changeListeners;
-
+    public HighScores highScores;
+    
     private Player player;
     private Board board;
     private Card selectedCard1, selectedCard2;
@@ -40,6 +41,7 @@ public final class Game {
         changeListeners = new HashSet<>();
         mainDeck = new Deck();
         mainDeck.createDeck();
+        highScores = new HighScores();
 
         newBoard();
     }

@@ -16,3 +16,6 @@ Database Class Loader started - derby.database.classpath=''
 Fri Oct 10 08:29:00 NZDT 2014:
 Shutting down instance a816c00e-0148-f661-a83f-0000135dfcd7 on database directory C:\Users\Jack\Documents\Uni\2014_S2\PDC\Project\PDCProject2014S2\Pyramid_Solitare_JackFinlay\Database\Pyramid_Solitaire with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Fri Oct 10 08:29:00 NZDT 2014 Thread[DRDAConnThread_3,5,main] (DATABASE = Pyramid_Solitaire), (DRDAID = {2}), Database 'Pyramid_Solitaire' shutdown.
+----------------------------------------------------------------
+Fri Oct 10 09:12:33 NZDT 2014: Shutting down Derby engine
+----------------------------------------------------------------
