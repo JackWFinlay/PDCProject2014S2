@@ -42,7 +42,8 @@ public class Main {
         gui.setVisible(true);
 
         game.setPlayer(new Player(getPlayerName()));
-        game.notifyChangeListeners();
+        
+        game.notifyObservers();
     }
 
     public static String getPlayerName() {

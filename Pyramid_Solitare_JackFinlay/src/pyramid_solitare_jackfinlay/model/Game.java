@@ -1,19 +1,17 @@
 package pyramid_solitare_jackfinlay.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Observable;
 
 /**
  * This class runs the logic of the game and initializes components.
  *
  * @author Jack Finlay ID: 1399273
  */
-public final class Game {
+public final class Game extends Observable {
 
     public static final int BOARD_CLEAR_SCORE = 20;
     public static final int CARD_MATCH_SCORE = 5;
     public static final int START_SHUFFLE_COUNT = 2;
-    public Set<ChangeListener> changeListeners;
     public HighScores highScores;
     
     private Player player;
@@ -38,7 +36,6 @@ public final class Game {
         selectedCard2 = null;
         this.player = player;
         shufflesRemaining = START_SHUFFLE_COUNT;
-        changeListeners = new HashSet<>();
         mainDeck = new Deck();
         mainDeck.createDeck();
         highScores = new HighScores();
@@ -253,34 +250,43 @@ public final class Game {
         decrementShufflesRemaining();
         newBoard();
     }
-
+    
     /**
-     * Adds a listener for game change events.
-     *
-     * @param listener the listener to add
-     *
+     * Overrides the superclass implementation so that setChanged is called implicitly.
      */
-    public void addChangeListener(ChangeListener listener) {
-        changeListeners.add(listener);
+    @Override
+    public void notifyObservers(){
+        setChanged();
+        super.notifyObservers();
     }
 
-    /**
-     * Removes a game change event listener.
-     *
-     * @param listener the listener to remove
-     */
-    public void removeChangeListener(
-            ChangeListener listener) {
-        changeListeners.remove(listener);
-    }
-
-    /**
-     * Notify all change listeners.
-     */
-    public void notifyChangeListeners() {
-        for (ChangeListener listener : changeListeners) {
-            listener.update();
-        }
-    }
+//    /**
+//     * Adds a listener for game change events.
+//     *
+//     * @param listener the listener to add
+//     *
+//     */
+//    public static void addChangeListener(ChangeListener listener) {
+//        changeListeners.add(listener);
+//    }
+//
+//    /**
+//     * Removes a game change event listener.
+//     *
+//     * @param listener the listener to remove
+//     */
+//    public static void removeChangeListener(
+//            ChangeListener listener) {
+//        changeListeners.remove(listener);
+//    }
+//
+//    /**
+//     * Notify all change listeners.
+//     */
+//    public static void notifyChangeListeners() {
+//        for (ChangeListener listener : changeListeners) {
+//            listener.update();
+//        }
+//    }
 
 }

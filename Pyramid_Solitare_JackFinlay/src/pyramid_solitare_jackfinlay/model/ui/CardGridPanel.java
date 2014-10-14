@@ -6,18 +6,19 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.Color;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import pyramid_solitare_jackfinlay.model.Card;
-import pyramid_solitare_jackfinlay.model.ChangeListener;
 import pyramid_solitare_jackfinlay.model.Game;
 
 /**
  *
  * @author Jack
  */
-public class CardGridPanel extends javax.swing.JPanel implements ChangeListener {
+public class CardGridPanel extends javax.swing.JPanel implements Observer {
 
     private Card card = null;
     private ImageIcon cardImage;
@@ -65,7 +66,7 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
     }
 
     @Override
-    public void update() {
+    public void update(Observable o, Object obj) {
         if (this.card != null) {
             if (this.card.isMatched()) {
                 cardImageLabel.setIcon(null);
@@ -128,7 +129,7 @@ public class CardGridPanel extends javax.swing.JPanel implements ChangeListener 
             }
         }
 
-        game.notifyChangeListeners();
+        game.notifyObservers();
     }//GEN-LAST:event_formMouseClicked
 
 

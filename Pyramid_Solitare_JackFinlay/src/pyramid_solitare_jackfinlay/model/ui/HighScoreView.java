@@ -5,26 +5,24 @@
  */
 package pyramid_solitare_jackfinlay.model.ui;
 
-import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 import pyramid_solitare_jackfinlay.model.HighScores;
 
 /**
- *
- * @author Jack
+ * A window to view the high score list in.
+ * 
+ * @author Jack Finlay, ID: 1399273
  */
-public class HighScoreView extends javax.swing.JFrame {
+public class HighScoreView extends javax.swing.JFrame implements Observer {
     
     private static HighScoreView hsv;
 
     /**
-     * Creates new form HighScoreView
+     * An implementation of the singleton pattern.
+     * @return Either the current instance, or a new instance.
      */
-    private HighScoreView() {
-        initComponents();
-        ScoreTextArea.setText(HighScores.printHighScores());
-    }
-    
     public static HighScoreView getHSV(){
         if (hsv == null) {
             hsv = new HighScoreView();
@@ -32,6 +30,25 @@ public class HighScoreView extends javax.swing.JFrame {
         
         return hsv;
     }
+    
+    /**
+     * Creates new form HighScoreView
+     */
+    private HighScoreView() {
+        initComponents();
+        GUI.game.addObserver((Observer) this);
+        GUI.game.notifyObservers();
+    }
+    
+    /**
+     * Implementation of the Observer update() method.
+     */
+    @Override
+    public void update( Observable o, Object obj ) {
+        ScoreTextArea.setText(HighScores.printHighScores());
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

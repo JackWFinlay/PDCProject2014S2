@@ -1,12 +1,11 @@
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.GridLayout;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 import pyramid_solitare_jackfinlay.Main;
 import pyramid_solitare_jackfinlay.model.Card;
-import pyramid_solitare_jackfinlay.model.ChangeListener;
 import pyramid_solitare_jackfinlay.model.Deck;
 import pyramid_solitare_jackfinlay.model.Game;
 import pyramid_solitare_jackfinlay.model.HighScores;
@@ -16,7 +15,7 @@ import pyramid_solitare_jackfinlay.model.HighScores;
  *
  * @author Jack Finlay ID: 1399273
  */
-public final class GUI extends javax.swing.JFrame implements ChangeListener {
+public final class GUI extends javax.swing.JFrame implements Observer {
 
     public static Game game;
     private CardGridPanel[][] cardGridPanelArray;
@@ -28,12 +27,12 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
      */
     public GUI() {
     }
-    
-    public static GUI getGUI(Game game){
+
+    public static GUI getGUI(Game game) {
         if (gui == null) {
             gui = new GUI(game);
         }
-        
+
         return gui;
     }
 
@@ -46,23 +45,23 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         GUI.game = game;
 
         GUI thisFrame = this;
-        game.addChangeListener(thisFrame);
+        game.addObserver((Observer)thisFrame);
 
         initComponents();
-        
+
         playerNameLabel.setText(game.getPlayer().getPlayerName());
 
         drawCardGrid();
-        update();
+        game.notifyObservers();
     }
 
     @Override
-    public void update() {
-        
+    public void update(Observable o, Object ob) {
+
         playerNameLabel.setText(game.getPlayer().getPlayerName());
 
         boardPanel.removeAll();
-        
+
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 13; j++) {
                 boardPanel.add(cardGridPanelArray[i][j]);
@@ -85,17 +84,16 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         boardPanel.removeAll();
         boardPanel.setLayout(new GridLayout(rows, columns));
         cardGridPanelArray = new CardGridPanel[rows][columns];
-        
-        if (selected != null){
+
+        if (selected != null) {
             selected.deselect();
         }
-        
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 // Created panel for a sector and adds it to the UI.
                 cardGridPanelArray[i][j] = new CardGridPanel();
-                game.addChangeListener(cardGridPanelArray[i][j]);
+                game.addObserver((Observer) cardGridPanelArray[i][j]);
             }
         }
 
@@ -351,7 +349,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         } else {
             cardGridPanelArray[1][11] = new CardGridPanel();
         }
-        game.notifyChangeListeners();
+        game.notifyObservers();
     }//GEN-LAST:event_drawButtonActionPerformed
 
     private void shuffleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleButtonActionPerformed
@@ -369,7 +367,7 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
                 shuffleButton.setEnabled(false);
             }
             drawCardGrid();
-            game.notifyChangeListeners();
+            game.notifyObservers();
         }
 
     }//GEN-LAST:event_shuffleButtonActionPerformed
@@ -417,16 +415,19 @@ public final class GUI extends javax.swing.JFrame implements ChangeListener {
         // Create and show help window.
         Help help = Help.getHelp();
         help.setVisible(true);
-        
+
         // Make just the window close rather than entire program.
         help.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_helpMenuItemActionPerformed
 
     private void highScoresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highScoresMenuItemActionPerformed
         HighScoreView highScoreView = HighScoreView.getHSV();
+
         highScoreView.setVisible(true);
-        
+
         highScoreView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        game.notifyObservers();
     }//GEN-LAST:event_highScoresMenuItemActionPerformed
 
     /**
