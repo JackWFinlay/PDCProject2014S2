@@ -28,6 +28,11 @@ public final class GUI extends javax.swing.JFrame implements Observer {
     public GUI() {
     }
 
+    /**
+     * Public method to create instance of GUI via the singleton pattern
+     * @param game The game to initialize the GUI with if required.
+     * @return The current or new instance of GUI.
+     */
     public static GUI getGUI(Game game) {
         if (gui == null) {
             gui = new GUI(game);
@@ -49,56 +54,72 @@ public final class GUI extends javax.swing.JFrame implements Observer {
 
         initComponents();
 
-        playerNameLabel.setText(game.getPlayer().getPlayerName());
-
         drawCardGrid();
         game.notifyObservers();
     }
 
+    /**
+     * The GUI class implementation of the Observer interface update() method.
+     * @param o The observable object.
+     * @param arg An argument passed to the notifyObservers() method
+     */
     @Override
-    public void update(Observable o, Object ob) {
+    public void update(Observable o, Object arg) {
 
+        // Update the player's name
         playerNameLabel.setText(game.getPlayer().getPlayerName());
 
+        // Clear out the boardPanel Jpanel so that components can be updated.
         boardPanel.removeAll();
-
+        
+        // Add the card grid panels to boardPanel.
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 13; j++) {
                 boardPanel.add(cardGridPanelArray[i][j]);
             }
         }
 
+        // Update scores.
         scoreValueLabel.setText(String.valueOf(game.getPlayer().getScore()));
         boardsClearValueLabel.setText(String.valueOf(game.getPlayer().getBoardCount()));
 
+        // Update the playability status of cards.
         game.getBoard().setPlayableCardsOnBoard();
 
+        // Redraw the UI.
         validate();
         repaint();
     }
 
+    /**
+     * Constructs the card grid and assigns cards to their panels.
+     */
     public void drawCardGrid() {
         int rows = 7;
         int columns = 13;
 
+        // Clear the parent panel, then create a new Gridlayout to add panels to.
         boardPanel.removeAll();
         boardPanel.setLayout(new GridLayout(rows, columns));
         cardGridPanelArray = new CardGridPanel[rows][columns];
 
+        //Clear the currently selected card.
         if (selected != null) {
             selected.deselect();
         }
-
+        
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                // Created panel for a sector and adds it to the UI.
+                // Create panel for a sector and adds it to the UI.
                 cardGridPanelArray[i][j] = new CardGridPanel();
                 game.addObserver((Observer) cardGridPanelArray[i][j]);
             }
         }
 
+        
         Card[][] board = game.getBoard().getBoard();
-
+        
+        // Asign cards from the board to their positions in the grid.
         cardGridPanelArray[0][6] = new CardGridPanel(board[0][0]);
 
         cardGridPanelArray[1][5] = new CardGridPanel(board[1][0]);
@@ -134,18 +155,23 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         cardGridPanelArray[6][10] = new CardGridPanel(board[6][5]);
         cardGridPanelArray[6][12] = new CardGridPanel(board[6][6]);
 
+        
         cardGridPanelArray[1][1].setCardImageLabel("Pickup:");
+        
+        // Calls draw() which will rebuild the pickup deck when it is empty
         if (game.getBoard().getPickUp().getSize() <= 0) {
             game.getBoard().draw();
         }
-
-        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
+        // Assigns the top card in the pickup pile to it's location in the grid.
+        cardGridPanelArray[1][2] = 
+                new CardGridPanel(game.getBoard().getPickUp().getCard(0));
 
         Deck waste = game.getBoard().getWaste();
         cardGridPanelArray[1][10].setCardImageLabel("Waste:");
-
+         // Adds the waste pile to it's location in the grid, if the pile exitsts.
         if (waste != null && waste.getSize() > 0) {
-            cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
+            cardGridPanelArray[1][11] = 
+                    new CardGridPanel(game.getBoard().getWaste().getCard(0));
         }
 
     }
@@ -341,14 +367,19 @@ public final class GUI extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
+
         game.getBoard().draw();
-        Deck waste = game.getBoard().getWaste();
-        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
-        if (waste != null && waste.getSize() > 0) {
-            cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
-        } else {
-            cardGridPanelArray[1][11] = new CardGridPanel();
-        }
+        
+        drawCardGrid();
+//        Deck waste = game.getBoard().getWaste();
+//        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
+//        
+//        if (waste != null && waste.getSize() > 0) {
+//            cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
+//        } else {
+//            cardGridPanelArray[1][11] = new CardGridPanel();
+//        }
+        
         game.notifyObservers();
     }//GEN-LAST:event_drawButtonActionPerformed
 
@@ -363,9 +394,12 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         // Exit game if OK.
         if (confirm == 0) {
             game.shuffle();
+            
+            // Disable the button when no more shuffles available.
             if (game.getShufflesRemaining() == 0) {
                 shuffleButton.setEnabled(false);
             }
+            
             drawCardGrid();
             game.notifyObservers();
         }
@@ -421,13 +455,14 @@ public final class GUI extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_helpMenuItemActionPerformed
 
     private void highScoresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highScoresMenuItemActionPerformed
+        // Create and show high scores window
         HighScoreView highScoreView = HighScoreView.getHSV();
-
         highScoreView.setVisible(true);
-
-        highScoreView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
+        // Update to latest values
         game.notifyObservers();
+        
+        highScoreView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_highScoresMenuItemActionPerformed
 
     /**

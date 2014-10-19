@@ -43,6 +43,7 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
         this.card = card;
 
         if (!card.isMatched()) {
+            // Only get an image for cards that are to be displayed.
             setCardImage();
         }
     }
@@ -53,20 +54,38 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
 
     }
 
+    /**
+     * Allows cardImageLabel to contain a string rather than an image.
+     *
+     * @param string The string to set the label text to.
+     */
     public void setCardImageLabel(String string) {
         this.cardImageLabel.setText(string);
     }
 
+    /**
+     * Adds a border around the card to indicate it is highlighted.
+     */
     public void setHighlighted() {
         cardImageLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
     }
 
+    /**
+     * Removes the border that surrounds previously selected cards.
+     */
     public void deselect() {
         cardImageLabel.setBorder(null);
     }
 
+    /**
+     * The CardGridPanel class implementation of the Observer interface update()
+     * method
+     *
+     * @param o The observable object.
+     * @param arg An argument passed to the notifyObservers() method
+     */
     @Override
-    public void update(Observable o, Object obj) {
+    public void update(Observable o, Object arg) {
         if (this.card != null) {
             if (this.card.isMatched()) {
                 cardImageLabel.setIcon(null);
@@ -106,16 +125,21 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+
         if (this.card != null && !this.card.isMatched() && this.card.isPlayable()) {
+
             Card aCard = game.selectCard(this.card.getCharacterValue());
             game.setSelected(aCard);
 
             if (game.getSelectedCard1() != null && game.getSelectedCard2() != null) {
+                
+                // Check the cards create a match
                 if (game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2())) {
-
-                    GUI thisGui = (GUI) SwingUtilities.windowForComponent(this);
                     
+                    // Get the current instance of the GUI.
+                    GUI thisGui = (GUI) SwingUtilities.windowForComponent(this);
                     thisGui.drawCardGrid();
+                    
                 }
                 if (GUI.selected != null) {
                     GUI.selected.deselect();
