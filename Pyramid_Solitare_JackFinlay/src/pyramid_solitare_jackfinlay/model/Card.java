@@ -43,22 +43,22 @@ public class Card implements Cloneable {
      * @param numericValue The value of the card.
      * @param source The source deck of this card.
      */
-    public Card(CardSuits suit, int numericValue, Deck source) {
+    public Card( CardSuits suit, int numericValue, Deck source ) {
         this.numericValue = numericValue;
         this.symbolValue = suit.getSymbol();
         this.characterValue = suit.toString();
         this.sourceDeck = source;
 
         String value = "";
-        if (numericValue > 10 || numericValue == 1) {
-            if (numericValue == 1) {
+        if ( numericValue > 10 || numericValue == 1 ) {
+            if ( numericValue == 1 ) {
                 value = "A";
 
-            } else if (numericValue == 11) {
+            } else if ( numericValue == 11 ) {
                 value = "J";
-            } else if (numericValue == 12) {
+            } else if ( numericValue == 12 ) {
                 value = "Q";
-            } else if (numericValue == 13) {
+            } else if ( numericValue == 13 ) {
                 value = "K";
             }
 
@@ -76,7 +76,7 @@ public class Card implements Cloneable {
             Image resizedImage = image.getScaledInstance(48, 70, java.awt.Image.SCALE_SMOOTH);
             this.cardImage = new ImageIcon(resizedImage);
 
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             System.out.println("Something broke re: getting card images in card class.");
         }
     }
@@ -120,7 +120,7 @@ public class Card implements Cloneable {
      *
      * @param source The deck to set this card's source as.
      */
-    public void setSource(Deck source) {
+    public void setSource( Deck source ) {
         this.sourceDeck = source;
     }
 
@@ -152,7 +152,7 @@ public class Card implements Cloneable {
      *
      * @param playable The state for the <i>playable</i> field to be set to.
      */
-    public void setPlayable(boolean playable) {
+    public void setPlayable( boolean playable ) {
         this.playable = playable;
     }
 
@@ -170,15 +170,16 @@ public class Card implements Cloneable {
 
     /**
      * Allows a card to be cloned so that a deep copy can be made of a deck.
+     *
      * @return A copy of the card.
-     * @throws CloneNotSupportedException 
+     * @throws CloneNotSupportedException
      */
     @Override
     protected Card clone() throws CloneNotSupportedException {
         Card clone = null;
         try {
             clone = (Card) super.clone();
-        } catch (CloneNotSupportedException ex) {
+        } catch ( CloneNotSupportedException ex ) {
             Logger.getLogger(Card.class.getName()).log(Level.SEVERE, null, ex);
         }
 

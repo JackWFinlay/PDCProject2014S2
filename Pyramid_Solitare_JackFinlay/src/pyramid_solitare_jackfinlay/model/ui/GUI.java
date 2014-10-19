@@ -424,7 +424,7 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         // Exit game if OK.
         if ( confirm == 0 ) {
             game.highScores.updateHighScores(game.getPlayer());
-            HighScores.printHighScores();
+            game.notifyObservers();
             GUI.gui = null;
             this.dispose();
             Main.main(new String[0]);
@@ -440,7 +440,7 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         // Exit game if OK.
         if ( confirm == 0 ) {
             game.highScores.updateHighScores(game.getPlayer());
-            HighScores.printHighScores();
+            game.notifyObservers();
             System.exit(0);
         }
     }//GEN-LAST:event_exitMenuItemActionPerformed
@@ -467,6 +467,8 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         // Create and show high scores window
         HighScoreView highScoreView = HighScoreView.getHSV();
         highScoreView.setVisible(true);
+        
+        game.addObserver(highScoreView);
 
         // Update to latest values
         game.notifyObservers();

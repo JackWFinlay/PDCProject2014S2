@@ -12,25 +12,26 @@ import pyramid_solitare_jackfinlay.model.HighScores;
 
 /**
  * A window to view the high score list in.
- * 
+ *
  * @author Jack Finlay, ID: 1399273
  */
 public class HighScoreView extends javax.swing.JFrame implements Observer {
-    
+
     private static HighScoreView hsv;
 
     /**
      * An implementation of the singleton pattern.
+     *
      * @return Either the current instance, or a new instance.
      */
-    public static HighScoreView getHSV(){
-        if (hsv == null) {
+    public static HighScoreView getHSV() {
+        if ( hsv == null ) {
             hsv = new HighScoreView();
         }
-        
+
         return hsv;
     }
-    
+
     /**
      * Creates new form HighScoreView
      */
@@ -39,7 +40,7 @@ public class HighScoreView extends javax.swing.JFrame implements Observer {
         GUI.game.addObserver((Observer) this);
         GUI.game.notifyObservers();
     }
-    
+
     /**
      * Implementation of the Observer update() method.
      */
@@ -47,8 +48,6 @@ public class HighScoreView extends javax.swing.JFrame implements Observer {
     public void update( Observable o, Object obj ) {
         ScoreTextArea.setText(HighScores.printHighScores());
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,36 +130,36 @@ public class HighScoreView extends javax.swing.JFrame implements Observer {
                 JOptionPane.QUESTION_MESSAGE);
 
         // Exit game if OK.
-        if (confirm == 0) {
+        if ( confirm == 0 ) {
             HighScores.resetScores();
         }
-        
+
         ScoreTextArea.setText(HighScores.printHighScores());
     }//GEN-LAST:event_clearButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main( String args[] ) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+            for ( javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels() ) {
+                if ( "Nimbus".equals(info.getName()) ) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch ( ClassNotFoundException ex ) {
             java.util.logging.Logger.getLogger(HighScoreView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch ( InstantiationException ex ) {
             java.util.logging.Logger.getLogger(HighScoreView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch ( IllegalAccessException ex ) {
             java.util.logging.Logger.getLogger(HighScoreView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch ( javax.swing.UnsupportedLookAndFeelException ex ) {
             java.util.logging.Logger.getLogger(HighScoreView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>

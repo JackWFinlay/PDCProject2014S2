@@ -1,7 +1,0 @@
-01,1,Player1
-02,1,Player2
-03,1,Player3
-04,1,Player4
-05,1,Player5
-06,1,Player6
-07,1,Player7

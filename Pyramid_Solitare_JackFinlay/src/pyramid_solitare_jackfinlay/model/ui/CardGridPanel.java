@@ -11,7 +11,7 @@ import pyramid_solitare_jackfinlay.model.Game;
 
 /**
  * Controller class for the CardGridPanel JPanel form.
- * 
+ *
  * @author Jack Finlay, ID: 1399273
  */
 public class CardGridPanel extends javax.swing.JPanel implements Observer {
@@ -33,12 +33,12 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
      *
      * @param card The card that this panel may possibly have.
      */
-    public CardGridPanel(Card card) {
+    public CardGridPanel( Card card ) {
         this.game = GUI.game;
         initComponents();
         this.card = card;
 
-        if (!card.isMatched()) {
+        if ( !card.isMatched() ) {
             // Only get an image for cards that are to be displayed.
             setCardImage();
         }
@@ -55,7 +55,7 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
      *
      * @param string The string to set the label text to.
      */
-    public void setCardImageLabel(String string) {
+    public void setCardImageLabel( String string ) {
         this.cardImageLabel.setText(string);
     }
 
@@ -82,9 +82,9 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
      * @param arg An argument passed to the notifyObservers() method
      */
     @Override
-    public void update(Observable o, Object arg) {
-        if (this.card != null) {
-            if (this.card.isMatched()) {
+    public void update( Observable o, Object arg ) {
+        if ( this.card != null ) {
+            if ( this.card.isMatched() ) {
                 cardImageLabel.setIcon(null);
             } else {
                 setCardImage();
@@ -124,29 +124,29 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
 
-        if (this.card != null && !this.card.isMatched() && this.card.isPlayable()) {
+        if ( this.card != null && !this.card.isMatched() && this.card.isPlayable() ) {
 
             // Set the clicked card as selected.
             game.setSelected(game.selectCard(this.card));
 
             // Check if there is already another card selected
-            if (game.getSelectedCard1() != null && game.getSelectedCard2() != null) {
-                
+            if ( game.getSelectedCard1() != null && game.getSelectedCard2() != null ) {
+
                 // Check the selected cards create a match
-                if (game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2())) {
-                    
+                if ( game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2()) ) {
+
                     // Get the current instance of the GUI.
                     GUI thisGui = (GUI) SwingUtilities.windowForComponent(this);
                     // Update the GUI to remove matched cards.
                     thisGui.drawCardGrid();
-                    
+
                 }
-                
+
                 // Clear the highlight on the card.
-                if (GUI.selected != null) {
+                if ( GUI.selected != null ) {
                     GUI.selected.deselect();
                 }
-                
+
             } else {
                 // Sets this card as the selected one and sets higlighting on.
                 GUI.selected = this;

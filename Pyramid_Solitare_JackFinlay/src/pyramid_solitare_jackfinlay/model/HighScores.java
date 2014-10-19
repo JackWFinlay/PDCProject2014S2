@@ -76,7 +76,7 @@ public final class HighScores implements Runnable {
                     highScores.add(new Score(rank, name, score));
 
                 }
-                
+
                 rs.close();
 
             } catch ( SQLException ex ) {
@@ -98,7 +98,7 @@ public final class HighScores implements Runnable {
             if ( !results.next() ) {
                 createScoreTable();
             }
-            
+
             // Get SCORES table and store it in ResultSet results.
             Statement statement = connection.createStatement();
             results = statement.executeQuery("SELECT * FROM SCORES");
@@ -126,7 +126,7 @@ public final class HighScores implements Runnable {
         }
 
     }
-
+    
     /**
      * Updates the current score roster.
      *
@@ -172,7 +172,7 @@ public final class HighScores implements Runnable {
             clearHighScores();
 
             for ( Score score : highScores ) {
-                
+
                 // Gets details from score object.
                 int rank = score.getRank();
                 int playerScore = score.getScore();

@@ -25,16 +25,15 @@ public class Main {
      *
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException |
-                IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch ( ClassNotFoundException | InstantiationException |
+                IllegalAccessException | UnsupportedLookAndFeelException ex ) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } // Set Look and feel to the system's custom look and feel.
 
-        
         game = new Game(new Player());
 
         gui = GUI.getGUI(game);
@@ -42,15 +41,16 @@ public class Main {
         // Sets the GUI as visible and postions it centre screen
         gui.setLocationRelativeTo(null);
         gui.setVisible(true);
-        
+
         // Set the player's name to the one entered.
         game.getPlayer().setPlayerName(getPlayerName());
-        
+
         game.notifyObservers();
     }
 
     /**
      * Prompts the player to enter a name.
+     *
      * @return The string entered by the player.
      */
     public static String getPlayerName() {
@@ -60,10 +60,10 @@ public class Main {
             input = (JOptionPane.showInputDialog(null,
                     "Enter your name: ",
                     "Pyramid Solitaire", JOptionPane.PLAIN_MESSAGE));
-        } while (input != null && input.length() == 0);
+        } while ( input != null && input.length() == 0 );
 
         // Cancel option selected:
-        if (input == null) {
+        if ( input == null ) {
             System.exit(0);
         }
 

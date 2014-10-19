@@ -26,7 +26,7 @@ public class Board {
      * @param player The current player.
      * @param deck A deck to populate the game board with.
      */
-    public Board(Game game, Player player, Deck deck) {
+    public Board( Game game, Player player, Deck deck ) {
 
         this.game = game;
         this.player = player;
@@ -53,7 +53,7 @@ public class Board {
     /**
      * @param deck the deck to set
      */
-    public void setDeck(Deck deck) {
+    public void setDeck( Deck deck ) {
         this.deck = deck;
     }
 
@@ -67,7 +67,7 @@ public class Board {
     /**
      * @param pickUp The deck to set pickup to.
      */
-    public void setPickUp(Deck pickUp) {
+    public void setPickUp( Deck pickUp ) {
         this.pickUp = pickUp;
     }
 
@@ -81,7 +81,7 @@ public class Board {
     /**
      * @param waste the deck to set waste to.
      */
-    public void setWaste(Deck waste) {
+    public void setWaste( Deck waste ) {
         this.waste = waste;
     }
 
@@ -95,7 +95,7 @@ public class Board {
     /**
      * @param board the board to set
      */
-    public void setBoard(Card[][] board) {
+    public void setBoard( Card[][] board ) {
         this.board = board;
     }
 
@@ -124,10 +124,10 @@ public class Board {
      *
      * @param deck The deck to populate the board with.
      */
-    private void populateBoard(Deck deck) {
+    private void populateBoard( Deck deck ) {
 
-        for (Card[] row : getBoard()) {
-            for (int i = 0; i < row.length; i++) {
+        for ( Card[] row : getBoard() ) {
+            for ( int i = 0; i < row.length; i++ ) {
                 Card card = deck.getCard(0);
                 row[i] = card;
                 deck.removeCard(card);
@@ -135,7 +135,7 @@ public class Board {
             }
         }
 
-        for (Card card : getBoard()[6]) {
+        for ( Card card : getBoard()[6] ) {
             card.setPlayable(true);
         }
     }
@@ -143,8 +143,8 @@ public class Board {
     /**
      * Populates the pick-up pile with the remaining cards of deck.
      */
-    private void populatePickUpPile(Deck deck) {
-        while (deck.getSize() > 0) {
+    private void populatePickUpPile( Deck deck ) {
+        while ( deck.getSize() > 0 ) {
             Card card = deck.getCard(0);
             card.setPlayable(false);
             pickUp.addCard(card);
@@ -152,7 +152,7 @@ public class Board {
             card.setSource(pickUp);
         }
 
-        if (pickUp.getSize() >= 0) {
+        if ( pickUp.getSize() >= 0 ) {
             pickUp.getCard(0).setPlayable(true);
         }
     }
@@ -163,9 +163,9 @@ public class Board {
      */
     public void draw() {
 
-        if (pickUp.getSize() <= 1) {
+        if ( pickUp.getSize() <= 1 ) {
             // Moves the waste pile to the pick-up pile when pick-up is empty.
-            if (waste.getSize() > 0) {
+            if ( waste.getSize() > 0 ) {
                 populatePickUpPile(waste);
             }
         } else {
@@ -179,7 +179,7 @@ public class Board {
 
             card.setSource(waste);
 
-            if (waste.getSize() > 1) {
+            if ( waste.getSize() > 1 ) {
                 waste.getCard(1).setPlayable(false);
                 // Set the card that was previously on top as unplayable.
             }
@@ -209,16 +209,16 @@ public class Board {
 
     private void printBoard() {
 
-        for (int i = 0; i < getBoard().length; i++) {
-            for (int j = 0; j < 7 - i; j++) {
+        for ( int i = 0; i < getBoard().length; i++ ) {
+            for ( int j = 0; j < 7 - i; j++ ) {
                 System.out.print("  ");
                 //Forward spacing between cards
             }
-            for (Card card : getBoard()[i]) {
+            for ( Card card : getBoard()[i] ) {
 
                 System.out.print(card.getSymbolValue() + " ");
 
-                if (card.getNumericValue() != 10) {
+                if ( card.getNumericValue() != 10 ) {
                     System.out.print(" ");
                     // Cards with one digit/character values need extra spacing.
                 }
@@ -228,12 +228,12 @@ public class Board {
 
         System.out.println();
 
-        if (pickUp.getSize() == 0 && waste != null) {
+        if ( pickUp.getSize() == 0 && waste != null ) {
             populatePickUpPile(waste);
         }
         System.out.println("Pickup: " + pickUp.getCard(0).getSymbolValue());
 
-        if (getWaste() != null && waste.getSize() > 0) {
+        if ( getWaste() != null && waste.getSize() > 0 ) {
             waste.getCard(0).setPlayable(true);
             System.out.println("Waste: " + waste.getCard(0).getSymbolValue());
         }
@@ -245,12 +245,12 @@ public class Board {
      */
     public void setPlayableCardsOnBoard() {
 
-        for (int i = 0; i < 6; i++) { // Check every row except row 6.
-            for (int j = 0; j < getBoard()[i].length; j++) {
+        for ( int i = 0; i < 6; i++ ) { // Check every row except row 6.
+            for ( int j = 0; j < getBoard()[i].length; j++ ) {
                 Card card = getBoard()[i][j];
 
-                if (getBoard()[i + 1][j].isMatched()
-                        && getBoard()[i + 1][j + 1].isMatched()) {
+                if ( getBoard()[i + 1][j].isMatched()
+                        && getBoard()[i + 1][j + 1].isMatched() ) {
 
                     card.setPlayable(true);
                 } // Checks whether the cards below have been removed.
@@ -259,7 +259,7 @@ public class Board {
 
         pickUp.getCard(0).setPlayable(true);
 
-        if (getWaste() != null && waste.getSize() > 0) {
+        if ( getWaste() != null && waste.getSize() > 0 ) {
             waste.getCard(0).setPlayable(true);
         }
     }

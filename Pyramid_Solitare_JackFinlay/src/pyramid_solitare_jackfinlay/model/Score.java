@@ -8,7 +8,7 @@ package pyramid_solitare_jackfinlay.model;
 public class Score extends Player {
 
     private int rank;
-    
+
     /**
      * Default constructor. Doesn't actually do anything.
      */
@@ -18,18 +18,18 @@ public class Score extends Player {
 
     /**
      * Constructor to set up a new score object.
-     * 
+     *
      * @param rank The current rank associated with the score.
      * @param playerName The name of the player.
      * @param score The player's score.
      */
-    public Score(int rank, String playerName, int score) {
+    public Score( int rank, String playerName, int score ) {
         super(playerName);
         setScore(score);
         this.rank = rank;
     }
 
-    /** 
+    /**
      * @return The high score ranking associated with this score.
      */
     public int getRank() {
@@ -38,9 +38,10 @@ public class Score extends Player {
 
     /**
      * Sets the high score ranking of this score object.
+     *
      * @param rank The rank to set this score object to.
      */
-    public void setRank(int rank) {
+    public void setRank( int rank ) {
         this.rank = rank;
     }
 }

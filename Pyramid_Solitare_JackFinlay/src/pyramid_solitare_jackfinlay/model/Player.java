@@ -22,7 +22,7 @@ public class Player {
      *
      * @param playerName The player's name.
      */
-    public Player(String playerName) {
+    public Player( String playerName ) {
         this.playerName = playerName;
         this.score = 0;
         this.boardsCount = 0;
@@ -40,7 +40,7 @@ public class Player {
      *
      * @param score The value to set player's score to.
      */
-    public void setScore(int score) {
+    public void setScore( int score ) {
         this.score = score;
     }
 
@@ -49,7 +49,7 @@ public class Player {
      *
      * @param amount The amount to increase the player's score by.
      */
-    public void increaseScore(int amount) {
+    public void increaseScore( int amount ) {
         this.score += amount;
         System.out.println("Score increased by " + amount + " points.");
     }
@@ -60,9 +60,10 @@ public class Player {
     public String getPlayerName() {
         return playerName;
     }
-    
+
     /**
      * Sets the player's name to the value passed.
+     *
      * @param playerName The string to change playerName to.
      */
     public void setPlayerName( String playerName ) {

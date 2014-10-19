@@ -12,7 +12,7 @@ public enum CardSuits {
     private final String suit;
     private final String symbol;
 
-    private CardSuits(String suit, String symbol) {
+    private CardSuits( String suit, String symbol ) {
         this.suit = suit;
         this.symbol = symbol;
     }
