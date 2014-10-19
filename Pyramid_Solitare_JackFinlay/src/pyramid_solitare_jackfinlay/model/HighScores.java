@@ -12,7 +12,6 @@ import java.util.logging.Logger;
  */
 public final class HighScores implements Runnable {
 
-    private static final String SCORES_FILE_LOCATION = "../Data/Scores.txt";
     private static ArrayList<Score> highScores;
 
     public static Connection connection;
@@ -31,6 +30,7 @@ public final class HighScores implements Runnable {
 
     }
 
+    @Override
     public void run() {
         establishConnection();
 
@@ -41,19 +41,17 @@ public final class HighScores implements Runnable {
     }
 
     public void establishConnection() {
-        ResultSet results = null;
         try {
             // Load Driver
             Class.forName(DRIVER);
-            //System.out.println("Driver Loaded.");
 
             // Establish connection
             connection = DriverManager.getConnection(URL);
             System.out.println(URL + " connected...");
 
-        } catch (SQLException ex) {
+        } catch ( SQLException ex ) {
             System.err.println("SQLException: " + ex.getMessage());
-        } catch (ClassNotFoundException ex) {
+        } catch ( ClassNotFoundException ex ) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -62,24 +60,26 @@ public final class HighScores implements Runnable {
     /**
      * Reads the scores from the database.
      */
-    private void readScores(ResultSet rs) {
+    private void readScores( ResultSet rs ) {
 
-        if (rs != null) {
+        if ( rs != null ) {
             try {
 
-                while (rs.next()) {
+                while ( rs.next() ) {
 
+                    // Retrieves details from each entry in the table.
                     int rank = rs.getInt("RANK");
                     int score = rs.getInt("SCORE");
                     String name = rs.getString("NAME");
 
+                    // Creates a new Score instance and adds it to the list.
                     highScores.add(new Score(rank, name, score));
 
                 }
-
+                
                 rs.close();
 
-            } catch (SQLException ex) {
+            } catch ( SQLException ex ) {
                 Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -95,30 +95,33 @@ public final class HighScores implements Runnable {
             results = metadata.getTables(null, null, "SCORES", null);
 
             // Create SCORES table if it doesn't exist.
-            if (!results.next()) {
+            if ( !results.next() ) {
                 createScoreTable();
-
             }
-
+            
+            // Get SCORES table and store it in ResultSet results.
             Statement statement = connection.createStatement();
             results = statement.executeQuery("SELECT * FROM SCORES");
 
-        } catch (SQLException ex) {
+        } catch ( SQLException ex ) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return results;
     }
 
+    /**
+     * Creates a table called SCORE in the database.
+     */
     public void createScoreTable() {
         try {
             Statement statement = connection.createStatement();
 
-            //Create the table:
+            //Create the SCORE table:
             statement.execute("CREATE TABLE SCORES(RANK INT, NAME VARCHAR(20), SCORE INT)");
 
             System.out.println("Score Table created.");
-        } catch (SQLException ex) {
+        } catch ( SQLException ex ) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -129,18 +132,18 @@ public final class HighScores implements Runnable {
      *
      * @param player The current player.
      */
-    public void updateHighScores(Player player) {
+    public void updateHighScores( Player player ) {
         int lowestIndex = highScores.size();
         Score currentPlayer;
         currentPlayer = new Score(0, player.getPlayerName(), player.getScore());
 
-        for (int i = (highScores.size() - 1); i >= 0; i--) {
-            if (currentPlayer.getScore() > highScores.get(i).getScore()) {
+        for ( int i = (highScores.size() - 1); i >= 0; i-- ) {
+            if ( currentPlayer.getScore() > highScores.get(i).getScore() ) {
                 lowestIndex = i;
             }
         } // Find if player beat a high score.
 
-        if (highScores.size() >= 10 || lowestIndex <= highScores.size()) {
+        if ( highScores.size() >= 10 || lowestIndex <= highScores.size() ) {
             highScores.add(lowestIndex, currentPlayer);
             // Add player at index - index of 10 puts it at rank 11.
         } else {
@@ -149,49 +152,54 @@ public final class HighScores implements Runnable {
             // stick on end of list.
         }
 
-        for (Score score : highScores) {
+        for ( Score score : highScores ) {
             score.setRank((highScores.indexOf(score)) + 1);
         } // Resest ranks
 
-        if (highScores.size() > 10) {
+        if ( highScores.size() > 10 ) {
             highScores.remove(10); // Remove score at rank 11.
         }
 
-        writeScoreFile();
+        writeScoresToDB();
     }
 
     /**
      * Writes the current high score list to the database.
      */
-    public void writeScoreFile() {
+    public void writeScoresToDB() {
         try {
             Statement statement = connection.createStatement();
             clearHighScores();
 
-            for (Score score : highScores) {
+            for ( Score score : highScores ) {
+                
+                // Gets details from score object.
                 int rank = score.getRank();
                 int playerScore = score.getScore();
                 String name = score.getPlayerName();
 
+                // Builds a new query to add entry to database.
                 String query = ("INSERT INTO SCORES VALUES(" + rank + ", '" + name + "', " + playerScore + ")");
                 statement.execute(query);
             }
 
-        } catch (SQLException ex) {
+        } catch ( SQLException ex ) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
     /**
-     * Prints the current high score list to the console.
+     * Creates a string containing the list of high scores.
+     *
+     * @return The high score list as a string.
      */
     public static String printHighScores() {
 
         String scores = "";
         scores += ("Rank  Score    Name \n\n");
 
-        for (Score score : highScores) {
+        for ( Score score : highScores ) {
 
             scores += String.format("%2d", score.getRank());
             scores += ("  ");
@@ -205,16 +213,22 @@ public final class HighScores implements Runnable {
         System.out.println(scores);
         return scores;
     }
-    
+
+    /**
+     * Clears the values in the SCORES table in the database.
+     */
     public static void clearHighScores() {
         try {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM SCORES");
-        } catch (SQLException ex) {
+        } catch ( SQLException ex ) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    /**
+     * Resets the list of high scores from the database and program.
+     */
     public static void resetScores() {
         clearHighScores();
         highScores.removeAll(highScores);

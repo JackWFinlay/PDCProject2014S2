@@ -5,9 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import pyramid_solitare_jackfinlay.*;
-//Prevents some test errors. No idea why as it is in the same package.
-
 /**
  * Tests for the Game class.
  *

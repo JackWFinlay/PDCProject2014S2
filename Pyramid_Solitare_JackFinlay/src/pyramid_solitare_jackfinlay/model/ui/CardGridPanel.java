@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pyramid_solitare_jackfinlay.model.ui;
 
 import java.awt.Color;
@@ -15,8 +10,9 @@ import pyramid_solitare_jackfinlay.model.Card;
 import pyramid_solitare_jackfinlay.model.Game;
 
 /**
- *
- * @author Jack
+ * Controller class for the CardGridPanel JPanel form.
+ * 
+ * @author Jack Finlay, ID: 1399273
  */
 public class CardGridPanel extends javax.swing.JPanel implements Observer {
 
@@ -74,7 +70,8 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
      * Removes the border that surrounds previously selected cards.
      */
     public void deselect() {
-        cardImageLabel.setBorder(null);
+        cardImageLabel.setBorder(javax.swing.BorderFactory.createLineBorder(
+                new java.awt.Color(240, 240, 240)));
     }
 
     /**
@@ -117,6 +114,7 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
         setLayout(new java.awt.GridLayout(1, 0));
 
         cardImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cardImageLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 240, 240)));
         cardImageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         cardImageLabel.setMaximumSize(new java.awt.Dimension(48, 70));
         cardImageLabel.setMinimumSize(new java.awt.Dimension(48, 70));
@@ -128,26 +126,29 @@ public class CardGridPanel extends javax.swing.JPanel implements Observer {
 
         if (this.card != null && !this.card.isMatched() && this.card.isPlayable()) {
 
-            Card aCard = game.selectCard(this.card.getCharacterValue());
-            game.setSelected(aCard);
+            // Set the clicked card as selected.
+            game.setSelected(game.selectCard(this.card));
 
+            // Check if there is already another card selected
             if (game.getSelectedCard1() != null && game.getSelectedCard2() != null) {
                 
-                // Check the cards create a match
+                // Check the selected cards create a match
                 if (game.checkMatch(game.getSelectedCard1(), game.getSelectedCard2())) {
                     
                     // Get the current instance of the GUI.
                     GUI thisGui = (GUI) SwingUtilities.windowForComponent(this);
+                    // Update the GUI to remove matched cards.
                     thisGui.drawCardGrid();
                     
                 }
+                
+                // Clear the highlight on the card.
                 if (GUI.selected != null) {
                     GUI.selected.deselect();
                 }
+                
             } else {
-                if (GUI.selected != null) {
-                    GUI.selected.deselect();
-                }
+                // Sets this card as the selected one and sets higlighting on.
                 GUI.selected = this;
                 this.setHighlighted();
             }

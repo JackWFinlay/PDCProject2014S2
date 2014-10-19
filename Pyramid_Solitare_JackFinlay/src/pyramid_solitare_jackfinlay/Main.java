@@ -34,18 +34,25 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } // Set Look and feel to the system's custom look and feel.
 
+        
         game = new Game(new Player());
 
         gui = GUI.getGUI(game);
 
+        // Sets the GUI as visible and postions it centre screen
         gui.setLocationRelativeTo(null);
         gui.setVisible(true);
-
-        game.setPlayer(new Player(getPlayerName()));
+        
+        // Set the player's name to the one entered.
+        game.getPlayer().setPlayerName(getPlayerName());
         
         game.notifyObservers();
     }
 
+    /**
+     * Prompts the player to enter a name.
+     * @return The string entered by the player.
+     */
     public static String getPlayerName() {
         String input;
 

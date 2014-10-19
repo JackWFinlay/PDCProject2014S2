@@ -60,6 +60,14 @@ public class Player {
     public String getPlayerName() {
         return playerName;
     }
+    
+    /**
+     * Sets the player's name to the value passed.
+     * @param playerName The string to change playerName to.
+     */
+    public void setPlayerName( String playerName ) {
+        this.playerName = playerName;
+    }
 
     /**
      * @return The number of boards the player has cleared.

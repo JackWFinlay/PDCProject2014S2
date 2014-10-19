@@ -13,7 +13,7 @@ public final class Game extends Observable {
     public static final int CARD_MATCH_SCORE = 5;
     public static final int START_SHUFFLE_COUNT = 2;
     public HighScores highScores;
-    
+
     private Player player;
     private Board board;
     private Card selectedCard1, selectedCard2;
@@ -31,7 +31,7 @@ public final class Game extends Observable {
      *
      * @param player The player.
      */
-    public Game(Player player) {
+    public Game( Player player ) {
         selectedCard1 = null;
         selectedCard2 = null;
         this.player = player;
@@ -51,7 +51,7 @@ public final class Game extends Observable {
     public Player getPlayer() {
         return player;
     }
-    
+
     public void setPlayer( Player player ) {
         this.player = player;
     }
@@ -78,7 +78,7 @@ public final class Game extends Observable {
         return selectedCard1;
     }
 
-    public void setSelectedCard1(Card selectedCard1) {
+    public void setSelectedCard1( Card selectedCard1 ) {
         this.selectedCard1 = selectedCard1;
     }
 
@@ -86,7 +86,7 @@ public final class Game extends Observable {
         return selectedCard2;
     }
 
-    public void setSelectedCard2(Card selectedCard2) {
+    public void setSelectedCard2( Card selectedCard2 ) {
         this.selectedCard2 = selectedCard2;
     }
 
@@ -117,37 +117,37 @@ public final class Game extends Observable {
      * @param cardName The name of the card to be selected.
      * @return The card that was selected.
      */
-    public Card selectCard(String cardName) {
+    public Card selectCard( Card cardName ) {
 
         Card card = null;
         Deck source = new Deck();
 
-        if (cardName.equalsIgnoreCase(board.getPickUp().getCard(0).getCharacterValue())) {
+        if ( cardName.equals(board.getPickUp().getCard(0)) ) {
 
             card = board.getPickUp().getCard(0);
             source = board.getPickUp();
 
-        } else if (board.getWaste().getSize() > 0
-                && cardName.equalsIgnoreCase(board.getWaste().getCard(0).getCharacterValue())) {
+        } else if ( board.getWaste().getSize() > 0
+                && cardName.equals(board.getWaste().getCard(0)) ) {
 
             card = board.getWaste().getCard(0);
             source = board.getWaste();
 
         } else {
 
-            for (Card[] row : board.getBoard()) {
-                for (Card aCard : row) {
-                    if (cardName.equalsIgnoreCase(aCard.getCharacterValue())) {
+            for ( Card[] row : board.getBoard() ) {
+                for ( Card aCard : row ) {
+                    if ( cardName.equals(aCard) ) {
                         card = aCard;
                     }
                 }
             }
         }
 
-        if (card != null && (!card.isPlayable() || card.isMatched())) {
+        if ( card != null && (!card.isPlayable() || card.isMatched()) ) {
             System.out.println("Card is not playable at this stage. Try another.");
             card = null;
-        } else if (card == null) { //card is null, i.e. Card ID is incorrect.
+        } else if ( card == null ) { //card is null, i.e. Card ID is incorrect.
             System.out.println("Incorrect Card ID. Type help for information.");
         }
 
@@ -159,13 +159,13 @@ public final class Game extends Observable {
      *
      * @param card The card to be set as selected.
      */
-    public void setSelected(Card card) {
+    public void setSelected( Card card ) {
 
-        if (selectedCard1 == null) {
+        if ( selectedCard1 == null ) {
             selectedCard1 = card;
             System.out.println("Selected card 1:" + card.getSymbolValue());
 
-            if (card.getNumericValue() == 13) { //Card is a King.
+            if ( card.getNumericValue() == 13 ) { //Card is a King.
                 selectedCard2 = new Card();
                 // Compare with card of value 0.
             }
@@ -185,10 +185,10 @@ public final class Game extends Observable {
      * @return <code>true</code> if cards match to 13, <code>false</code> if
      * not.
      */
-    public boolean checkMatch(Card card1, Card card2) {
+    public boolean checkMatch( Card card1, Card card2 ) {
         boolean match = false;
 
-        if ((card1.getNumericValue() + card2.getNumericValue()) == 13) {
+        if ( (card1.getNumericValue() + card2.getNumericValue()) == 13 ) {
 
             System.out.println("\nMatch!");
             getPlayer().increaseScore(CARD_MATCH_SCORE);
@@ -208,7 +208,7 @@ public final class Game extends Observable {
         selectedCard1 = null;
         selectedCard2 = null;
 
-        if (board.getBoard()[0][0].isMatched()) {
+        if ( board.getBoard()[0][0].isMatched() ) {
             // The last card in the board was cleared.
             boardCleared();
         }
@@ -237,7 +237,7 @@ public final class Game extends Observable {
     public boolean decrementShufflesRemaining() {
         boolean success = false;
 
-        if (shufflesRemaining > 0) {
+        if ( shufflesRemaining > 0 ) {
             success = true;
             this.shufflesRemaining--;
         }
@@ -250,43 +250,14 @@ public final class Game extends Observable {
         decrementShufflesRemaining();
         newBoard();
     }
-    
+
     /**
-     * Overrides the superclass implementation so that setChanged is called implicitly.
+     * Overrides the superclass implementation so that setChanged is called
+     * implicitly.
      */
     @Override
-    public void notifyObservers(){
+    public void notifyObservers() {
         setChanged();
         super.notifyObservers();
     }
-
-//    /**
-//     * Adds a listener for game change events.
-//     *
-//     * @param listener the listener to add
-//     *
-//     */
-//    public static void addChangeListener(ChangeListener listener) {
-//        changeListeners.add(listener);
-//    }
-//
-//    /**
-//     * Removes a game change event listener.
-//     *
-//     * @param listener the listener to remove
-//     */
-//    public static void removeChangeListener(
-//            ChangeListener listener) {
-//        changeListeners.remove(listener);
-//    }
-//
-//    /**
-//     * Notify all change listeners.
-//     */
-//    public static void notifyChangeListeners() {
-//        for (ChangeListener listener : changeListeners) {
-//            listener.update();
-//        }
-//    }
-
 }
