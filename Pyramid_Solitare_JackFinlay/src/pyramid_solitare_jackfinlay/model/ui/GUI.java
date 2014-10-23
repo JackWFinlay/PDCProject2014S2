@@ -3,6 +3,8 @@ package pyramid_solitare_jackfinlay.model.ui;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import pyramid_solitare_jackfinlay.Main;
 import pyramid_solitare_jackfinlay.model.Card;
@@ -17,10 +19,12 @@ import pyramid_solitare_jackfinlay.model.HighScores;
  */
 public final class GUI extends javax.swing.JFrame implements Observer {
 
-    public static Game game;
-    private CardGridPanel[][] cardGridPanelArray;
     private static GUI gui;
     public static CardGridPanel selected;
+    public static Game game;
+    private CardGridPanel[][] cardGridPanelArray;
+    private long startTime;
+    
 
     /**
      * Default constructor
@@ -54,6 +58,18 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         game.addObserver((Observer) thisFrame);
 
         initComponents();
+        
+        startTime = System.currentTimeMillis();
+        
+        new Thread(new Runnable() {
+        
+            public void run(){
+                try {
+                    updateElapsedTime();   
+                } catch (Exception e){}
+            }
+        
+        }).start();
 
         drawCardGrid();
         game.notifyObservers();
@@ -175,7 +191,28 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         }
 
     }
-
+    
+    private void updateElapsedTime() {
+        long elapsedGameTime;
+        
+        while (true) {
+        elapsedGameTime = System.currentTimeMillis() - startTime;
+        elapsedGameTime /= 1000;
+        
+        String secs = String.format("%02d",((int) (elapsedGameTime % 60)));
+        String mins = String.format("%02d",((int) (elapsedGameTime / 60)));
+        
+        timeValueLabel.setText( mins + ":" + secs);
+        
+        try {
+            Thread.currentThread().sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+       
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -195,6 +232,8 @@ public final class GUI extends javax.swing.JFrame implements Observer {
         shuffleButton = new javax.swing.JButton();
         boardsClearLabel = new javax.swing.JLabel();
         boardsClearValueLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+        timeValueLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newGameMenuItem = new javax.swing.JMenuItem();
@@ -258,6 +297,10 @@ public final class GUI extends javax.swing.JFrame implements Observer {
 
         boardsClearValueLabel.setText("0");
 
+        timeLabel.setText("Time: ");
+
+        timeValueLabel.setText("00:00");
+
         javax.swing.GroupLayout gamePanelLayout = new javax.swing.GroupLayout(gamePanel);
         gamePanel.setLayout(gamePanelLayout);
         gamePanelLayout.setHorizontalGroup(
@@ -278,6 +321,10 @@ public final class GUI extends javax.swing.JFrame implements Observer {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scoreValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(timeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(timeValueLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(drawButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(shuffleButton))
@@ -296,7 +343,9 @@ public final class GUI extends javax.swing.JFrame implements Observer {
                     .addComponent(drawButton)
                     .addComponent(shuffleButton)
                     .addComponent(boardsClearLabel)
-                    .addComponent(boardsClearValueLabel))
+                    .addComponent(boardsClearValueLabel)
+                    .addComponent(timeLabel)
+                    .addComponent(timeValueLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -376,18 +425,9 @@ public final class GUI extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
-
         game.getBoard().draw();
 
         drawCardGrid();
-//        Deck waste = game.getBoard().getWaste();
-//        cardGridPanelArray[1][2] = new CardGridPanel(game.getBoard().getPickUp().getCard(0));
-//        
-//        if (waste != null && waste.getSize() > 0) {
-//            cardGridPanelArray[1][11] = new CardGridPanel(game.getBoard().getWaste().getCard(0));
-//        } else {
-//            cardGridPanelArray[1][11] = new CardGridPanel();
-//        }
 
         game.notifyObservers();
     }//GEN-LAST:event_drawButtonActionPerformed
@@ -546,5 +586,7 @@ public final class GUI extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel scoreLabel;
     private javax.swing.JLabel scoreValueLabel;
     private javax.swing.JButton shuffleButton;
+    private javax.swing.JLabel timeLabel;
+    private javax.swing.JLabel timeValueLabel;
     // End of variables declaration//GEN-END:variables
 }
