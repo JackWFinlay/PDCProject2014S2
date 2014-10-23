@@ -43,7 +43,7 @@ public final class HighScores implements Runnable {
     public void establishConnection() {
         try {
             // Load Driver
-            Class.forName(DRIVER);
+            Class.forName(DRIVER).newInstance();
 
             // Establish connection
             connection = DriverManager.getConnection(URL);
@@ -52,6 +52,10 @@ public final class HighScores implements Runnable {
         } catch ( SQLException ex ) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch ( ClassNotFoundException ex ) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
             Logger.getLogger(HighScores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
